@@ -4,6 +4,7 @@ const {client} = require('./client')
 
 async function dropTables() {
     console.log('Dropping all tables...')
+
     try { 
         await client.query(`
             DROP TABLE IF EXISTS cart_item;
@@ -11,7 +12,9 @@ async function dropTables() {
             DROP TABLE IF EXISTS products;
             DROP TABLE IF EXISTS users;
         `)
+
         console.log('Finished dropping tables!')
+
     }   catch (error) {
             console.error(error.message)
         throw error
@@ -20,6 +23,7 @@ async function dropTables() {
 
 async function createTables() {
     console.log('Starting to build tables...')
+
     try {
         await client.query(`
             CREATE TABLE users(
@@ -36,7 +40,6 @@ async function createTables() {
                 name VARCHAR(255) UNIQUE NOT NULL,
                 description TEXT NOT NULL,
                 price DECIMAL NOT NULL,
-                size VARCHAR(255),
                 "imageURL" TEXT
             );
 
@@ -49,11 +52,14 @@ async function createTables() {
                 id SERIAL PRIMARY KEY,
                 "cartId" INTEGER REFERENCES cart(id) NOT NULL,
                 "productId" INTEGER REFERENCES products(id) NOT NULL,
-                quantity INTEGER NOT NULL
+                quantity INTEGER NOT NULL,
+                size VARCHAR(255)
             );
 
         `)
+
         console.log('Finished building tables!')
+
     } catch (error) {
         console.error(error.message)
     } throw error
@@ -63,6 +69,7 @@ async function createTables() {
 //SEED DATA BELOW
 async function createInitialUsers(){
     console.log('Starting to create users...')
+
     try {
         const userToCreate = [
             {
@@ -94,6 +101,7 @@ async function createInitialUsers(){
             address: '789 street'
             }
         ];
+
         const users = await Promise.all(
             userToCreate.map(createUser)
         )
@@ -105,5 +113,43 @@ async function createInitialUsers(){
     } catch (error) {
         console.error('Error creating users.')
         throw error
+    }
+}
+
+async function createInitalProducts(){
+    try {
+        console.log('Starting to create products')
+
+        const productsToCreate = [
+            {
+                name: 'basic t-shirt - yellow', 
+                description: 'it is a t-shirt',
+                price: 10.00,
+                imageURL: 'shorturl.at/myNY1'
+            },
+            {
+                name: 'basic t-shirt - pink', 
+                description: 'it is a t-shirt',
+                price: 10.00,
+                imageURL: 'shorturl.at/myNY1'
+            },
+            {
+                name: 'basic t-shirt - black', 
+                description: 'it is a t-shirt',
+                price: 10.00,
+                imageURL: 'shorturl.at/myNY1'
+            },
+        ];
+
+        const products = await Promise.all(
+            productsToCreate.map(createProduct)
+        );
+        console.log('Products created:');
+        console.log(products);
+        console.log('Finished creating products!');
+
+    } catch (error) {
+        console.error('Error creating products!');
+        throw error;
     }
 }
