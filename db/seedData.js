@@ -1,4 +1,6 @@
-//first step
+
+const {createUser,createProduct} = require('./')
+
 
 const {client} = require('./client')
 
@@ -153,3 +155,22 @@ async function createInitalProducts(){
         throw error;
     }
 }
+
+async function rebuildDB() {
+    try {
+        client.connect()
+
+        await dropTables();
+        await createTables();
+        await createInitialUsers();
+        await createInitalProducts();
+
+    } catch (error) {
+        console.log('Error during rebuildDB');
+        throw error;
+    }
+}
+
+module.exports = {
+    rebuildDB
+};
