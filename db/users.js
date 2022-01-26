@@ -1,13 +1,18 @@
-const {client} = require ('./client')
+const { client } = require("./client");
 
-async function createUser({username, password, isAdmin}) {
+async function createUser({ email, password, isAdmin }) {
   try {
-    const {rows: [user]} = await client.query(`
-      INSERT INTO users(username, password, "isAdmin")
+    const {
+      rows: [user],
+    } = await client.query(
+      `
+      INSERT INTO users(email, password, "isAdmin")
       VALUES($1,$2,$3)
-      RETURN *; 
-    `,[username, password, isAdmin]);
-    delete user.password
+      RETURNING *; 
+    `,
+      [email, password, isAdmin]
+    );
+    delete user.password;
     return user;
   } catch (error) {
     throw error;
@@ -15,5 +20,5 @@ async function createUser({username, password, isAdmin}) {
 }
 
 module.exports = {
-  createUser
-}
+  createUser,
+};
