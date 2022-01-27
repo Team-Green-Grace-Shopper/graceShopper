@@ -1,26 +1,39 @@
 // code to build and initialize DB goes here
+// const {
+//   client
+//   // other db methods
+// } = require('./index');
+
+const { client } = require("./client");
+
 const {
-  client
-  // other db methods 
-} = require('./index');
+  dropTables,
+  createTables,
+  createInitialUsers,
+  createInitialProducts,
+  createInitialOrders,
+} = require("./seedData");
 
 async function buildTables() {
   try {
     client.connect();
 
-    // drop tables in correct order
-
-    // build tables in correct order
-
+    await dropTables();
+    await createTables();
   } catch (error) {
+    console.log("Error during buildTables");
     throw error;
   }
 }
 
 async function populateInitialData() {
   try {
-    // create useful starting data
+    await createInitialUsers();
+    await createInitialProducts();
+    await createInitialOrders();
+    //
   } catch (error) {
+    console.log("Error during populateInitialData");
     throw error;
   }
 }
