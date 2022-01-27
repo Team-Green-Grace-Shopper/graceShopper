@@ -28,10 +28,10 @@ async function getAllProducts() {
       SELECT *
       FROM products;
       `
-    )
+    );
     return products;
   } catch (error) {
-    throw error
+    throw error;
   }
 }
 
@@ -44,21 +44,21 @@ async function getProductById(productId) {
       SELECT *
       FROM products
       WHERE id =$1;
-      `,[productId]
-    )
+      `,
+      [productId]
+    );
     return product;
   } catch (error) {
-    throw error
+    throw error;
   }
 }
 
 async function updateProduct(updateData) {
   try {
-
     let updateStr = Object.keys(updateData)
       .filter((key) => key !== "id")
       .map((key, index) => `"${key}" = $${index + 2}`)
-      .join(", ")
+      .join(", ");
 
     const {
       rows: [product],
@@ -68,12 +68,13 @@ async function updateProduct(updateData) {
       SET ${updateStr}
       WHERE id = $1
       RETURNING *;
-      `, Object.values(updateData)
-    )
+      `,
+      Object.values(updateData)
+    );
 
-    return product
+    return product;
   } catch (error) {
-    throw error
+    throw error;
   }
 }
 
@@ -86,12 +87,13 @@ async function deleteProduct(productId) {
       DELETE FROM products
       WHERE id = $1
       RETURNING *;
-      `,[productId]
-    )
+      `,
+      [productId]
+    );
 
-    return product
+    return product;
   } catch (error) {
-    throw error
+    throw error;
   }
 }
 
@@ -100,5 +102,5 @@ module.exports = {
   getAllProducts,
   getProductById,
   updateProduct,
-  deleteProduct
+  deleteProduct,
 };
