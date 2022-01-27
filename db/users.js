@@ -1,8 +1,7 @@
 const { client } = require("./client");
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
 async function createUser({ email, password, isAdmin }) {
-  
   const SALT_COUNT = 15;
   let pwHASH = await bcrypt.hash(password, SALT_COUNT);
 
@@ -25,8 +24,7 @@ async function createUser({ email, password, isAdmin }) {
   }
 }
 
-async function getUser({email, password}){
-  
+async function getUser({ email, password }) {
   try {
     const {
       rows: [user],
@@ -35,25 +33,24 @@ async function getUser({email, password}){
       SELECT * 
       FROM users
       WHERE email = $1;
-      `, 
-        [email]
+      `,
+      [email]
     );
-    
+
     const result = await bcrypt.compare(password, user.password);
 
     if (user && result) {
-      delete user.password
-      return user
+      delete user.password;
+      return user;
     } else {
-      return false
+      return false;
     }
-
   } catch (error) {
     throw error;
   }
 }
 
-async function getUserByEmail(email){
+async function getUserByEmail(email) {
   try {
     const {
       rows: [user],
@@ -62,15 +59,15 @@ async function getUserByEmail(email){
       SELECT * 
       FROM users
       WHERE email = $1;
-      `, 
-        [email]
+      `,
+      [email]
     );
     return user;
   } catch (error) {
     throw error;
   }
 }
-// userID, email, orderID, cartItems, 
+// userID, email, orderID, cartItems,
 
 /* async function getAllUsers(){
   try {
@@ -89,5 +86,7 @@ async function getUserByEmail(email){
 } */
 
 module.exports = {
-  createUser, getUser
+  createUser,
+  getUser,
+  getUserByEmail,
 };
