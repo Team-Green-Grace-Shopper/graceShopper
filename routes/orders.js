@@ -5,12 +5,12 @@ const { createOrder, checkoutCart } = require("../db");
 const ordersRouter = Router();
 
 //CREATE ORDER
-ordersRouter.patch("/update", async (req, res, next) => {
-  try {
-  } catch (error) {
-    return next(error);
-  }
-});
+// ordersRouter.patch("/update", async (req, res, next) => {
+//   try {
+//   } catch (error) {
+//     return next(error);
+//   }
+// });
 
 //CHECKOUT CART
 ordersRouter.patch("/checkout", async (req, res, next) => {
