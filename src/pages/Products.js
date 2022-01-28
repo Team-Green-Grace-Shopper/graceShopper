@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Products.css";
 import { getAllProducts } from "../api/apiCalls";
 
-const Products = ({ products, setProducts }) => {
+const Products = (props) => {
+  const [products, setProducts] = useState([]);
+
   useEffect(() => {
     async function loadProducts() {
       let response = await getAllProducts();
@@ -10,7 +12,7 @@ const Products = ({ products, setProducts }) => {
       setProducts(response);
     }
     loadProducts();
-  }, [setProducts]);
+  }, []);
 
   return (
     <div className="products">
