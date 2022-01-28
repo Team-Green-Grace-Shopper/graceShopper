@@ -1,11 +1,12 @@
 //create API router
-const apiRouter = require("express").Router();
+const express = require("express");
+const apiRouter = express.Router();
 
 //importing routes
-const usersRouter = require("./users");
+// const usersRouter = require("./users");
 const productsRouter = require("./products");
-const ordersRouter = require("./orders");
-const cartItemRouter = require("./cartItem");
+// const ordersRouter = require("./orders");
+// const cartItemRouter = require("./cartItem");
 
 apiRouter.get("/health", (req, res, next) => {
   res.send({
@@ -13,17 +14,17 @@ apiRouter.get("/health", (req, res, next) => {
   });
 });
 
-//users routes
-apiRouter.use("/users", usersRouter);
+// //users routes
+// router.use("/users", usersRouter);
 
 //products routes
 apiRouter.use("/products", productsRouter);
 
-//orders routes
-apiRouter.use("/orders", ordersRouter);
+// //orders routes
+// router.use("/orders", ordersRouter);
 
-//cart item routes
-apiRouter.use("/cartItem", cartItemRouter);
+// //order items routes
+// router.use("/orderItems", orderItemsRouter);
 
 apiRouter.use((error, req, res, next) => {
   res.status(400).send({ error: error.message });

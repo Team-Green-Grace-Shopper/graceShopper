@@ -34,3 +34,5 @@ productsRouter.get("/:productId", async (req, res, next) => {
     return next(error);
   }
 });
+
+module.exports = productsRouter;

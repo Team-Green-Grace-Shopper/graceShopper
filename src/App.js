@@ -1,16 +1,21 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
 
-// IMPORT PAGES
-example: import PageName from "./pages/pagename";
-
-// PROPS?
-//stuff here
+// IMPORT COMPONENTS
+import Products from "./pages/Products";
 
 const App = () => {
+  const [products, setProducts] = useState([]);
+
   return (
     <div className="App">
-      <PageName />
+      <Routes>
+        <Route
+          path="products"
+          element={<Products products={products} setProducts={setProducts} />}
+        />
+      </Routes>
     </div>
   );
 };

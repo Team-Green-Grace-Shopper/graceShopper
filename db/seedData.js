@@ -1,4 +1,4 @@
-const { createUser, createProduct, createOrder } = require("./");
+const { createUser, createProduct, createCart, createCartItem } = require("./");
 
 const { client } = require("./client");
 
@@ -7,7 +7,7 @@ async function dropTables() {
 
   try {
     await client.query(`
-            DROP TABLE IF EXISTS cart_item;
+            DROP TABLE IF EXISTS "orderItems";
             DROP TABLE IF EXISTS orders;
             DROP TABLE IF EXISTS products;
             DROP TABLE IF EXISTS users;
@@ -25,37 +25,37 @@ async function createTables() {
 
   try {
     await client.query(`
-            CREATE TABLE users(
-                id SERIAL PRIMARY KEY,
-                email VARCHAR(255) UNIQUE NOT NULL,
-                password VARCHAR(255) NOT NULL,
-                "isAdmin" BOOLEAN DEFAULT false
-            );
-            
-            CREATE TABLE products(
-                id SERIAL PRIMARY KEY,
-                name VARCHAR(255) UNIQUE NOT NULL,
-                description TEXT NOT NULL,
-                price INTEGER NOT NULL,
-                "imageURL" TEXT
-            );
+      CREATE TABLE users (
+        id SERIAL PRIMARY KEY,
+        email VARCHAR(255) UNIQUE NOT NULL,
+        password VARCHAR(255) NOT NULL,
+        "isAdmin" BOOLEAN DEFAULT false
+      );
+      
+      CREATE TABLE products (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        description TEXT NOT NULL,
+        price INTEGER NOT NULL,
+        "imageURL" TEXT
+      );
 
-            CREATE TABLE orders(
-                id SERIAL PRIMARY KEY,
-                "userId" INTEGER REFERENCES users(id) NOT NULL,
-                "orderType" VARCHAR(255)
-            );
+      CREATE TABLE orders (
+        id SERIAL PRIMARY KEY,
+        "userId" INTEGER REFERENCES users(id) NOT NULL,
+        "orderType" VARCHAR(255) NOT NULL
+      );
 
-            CREATE TABLE cart_item(
-                id SERIAL PRIMARY KEY,
-                "orderId" INTEGER REFERENCES orders(id) NOT NULL,
-                "productId" INTEGER REFERENCES products(id) NOT NULL,
-                quantity INTEGER NOT NULL,
-                size VARCHAR(255),
-                price INTEGER 
-            );
+      CREATE TABLE "orderItems" (
+        id SERIAL PRIMARY KEY,
+        "orderId" INTEGER REFERENCES orders(id) NOT NULL,
+        "productId" INTEGER REFERENCES products(id) NOT NULL,
+        quantity INTEGER NOT NULL,
+        size VARCHAR(255),
+        price INTEGER NOT NULL
+      );
 
-        `);
+    `);
 
     console.log("Finished building tables!");
   } catch (error) {
@@ -74,25 +74,21 @@ async function createInitialUsers() {
         email: "emily38@gmail.com",
         password: "emily0",
         isAdmin: true,
-        // address: "123 street",
       },
       {
         email: "abc123@gmail.com",
         password: "xavier1",
         isAdmin: true,
-        // address: "345 street",
       },
       {
         email: "def456@gmail.com",
         password: "austin2",
         isAdmin: true,
-        // address: "567 street",
       },
       {
         email: "avgavgjoe@gmail.com",
         password: "avgjoe2",
         isAdmin: false,
-        // address: "789 street",
       },
     ];
 
@@ -116,19 +112,22 @@ async function createInitialProducts() {
         name: "basic t-shirt - yellow",
         description: "it is a t-shirt",
         price: 10,
-        imageURL: "shorturl.at/myNY1",
+        imageURL:
+          "https://imgprd19.hobbylobby.com/9/5f/26/95f264323ae49e65b2a53a909fcd7d9ee659f3c7/350Wx350H-422519-0320.jpg",
       },
       {
         name: "basic t-shirt - pink",
         description: "it is a t-shirt",
         price: 10,
-        imageURL: "shorturl.at/myNY1",
+        imageURL:
+          "https://imgprd19.hobbylobby.com/9/5f/26/95f264323ae49e65b2a53a909fcd7d9ee659f3c7/350Wx350H-422519-0320.jpg",
       },
       {
         name: "basic t-shirt - black",
         description: "it is a t-shirt",
         price: 10,
-        imageURL: "shorturl.at/myNY1",
+        imageURL:
+          "https://imgprd19.hobbylobby.com/9/5f/26/95f264323ae49e65b2a53a909fcd7d9ee659f3c7/350Wx350H-422519-0320.jpg",
       },
     ];
 
@@ -152,12 +151,12 @@ async function createInitialOrders() {
         orderType: "cart",
       },
       {
-        userId: "4",
+        userId: 4,
         orderType: "order",
       },
     ];
 
-    const orders = await Promise.all(ordersToCreate.map(createOrder));
+    const orders = await Promise.all(ordersToCreate.map(createCart));
 
     console.log("Orders created:");
     console.log(orders);
@@ -168,12 +167,56 @@ async function createInitialOrders() {
   }
 }
 
-// async function createInitialCartItems() {}
+async function createInitialOrderItems() {
+  try {
+    console.log("Starting to create order items");
+
+    const orderItemsToCreate = [
+      {
+        orderId: 1,
+        productId: 2,
+        quantity: 1,
+        size: "SM",
+        price: 10,
+      },
+      {
+        orderId: 1,
+        productId: 3,
+        quantity: 2,
+        size: "SM",
+        price: 10,
+      },
+    ];
+
+    const orderItems = await Promise.all(
+      orderItemsToCreate.map(createCartItem)
+    );
+
+    console.log("Order items created:");
+    console.log(orderItems);
+    console.log("Finished creating order items!");
+  } catch (error) {
+    console.error("Error creating order items!");
+    throw error;
+  }
+}
+
+async function rebuildDB() {
+  try {
+    client.connect();
+
+    await dropTables();
+    await createTables();
+    await createInitialUsers();
+    await createInitialProducts();
+    await createInitialOrders();
+    await createInitialOrderItems();
+  } catch (error) {
+    console.log("Error during rebuildDB");
+    throw error;
+  }
+}
 
 module.exports = {
-  dropTables,
-  createTables,
-  createInitialUsers,
-  createInitialProducts,
-  createInitialOrders,
+  rebuildDB,
 };

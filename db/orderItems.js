@@ -6,7 +6,7 @@ async function createCartItem({ orderId, productId, quantity, size, price }) {
       rows: [cartItem],
     } = await client.query(
       `
-        INSERT INTO cart_item ("orderId", "productId", quantity, size, price)
+        INSERT INTO "orderItems" ("orderId", "productId", quantity, size, price)
         VALUES ($1, $2, $3, $4, $5)
         RETURNING *;
       `,
@@ -62,8 +62,38 @@ async function deleteCartItem(cartItemId) {
   }
 }
 
+//emily todo
+async function getAllOrderItems(orderId) {
+  try {
+    const {
+      rows: [orderItems],
+    } = await client.query(
+      `
+      SELECT 
+        id,
+        "productId",
+        name,
+        "imageURL",
+        price,
+        size,
+        quantity
+      FROM cart_item
+      JOIN products ON product.id = cart_item."productId"
+      WHERE "orderId" = $1
+      `,
+      [orderId]
+    );
+
+    console.log("order items: ", orderItems);
+    return orderItems;
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   createCartItem,
   updateCartItem,
   deleteCartItem,
+  getAllOrderItems,
 };
