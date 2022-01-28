@@ -1,37 +1,47 @@
 const { client } = require("./client");
 
-async function createOrder({ userId, orderType }) {
+async function createCart({ userId, orderType }) {
   try {
     const {
-      rows: [order],
+      rows: [cart],
     } = await client.query(
       `
-      INSERT INTO orders("userId", "orderType")
-      VALUES($1,$2)
+      INSERT INTO orders ("userId", "orderType")
+      VALUES ($1, $2)
       RETURNING *; 
     `,
       [userId, orderType]
     );
 
-    return order;
+    return cart;
   } catch (error) {
     throw error;
   }
 }
 
-//getCartByUser
-//for logged in users to get cart
-// params: userid
+//emily todo
+async function getCartByUser(userId) {
+  try {
+    const {
+      rows: [cart],
+    } = await client.query(
+      `
+      SELECT *
+      FROM orders
+      WHERE "orderType" = "cart"
+        AND id = $1;
+      `,
+      [userId]
+    );
 
-// sql:
-// select *
-// from orders
-// where type = cart && userid = $1
+    // returning all (id, cart item objs)
+    // cart item obj: {id, product id, name, desc, imageurl, price, size, quantity}
 
-// [userid]
-
-// returning all (id, cart item objs)
-// cart item obj: {id, product id, name, desc, imageurl, price, size, quantity}
+    return cart;
+  } catch (error) {
+    throw error;
+  }
+}
 
 async function checkoutCart(orderId) {
   try {
@@ -52,6 +62,7 @@ async function checkoutCart(orderId) {
 }
 
 module.exports = {
-  createOrder,
+  createCart,
+  getCartByUser,
   checkoutCart,
 };

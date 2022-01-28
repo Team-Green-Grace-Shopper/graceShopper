@@ -2,20 +2,24 @@ const { client } = require("./client");
 const bcrypt = require("bcrypt");
 
 async function createUser({ email, password, isAdmin }) {
+  //if we were to store salt count in .env file:
+  // const saltCount = Number.parseInt(process.env.SALT_COUNT);
+
   const SALT_COUNT = 15;
-  let pwHASH = await bcrypt.hash(password, SALT_COUNT);
+
+  const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
 
   try {
     const {
       rows: [user],
     } = await client.query(
       `
-      INSERT INTO users(email, password, "isAdmin")
-      VALUES($1,$2,$3)
+      INSERT INTO users (email, password, "isAdmin")
+      VALUES($1, $2, $3)
       ON CONFLICT (email) DO NOTHING
-      RETURNING email; 
+      RETURNING id, email; 
     `,
-      [email, pwHASH, isAdmin]
+      [email, hashedPassword, isAdmin]
     );
 
     return user;
@@ -26,11 +30,17 @@ async function createUser({ email, password, isAdmin }) {
 
 async function getUser({ email, password }) {
   try {
+    //email validation
+    const existingUser = await getUserByEmail(email);
+    if (!existingUser) {
+      throw new Error("User does not exist");
+    }
+
     const {
       rows: [user],
     } = await client.query(
       `
-      SELECT * 
+      SELECT id, email, password
       FROM users
       WHERE email = $1;
       `,
@@ -67,26 +77,52 @@ async function getUserByEmail(email) {
     throw error;
   }
 }
-// userID, email, orderID, cartItems,
 
-/* async function getAllUsers(){
+//emily todo
+async function getAllUsers() {
+  // userID, email, orderID, cartItems
+  //each cart item has: id, productId, name, imageURL, price, size, quantity
+
+  //-----
+
+  //users table: user id, email
+  //order table: order id
+
+  //cart item table: id, productid, price, size, quantity
+  //product table: name, imageurl,
+
   try {
-    const{
+    const {
       rows: [users],
     } = await client.query(
       `
-      SELECT * 
-      FROM users;
+      SELECT
+        users.id,
+        email,
+        orders.id,
+        products.id,
+        name,
+        "imageURL",
+        cart_item.price,
+        size,
+        quantity
+      FROM users
+      JOIN orders ON orders."userId" = users.id 
+      JOIN cart_item ON cart_item."orderId" = orders.id
+      JOIN products ON products.id = cart_item."productId";
       `
     );
+
+    console.log("users: ", users);
     return users;
   } catch (error) {
-    
+    console.error(error);
   }
-} */
+}
 
 module.exports = {
   createUser,
   getUser,
   getUserByEmail,
+  getAllUsers,
 };

@@ -6,8 +6,8 @@ async function createProduct({ name, description, price, imageURL }) {
       rows: [product],
     } = await client.query(
       `
-      INSERT INTO products(name, description, price, "imageURL")
-      VALUES($1,$2,$3,$4)
+      INSERT INTO products (name, description, price, "imageURL")
+      VALUES ($1, $2, $3, $4)
       RETURNING *; 
     `,
       [name, description, price, imageURL]
@@ -21,9 +21,7 @@ async function createProduct({ name, description, price, imageURL }) {
 
 async function getAllProducts() {
   try {
-    const {
-      rows: [products],
-    } = await client.query(
+    const { rows: products } = await client.query(
       `
       SELECT *
       FROM products;
@@ -43,7 +41,7 @@ async function getProductById(productId) {
       `
       SELECT *
       FROM products
-      WHERE id =$1;
+      WHERE id = $1;
       `,
       [productId]
     );
@@ -55,7 +53,7 @@ async function getProductById(productId) {
 
 async function updateProduct(updateData) {
   try {
-    let updateStr = Object.keys(updateData)
+    const updateStr = Object.keys(updateData)
       .filter((key) => key !== "id")
       .map((key, index) => `"${key}" = $${index + 2}`)
       .join(", ");
