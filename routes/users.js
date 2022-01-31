@@ -1,15 +1,24 @@
-const jwt = require("jsonwebtoken");
-
 const { Router } = require("express");
+const usersRouter = Router();
 
-const { createUser, getUser, getUserByEmail } = require("../db");
-
-const userRouter = Router();
-
+//jwt
+const jwt = require("jsonwebtoken");
 const JWT_SECRET = "some default secret";
 
+//middleware
+const checkIsAdmin = require("../middleware/checkIsAdmin");
+
+const {
+  createUser,
+  getUser,
+  getUserByEmail,
+  getAllUsers,
+  getAllUserInfo,
+  getAllOrdersByUserId,
+} = require("../db");
+
 //REGISTER USER
-userRouter.post("/register", async (req, res, next) => {
+usersRouter.post("/register", async (req, res, next) => {
   const { email, password } = req.body;
 
   try {
@@ -43,7 +52,7 @@ userRouter.post("/register", async (req, res, next) => {
 });
 
 //LOGIN USER
-userRouter.post("/login", async (req, res, next) => {
+usersRouter.post("/login", async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email) {
@@ -68,3 +77,31 @@ userRouter.post("/login", async (req, res, next) => {
     return next(error);
   }
 });
+
+//GET ALL USERS
+usersRouter.get("/all", checkIsAdmin, async (req, res, next) => {
+  try {
+    const allUsers = await getAllUsers();
+
+    res.status(200).send(allUsers);
+
+    // if (checkIsAdmin) {
+
+    // }
+  } catch (error) {
+    return next(error);
+  }
+});
+
+//GET ALL USER INFO (**)
+usersRouter.get("/info", checkIsAdmin, async (req, res, next) => {
+  try {
+    const info = await getAllUserInfo();
+
+    res.status(200).send(info);
+  } catch (error) {
+    return next(error);
+  }
+});
+
+module.exports = usersRouter;

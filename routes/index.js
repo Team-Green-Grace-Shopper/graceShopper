@@ -2,11 +2,15 @@
 const express = require("express");
 const apiRouter = express.Router();
 
+//middleware
+const getUserFromHeaders = require("../middleware/getUserFromHeaders");
+apiRouter.use(getUserFromHeaders);
+
 //importing routes
-// const usersRouter = require("./users");
+const usersRouter = require("./users");
 const productsRouter = require("./products");
-// const ordersRouter = require("./orders");
-// const cartItemRouter = require("./cartItem");
+const ordersRouter = require("./orders");
+const orderItemsRouter = require("./orderItems");
 
 apiRouter.get("/health", (req, res, next) => {
   res.send({
@@ -15,16 +19,16 @@ apiRouter.get("/health", (req, res, next) => {
 });
 
 // //users routes
-// router.use("/users", usersRouter);
+apiRouter.use("/users", usersRouter);
 
 //products routes
 apiRouter.use("/products", productsRouter);
 
 // //orders routes
-// router.use("/orders", ordersRouter);
+apiRouter.use("/orders", ordersRouter);
 
 // //order items routes
-// router.use("/orderItems", orderItemsRouter);
+apiRouter.use("/orderItems", orderItemsRouter);
 
 apiRouter.use((error, req, res, next) => {
   res.status(400).send({ error: error.message });
