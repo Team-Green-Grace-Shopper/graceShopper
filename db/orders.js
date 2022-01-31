@@ -19,30 +19,6 @@ async function createCart({ userId, orderType }) {
   }
 }
 
-//emily todo
-async function getCartByUser(userId) {
-  try {
-    const {
-      rows: [cart],
-    } = await client.query(
-      `
-      SELECT *
-      FROM orders
-      WHERE "orderType" = "cart"
-        AND id = $1;
-      `,
-      [userId]
-    );
-
-    // returning all (id, cart item objs)
-    // cart item obj: {id, product id, name, desc, imageurl, price, size, quantity}
-
-    return cart;
-  } catch (error) {
-    throw error;
-  }
-}
-
 async function checkoutCart(orderId) {
   try {
     const { rows: order } = await client.query(
@@ -61,8 +37,25 @@ async function checkoutCart(orderId) {
   }
 }
 
+async function getAllOrdersByUserId(userId) {
+  try {
+    const { rows: orders } = await client.query(
+      `
+      SELECT id as "orderId", "orderType"
+      FROM orders
+      WHERE "userId" = $1;
+      `,
+      [userId]
+    );
+
+    return orders;
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   createCart,
-  getCartByUser,
   checkoutCart,
+  getAllOrdersByUserId,
 };

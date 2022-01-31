@@ -69,31 +69,39 @@ async function createInitialUsers() {
   console.log("Starting to create users...");
 
   try {
-    const userToCreate = [
+    const adminsToCreate = [
       {
-        email: "emily38@gmail.com",
+        email: "emily0@gmail.com",
         password: "emily0",
         isAdmin: true,
       },
       {
-        email: "abc123@gmail.com",
+        email: "xavier1@gmail.com",
         password: "xavier1",
         isAdmin: true,
       },
       {
-        email: "def456@gmail.com",
+        email: "austin2@gmail.com",
         password: "austin2",
         isAdmin: true,
       },
+    ];
+
+    const usersToCreate = [
       {
-        email: "avgavgjoe@gmail.com",
+        id: 4,
+        email: "avgjoe2@gmail.com",
         password: "avgjoe2",
         isAdmin: false,
       },
     ];
 
-    const users = await Promise.all(userToCreate.map(createUser));
+    //promise.all the admins, ensure Joe is created 4th
+    const admins = await Promise.all(adminsToCreate.map(createUser));
+    const users = await Promise.all(usersToCreate.map(createUser));
 
+    console.log("Admins created: ");
+    console.log(admins);
     console.log("Users created:");
     console.log(users);
     console.log("Finished creating users!");
@@ -156,6 +164,8 @@ async function createInitialOrders() {
       },
     ];
 
+    console.log("created orders to create");
+
     const orders = await Promise.all(ordersToCreate.map(createCart));
 
     console.log("Orders created:");
@@ -183,6 +193,13 @@ async function createInitialOrderItems() {
         orderId: 1,
         productId: 3,
         quantity: 2,
+        size: "SM",
+        price: 10,
+      },
+      {
+        orderId: 2,
+        productId: 1,
+        quantity: 1,
         size: "SM",
         price: 10,
       },

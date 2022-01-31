@@ -62,29 +62,25 @@ async function deleteCartItem(cartItemId) {
   }
 }
 
-//emily todo
 async function getAllOrderItems(orderId) {
   try {
-    const {
-      rows: [orderItems],
-    } = await client.query(
+    const { rows: orderItems } = await client.query(
       `
       SELECT 
-        id,
+        "orderItems".id as "orderItemsId",
         "productId",
         name,
         "imageURL",
-        price,
+        "orderItems".price,
         size,
         quantity
-      FROM cart_item
-      JOIN products ON product.id = cart_item."productId"
-      WHERE "orderId" = $1
+      FROM "orderItems"
+      JOIN products ON products.id = "orderItems"."productId"
+      WHERE "orderId" = $1;
       `,
       [orderId]
     );
 
-    console.log("order items: ", orderItems);
     return orderItems;
   } catch (error) {
     throw error;
