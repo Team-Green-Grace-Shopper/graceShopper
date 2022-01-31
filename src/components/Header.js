@@ -1,7 +1,9 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import "./Header.css";
 
-const Header = () => {
+const Header = ({logUserOut, user}) => {
+  
   return (
     <div className="header">
       <div className="title">
@@ -10,15 +12,18 @@ const Header = () => {
       </div>
 
       <nav>
-        <p>Shop</p>
+        <NavLink to="products">Shop</NavLink>
+        <NavLink to="/login">Login</NavLink>
+        <NavLink onClick={logUserOut} to="/">Logout</NavLink>
+        <select className="adminDropdown">
+          <option value="viewProducts">View Products</option>
+          <option value="createProducts">Create Product</option>
+          <option value="viewUsers">View Users</option>
+        
 
-        {/* conditional */}
-        <p>Login/Sign-Up</p>
-        <p>Log Out</p>
+        </select>
 
-        {/* conditional */}
-        <p>Admin ^</p>
-        <img className="cartIcon" src="" alt="cart icon" />
+        <img className="cartIcon" src="" />
       </nav>
     </div>
   );
