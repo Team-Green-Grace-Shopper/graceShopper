@@ -28,3 +28,18 @@ export const getAllProducts = async () => {
     throw new Error(error.error);
   }
 };
+
+export const getProductById = async (productId) => {
+  const response = await fetch(`${APIURL}/products/${productId}`);
+  
+  if (response.ok) {
+    const result = await response.json();
+    return result;
+  } else {
+    const error = await response.json();
+    throw new Error(error.error);
+  }
+}
+  
+    
+  
