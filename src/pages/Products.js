@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "./Products.css";
 import { getAllProducts } from "../api/apiCalls";
 
@@ -23,12 +24,19 @@ const Products = (props) => {
             <p>Name: {product.name}</p>
             <p>Description: {product.description}</p>
             <p>Price: {product.price}</p>
-            <img src={product.imageURL} alt={product.name} />
+            <img src={product.imageURL} />
+
+            <Link to = {`/products/${product.id}`}>
+              <button>View</button>
+            </Link>
+            
           </div>
         );
       })}
     </div>
   );
 };
+      
+
 
 export default Products;
