@@ -6,14 +6,22 @@ import "./App.css";
 import Modal from "./components/Modal";
 import Header from "./components/Header";
 import Products from "./pages/Products";
+import AdminUsers from "./pages/AdminUsers";
 
 const App = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div className="App">
-      {/* {isModalOpen ? <Modal /> : null} */}
+      {isModalOpen ? <Modal /> : null}
       <Header />
       <Routes>
-        <Route path="products" element={<Products />} />
+        <Route
+          path="products"
+          element={<Products />}
+          setIsModalOpen={setIsModalOpen}
+        />
+        <Route path="users/all" element={<AdminUsers />} />
       </Routes>
     </div>
   );
