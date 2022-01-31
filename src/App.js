@@ -4,11 +4,12 @@ import { useNavigate } from "react-router-dom";
 import "./App.css";
 
 // IMPORT COMPONENTS
-import Modal from "./components/Modal";
 import Header from "./components/Header";
 import Products from "./pages/Products";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import SingleProduct from "./pages/SingleProduct";
+import AdminUsers from "./pages/AdminUsers";
 
 const App = () => {
   const api = "http://localhost:4000/api"
@@ -33,17 +34,24 @@ const App = () => {
     console.log('you have logged out');
     setUser(null);
     localStorage.removeItem('user');
-    Navigate('/');
+    navigate('/');
   }
 
   return (
     <div className="App">
-      {/* {isModalOpen ? <Modal /> : null} */}
       <Header userLogout={userLogout} user={user}/>
       <Routes>
-        <Route path="products" element={<Products />} />
+      <Route
+          path="products"
+          element={<Products />}
+        />
         <Route path='/login' element={<Login api={api} setLocalStorageUser={setLocalStorageUser} />} />
         <Route path='/signup' element={<Signup api={api} />} />
+        <Route
+          path = "products/:id"
+          element = {<SingleProduct />}
+        />
+        <Route path="users/all" element={<AdminUsers />} />
       </Routes>
     </div>
   );

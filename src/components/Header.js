@@ -7,7 +7,7 @@ const Header = ({logUserOut, user}) => {
   return (
     <div className="header">
       <div className="title">
-        <img className="logo" src="" />
+        <img className="logo" src="" alt="Audacitee logo" />
         <h1>I am the header</h1>
       </div>
 

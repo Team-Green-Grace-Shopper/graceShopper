@@ -1,10 +1,18 @@
 const { client } = require("./client");
 const bcrypt = require("bcrypt");
 
-async function createUser({ email, password, isAdmin }) {
-  //if we were to store salt count in .env file:
-  // const saltCount = Number.parseInt(process.env.SALT_COUNT);
+const { getAllOrdersByUserId } = require("./orders");
+const { getAllOrderItems } = require("./orderItems");
 
+async function createUser({ email, password, isAdmin }) {
+  //email validation
+  // const existingUser = await getUserByEmail(email);
+  // if (!existingUser) {
+  //   throw new Error("User does not exist");
+  // }
+
+  //if we were to store salt count in .env file:
+  //const saltCount = Number.parseInt(process.env.SALT_COUNT);
   const SALT_COUNT = 15;
 
   const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
@@ -22,6 +30,7 @@ async function createUser({ email, password, isAdmin }) {
       [email, hashedPassword, isAdmin]
     );
 
+    delete user.password;
     return user;
   } catch (error) {
     throw error;
@@ -66,54 +75,60 @@ async function getUserByEmail(email) {
       rows: [user],
     } = await client.query(
       `
-      SELECT * 
+      SELECT id, email, "isAdmin" 
       FROM users
       WHERE email = $1;
       `,
       [email]
     );
+
     return user;
   } catch (error) {
     throw error;
   }
 }
 
-//emily todo
-async function getAllUsers() {
-  // userID, email, orderID, cartItems
-  //each cart item has: id, productId, name, imageURL, price, size, quantity
-
-  //-----
-
-  //users table: user id, email
-  //order table: order id
-
-  //cart item table: id, productid, price, size, quantity
-  //product table: name, imageurl,
-
+//FIX
+async function getAllUserInfo() {
+  console.log("Getting all user info!----");
   try {
-    const {
-      rows: [users],
-    } = await client.query(
+    const users = await getAllUsers();
+
+    for (let i = 0; i < users.length; i++) {
+      let user = users[i];
+
+      const orders = await getAllOrdersByUserId(user.userId);
+
+      if (orders.length) {
+        for (let k = 0; k < orders.length; k++) {
+          const order = orders[k];
+
+          const items = await getAllOrderItems(order.orderId);
+
+          if (items.length) {
+            order.items = items;
+          }
+        }
+
+        user.orders = orders;
+      }
+    }
+
+    return { users: users };
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function getAllUsers() {
+  try {
+    const { rows: users } = await client.query(
       `
-      SELECT
-        users.id,
-        email,
-        orders.id,
-        products.id,
-        name,
-        "imageURL",
-        cart_item.price,
-        size,
-        quantity
-      FROM users
-      JOIN orders ON orders."userId" = users.id 
-      JOIN cart_item ON cart_item."orderId" = orders.id
-      JOIN products ON products.id = cart_item."productId";
+      SELECT id as "userId", email
+      FROM users;
       `
     );
 
-    console.log("users: ", users);
     return users;
   } catch (error) {
     console.error(error);
@@ -125,4 +140,5 @@ module.exports = {
   getUser,
   getUserByEmail,
   getAllUsers,
+  getAllUserInfo,
 };
