@@ -10,6 +10,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import SingleProduct from "./pages/SingleProduct";
 import AdminUsers from "./pages/AdminUsers";
+import CreateProduct from "./components/CreateProductForm";
 
 const App = () => {
   const api = "http://localhost:4000/api"
@@ -21,7 +22,7 @@ const App = () => {
     const retrieveUser = localStorage.getItem('user');
     if(retrieveUser){
       const userObject = JSON.parse(retrieveUser);
-      setUser(user);
+      setUser(userObject);
     }
   }, []);
 
@@ -45,13 +46,14 @@ const App = () => {
           path="products"
           element={<Products />}
         />
-        <Route path='/login' element={<Login api={api} setLocalStorageUser={setLocalStorageUser} />} />
-        <Route path='/signup' element={<Signup api={api} />} />
+        <Route path="/login" element={<Login api={api} setLocalStorageUser={setLocalStorageUser} />} />
+        <Route path="/signup" element={<Signup api={api} />} />
         <Route
           path = "products/:id"
           element = {<SingleProduct />}
         />
         <Route path="users/all" element={<AdminUsers />} />
+        <Route path="/createproduct" element={<CreateProduct api={api} user={user} />} />
       </Routes>
     </div>
   );
