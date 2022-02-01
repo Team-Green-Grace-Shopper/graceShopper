@@ -23,9 +23,15 @@ const SingleProduct = () => {
       <p>name:{product.name}</p>
       <p>description:{product.description}</p>
       <p>price:{product.price}</p>
+<<<<<<< HEAD
       <img src={product.imageURL} />
       <Link to={`/products`}>
         <button>All Products</button>
+=======
+      <img src={product.imageURL} alt = {product.description}  />
+      <Link to = {`/products`}>
+      <button>All Products</button>
+>>>>>>> main
       </Link>
     </div>
   );

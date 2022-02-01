@@ -10,7 +10,11 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import SingleProduct from "./pages/SingleProduct";
 import AdminUsers from "./pages/AdminUsers";
+<<<<<<< HEAD
 import UserCart from "./pages/UserCart";
+=======
+import CreateProduct from "./components/CreateProductForm";
+>>>>>>> main
 
 const App = () => {
   const api = "http://localhost:4000/api";
@@ -21,7 +25,7 @@ const App = () => {
     const retrieveUser = localStorage.getItem("user");
     if (retrieveUser) {
       const userObject = JSON.parse(retrieveUser);
-      setUser(user);
+      setUser(userObject);
     }
   }, []);
 
@@ -41,7 +45,16 @@ const App = () => {
     <div className="App">
       <Header userLogout={userLogout} user={user} />
       <Routes>
+<<<<<<< HEAD
         <Route path="products" element={<Products />} />
+=======
+      <Route
+          path="products"
+          element={<Products />}
+        />
+        <Route path="/login" element={<Login api={api} setLocalStorageUser={setLocalStorageUser} />} />
+        <Route path="/signup" element={<Signup api={api} />} />
+>>>>>>> main
         <Route
           path="/login"
           element={
@@ -51,7 +64,11 @@ const App = () => {
         <Route path="/signup" element={<Signup api={api} />} />
         <Route path="products/:id" element={<SingleProduct />} />
         <Route path="users/all" element={<AdminUsers />} />
+<<<<<<< HEAD
         <Route path="cart/:userId" element={<UserCart />} />
+=======
+        <Route path="/createproduct" element={<CreateProduct api={api} user={user} />} />
+>>>>>>> main
       </Routes>
     </div>
   );
