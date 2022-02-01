@@ -23,7 +23,7 @@ const SingleProduct = () => {
       <p>name:{product.name}</p>
       <p>description:{product.description}</p>
       <p>price:{product.price}</p>
-      <img src={product.imageURL} />
+      <img src={product.imageURL} alt = {product.description}  />
       <Link to = {`/products`}>
       <button>All Products</button>
       </Link>
