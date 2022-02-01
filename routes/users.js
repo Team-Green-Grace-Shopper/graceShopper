@@ -79,7 +79,7 @@ usersRouter.post("/login", async (req, res, next) => {
 });
 
 //GET ALL USERS
-usersRouter.get("/all", checkIsAdmin, async (req, res, next) => {
+usersRouter.get("/all", async (req, res, next) => {
   try {
     const allUsers = await getAllUsers();
 
@@ -94,7 +94,7 @@ usersRouter.get("/all", checkIsAdmin, async (req, res, next) => {
 });
 
 //GET ALL USER INFO (**)
-usersRouter.get("/info", checkIsAdmin, async (req, res, next) => {
+usersRouter.get("/info", async (req, res, next) => {
   try {
     const info = await getAllUserInfo();
 
