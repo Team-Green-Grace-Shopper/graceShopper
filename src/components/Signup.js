@@ -22,14 +22,12 @@ const Signup = ({api}) => {
                     password: password
                 }),
             });
-            // result.ok ? navigate('/login') : alert('Profile not created, plese try again.')
-
+            
             if(response.ok) {
                 const result = await response.json();
-                return console.log(result);
+                return navigate('/login');
               } else {
-                const error = await response.json();
-                throw new Error(error.error);
+                alert('Profile not created, plese try again.')
               }
         }
         fetchSignup();

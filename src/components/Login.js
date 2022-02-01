@@ -1,15 +1,16 @@
 import React, {useState} from "react";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import "./Login.css";
 
 const Login = ({api, setLocalStorageUser}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const onSubmitLogin = (event) => {
         event.preventDefault();
-        async function fetchLogin(){
+        async function fetchLogin() {
             const response = await fetch(`${api}/users/login`, {
                 method: 'POST',
                 headers: {
@@ -19,16 +20,15 @@ const Login = ({api, setLocalStorageUser}) => {
                     email: email,
                     password: password
                 }),
-            })
+            }),
+
+            result = await response.json();
 
             if(response.ok) {
-                const result = await response.json();
-                console.log(result);
                 setLocalStorageUser(result);
-                Navigate('/');
+                navigate('/');
               } else {
-                const error = await response.json();
-                throw new Error(error.error);
+                alert('Incorrect Username/Password')
               }
         }
         fetchLogin();

@@ -32,7 +32,7 @@ export const getAllProducts = async () => {
 
 export const getProductById = async (productId) => {
   const response = await fetch(`${APIURL}/products/${productId}`);
-  
+}
 // ----------ORDER ITEMS API CALLS-------------
 export const getAllOrderItems = async (orderId) => {
   const response = await fetch(`${APIURL}/orderItems/all/${orderId}`);
