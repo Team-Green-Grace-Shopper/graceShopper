@@ -6,6 +6,7 @@ const {
   updateCartItem,
   deleteCartItem,
   getAllOrderItems,
+  getCartByUser,
 } = require("../db");
 
 //CREATE CART ITEM
@@ -28,8 +29,9 @@ orderItemsRouter.patch("/:orderItemId", async (req, res, next) => {
     //   next()
     // }
     const { orderItemId } = req.params;
+    const { quantity } = req.body;
 
-    const editedItem = await updateCartItem(orderItemId);
+    const editedItem = await updateCartItem(orderItemId, quantity);
     res.status(200).send(editedItem);
   } catch (error) {
     return next(error);
@@ -60,6 +62,18 @@ orderItemsRouter.get("/:orderId", async (req, res, next) => {
 
     const orderItems = await getAllOrderItems(orderId);
     res.status(200).send(orderItems);
+  } catch (error) {
+    return next(error);
+  }
+});
+
+//GET CART BY USER
+orderItemsRouter.get("/cart/:userId", async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+
+    const cartItems = await getCartByUser(userId);
+    res.status(200).send(cartItems);
   } catch (error) {
     return next(error);
   }

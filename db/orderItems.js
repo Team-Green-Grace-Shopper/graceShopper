@@ -19,22 +19,17 @@ async function createCartItem({ orderId, productId, quantity, size, price }) {
   }
 }
 
-async function updateCartItem(updateData) {
+async function updateCartItem(cartItemId, quantity) {
   try {
-    let updateStr = Object.keys(updateData)
-      .filter((key) => key !== "id")
-      .map((key, index) => `"${key}" = $${index + 2}`)
-      .join(", ");
-
     const {
       rows: [cartItem],
     } = await client.query(
       `
-      UPDATE cart_item
-      SET ${updateStr}
+      UPDATE "orderItems"
+      SET quantity = $2
       WHERE id = $1
       `,
-      Object.values(updateData)
+      [cartItemId, quantity]
     );
 
     return cartItem;
@@ -43,17 +38,17 @@ async function updateCartItem(updateData) {
   }
 }
 
-async function deleteCartItem(cartItemId) {
+async function deleteCartItem(orderItemId) {
   try {
     const {
       rows: [cartItem],
     } = await client.query(
       `
-      DELETE FROM cart_item
+      DELETE FROM "orderItems"
       WHERE id = $1
       RETURNING *;
       `,
-      [cartItemId]
+      [orderItemId]
     );
 
     return cartItem;
@@ -68,7 +63,6 @@ async function getAllOrderItems(orderId) {
       `
       SELECT 
         "orderItems".id as "orderItemsId",
-        "productId",
         name,
         "imageURL",
         "orderItems".price,
@@ -87,9 +81,37 @@ async function getAllOrderItems(orderId) {
   }
 }
 
+async function getCartByUser(userId) {
+  try {
+    const { rows: items } = await client.query(
+      `
+      SELECT 
+        "orderItems".id as "orderItemsId",
+        orders.id as "orderId",
+        name,
+        "imageURL",
+        "orderItems".price,
+        size,
+        quantity
+      FROM "orderItems"
+      JOIN products ON products.id = "orderItems"."productId"
+      JOIN orders on orders.id = "orderItems"."orderId"
+      JOIN users ON users.id = orders."userId"
+      WHERE "userId" = $1 AND "orderType" = 'cart';
+      `,
+      [userId]
+    );
+
+    return items;
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   createCartItem,
   updateCartItem,
   deleteCartItem,
   getAllOrderItems,
+  getCartByUser,
 };

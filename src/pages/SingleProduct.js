@@ -5,18 +5,18 @@ import { getProductById } from "../api/apiCalls";
 import { useParams } from "react-router-dom";
 
 const SingleProduct = () => {
-  const {id} = useParams()
-  const[product, setProduct] = useState([])
-  
+  const { id } = useParams();
+  const [product, setProduct] = useState([]);
+
   useEffect(() => {
-    async function loadProduct () {
-      let response = await getProductById(id)
-      setProduct(response)
+    async function loadProduct() {
+      let response = await getProductById(id);
+      setProduct(response);
     }
     loadProduct();
-  },[])
+  }, []);
 
-  return(
+  return (
     <div>
       <h2>Single Product Page</h2>
       <p>id:{product.id}</p>
@@ -24,14 +24,11 @@ const SingleProduct = () => {
       <p>description:{product.description}</p>
       <p>price:{product.price}</p>
       <img src={product.imageURL} />
-      <Link to = {`/products`}>
-      <button>All Products</button>
+      <Link to={`/products`}>
+        <button>All Products</button>
       </Link>
-    </div> 
-    
-  )
-
-}
+    </div>
+  );
+};
 
 export default SingleProduct;
-

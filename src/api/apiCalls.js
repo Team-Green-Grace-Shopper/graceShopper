@@ -32,10 +32,89 @@ export const getAllProducts = async () => {
 
 export const getProductById = async (productId) => {
   const response = await fetch(`${APIURL}/products/${productId}`);
-  
+
+  if (response.ok) {
+    const result = await response.json();
+    return result;
+  } else {
+    const error = await response.json();
+    throw new Error(error.error);
+  }
+};
+
+//-----------ORDERS API CALLS---------------
+export const checkoutCart = async (orderId) => {
+  const response = await fetch(`${APIURL}/orders/checkout`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      orderId,
+    }),
+  });
+
+  if (response.ok) {
+    const result = await response.json();
+    return result;
+  } else {
+    const error = await response.json();
+    throw new Error(error.error);
+  }
+};
+
 // ----------ORDER ITEMS API CALLS-------------
 export const getAllOrderItems = async (orderId) => {
-  const response = await fetch(`${APIURL}/orderItems/all/${orderId}`);
+  const response = await fetch(`${APIURL}/orderItems/${orderId}`);
+
+  if (response.ok) {
+    const result = await response.json();
+    return result;
+  } else {
+    const error = await response.json();
+    throw new Error(error.error);
+  }
+};
+
+export const getCartByUser = async (userId) => {
+  const response = await fetch(`${APIURL}/orderItems/cart/${userId}`);
+
+  if (response.ok) {
+    const result = await response.json();
+    return result;
+  } else {
+    const error = await response.json();
+    throw new Error(error.error);
+  }
+};
+
+export const updateCartItem = async (orderItemsId, quantity) => {
+  const response = await fetch(`${APIURL}/orderItems/${orderItemsId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      quantity,
+    }),
+  });
+
+  if (response.ok) {
+    const result = await response.json();
+    return result;
+  } else {
+    const error = await response.json();
+    throw new Error(error.error);
+  }
+};
+
+export const deleteCartItem = async (orderItemId) => {
+  const response = await fetch(`${APIURL}/orderItems/${orderItemId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
   if (response.ok) {
     const result = await response.json();

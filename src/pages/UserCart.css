@@ -1,0 +1,27 @@
+.cart {
+  border: 1px solid navy;
+  padding: 2rem;
+  margin: 1rem;
+}
+
+.item {
+  border: 1px solid blue;
+  padding: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+button {
+  border: 1px solid black;
+  background-color: rgb(238, 238, 238);
+  color: black;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.quantityInput {
+  border: 1px solid black;
+  padding: 0.2rem;
+  width: 60px;
+  margin: 0.3rem;
+}
