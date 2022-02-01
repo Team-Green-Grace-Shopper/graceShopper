@@ -41,7 +41,6 @@ export const getProductById = async (productId) => {
     throw new Error(error.error);
   }
 };
-<<<<<<< HEAD
 
 //-----------ORDERS API CALLS---------------
 export const checkoutCart = async (orderId) => {
@@ -64,8 +63,6 @@ export const checkoutCart = async (orderId) => {
   }
 };
 
-=======
->>>>>>> main
 // ----------ORDER ITEMS API CALLS-------------
 export const getAllOrderItems = async (orderId) => {
   const response = await fetch(`${APIURL}/orderItems/${orderId}`);
