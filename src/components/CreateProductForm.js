@@ -27,19 +27,19 @@ const CreateProduct = ({api}) => {
                     name: nameValue,
                     description: descriptionValue,
                     price: priceValue,
-                    imageURL: 'https://www.llbean.com/images/200801_emailimage_large.jpg',
+                    imageURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIiszY77TwN_MW3k6Uhr81IUjpNYmzQFjThA&usqp=CAU',
                 }),
             }),
             result = await response.json();
             console.log(result);
 
             if(result.ok) {
-                navigate('/');
+                navigate('/adminproducts');
             } else {
-                throw new Error(result.error.message)
+                throw new Error(result.error)
             }
         }catch (error) {
-            alert(error.message)
+            alert(error)
         }       
     };
 
@@ -93,5 +93,5 @@ const CreateProduct = ({api}) => {
             <button onClick={onClickPostHandler} type="submit">Submit</button>
         </form>
     )
-
+}
 export default CreateProduct;

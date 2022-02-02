@@ -12,13 +12,13 @@ const Login = ({api, setLocalStorageUser}) => {
         event.preventDefault();
         async function fetchLogin() {
             const response = await fetch(`${api}/users/login`, {
-                method: 'POST',
+                method:'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    email: email,
-                    password: password
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
                 }),
             }),
 
@@ -28,7 +28,7 @@ const Login = ({api, setLocalStorageUser}) => {
                 setLocalStorageUser(result);
                 navigate('/');
               } else {
-                alert('Incorrect Username/Password')
+                alert(result.error)
               }
         }
         fetchLogin();

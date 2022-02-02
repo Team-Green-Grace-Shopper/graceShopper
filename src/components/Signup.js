@@ -24,7 +24,6 @@ const Signup = ({api}) => {
             });
             
             if(response.ok) {
-                const result = await response.json();
                 return navigate('/login');
               } else {
                 alert('Profile not created, plese try again.')
