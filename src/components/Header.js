@@ -24,7 +24,7 @@ const Header = ({ userLogout, user }) => {
           </NavLink>
         )}
         {user && (
-          <NavLink className="link" to="/">
+          <NavLink className="link" to="/adminproducts">
             View Products
           </NavLink>
         )}

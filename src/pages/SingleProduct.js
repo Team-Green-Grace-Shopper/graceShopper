@@ -31,6 +31,7 @@ const SingleProduct = ({ guestCart, setGuestCart }) => {
   }, [guestCart]);
 
   const guestItemObj = {
+    id: product.id,
     name: product.name,
     imageURL: product.imageURL,
     quantity: quantity,
