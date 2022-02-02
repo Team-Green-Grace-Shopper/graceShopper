@@ -36,8 +36,8 @@ productsRouter.get("/:productId", async (req, res, next) => {
   }
 });
 
-//CREATE PRODUCT
-productsRouter.post("/", checkIsAdmin, async (req, res, next) => {
+//CREATE PRODUCT - add isAdmin
+productsRouter.post("/", async (req, res, next) => {
   try {
     const { name, description, price, imageURL } = req.body;
 
@@ -78,8 +78,8 @@ productsRouter.patch("/:productId", checkIsAdmin, async (req, res, next) => {
   } catch (error) {}
 });
 
-//DELETE PRODUCT
-productsRouter.delete("/:productId", checkIsAdmin, async (req, res, next) => {
+//DELETE PRODUCT add isAdmin
+productsRouter.delete("/:productId", async (req, res, next) => {
   try {
     const { productId } = req.params;
 

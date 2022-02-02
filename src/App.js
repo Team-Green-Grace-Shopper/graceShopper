@@ -12,6 +12,7 @@ import SingleProduct from "./pages/SingleProduct";
 import AdminUsers from "./pages/AdminUsers";
 import UserCart from "./pages/UserCart";
 import CreateProduct from "./components/CreateProductForm";
+import AdminProducts from "./components/AdminProducts";
 
 const App = () => {
   const api = "http://localhost:4000/api";
@@ -59,11 +60,9 @@ const App = () => {
         <Route path="/signup" element={<Signup api={api} />} />
         <Route path="products/:id" element={<SingleProduct />} />
         <Route path="users/all" element={<AdminUsers />} />
+        <Route path="/createproduct" element={<CreateProduct api={api} user={user} />} />
+        <Route path="/adminproducts" element={<AdminProducts api={api} />}
         <Route path="cart/:userId" element={<UserCart />} />
-        <Route
-          path="/createproduct"
-          element={<CreateProduct api={api} user={user} />}
-        />
       </Routes>
     </div>
   );

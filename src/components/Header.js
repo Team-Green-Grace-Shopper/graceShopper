@@ -13,7 +13,7 @@ const Header = ({userLogout, user}) => {
       <nav>
         <NavLink className="link" to="products">Shop</NavLink>
         {!user && <NavLink className="link" to="/login">Login</NavLink>}
-        {user && <NavLink className="link" to="/">View Products</NavLink>}
+        {user && <NavLink className="link" to="/adminproducts">View Products</NavLink>}
         {user && <NavLink className="link" to="/createproduct">Create Product</NavLink>}
         <NavLink className="link" to="/">View Users</NavLink>
         {user && <NavLink className="link" onClick={userLogout} to="/">Logout</NavLink>}
