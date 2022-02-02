@@ -11,6 +11,7 @@ import Signup from "./components/Signup";
 import SingleProduct from "./pages/SingleProduct";
 import AdminUsers from "./pages/AdminUsers";
 import CreateProduct from "./components/CreateProductForm";
+import AdminProducts from "./components/AdminProducts";
 
 const App = () => {
   const api = "http://localhost:4000/api"
@@ -54,6 +55,8 @@ const App = () => {
         />
         <Route path="users/all" element={<AdminUsers />} />
         <Route path="/createproduct" element={<CreateProduct api={api} user={user} />} />
+        <Route path="/adminproducts" element={<AdminProducts api={api} />}
+        />
       </Routes>
     </div>
   );
