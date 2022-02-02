@@ -41,8 +41,10 @@ async function getUser({ email, password }) {
   try {
     //email validation
     const existingUser = await getUserByEmail(email);
-    if (!existingUser) {
-      throw new Error("User does not exist");
+    if (existingUser) {
+      throw new Error(
+        "A user with this email address has already registered with us."
+      );
     }
 
     const {
@@ -92,7 +94,7 @@ async function getUserByEmail(email) {
 async function getAllUserInfo() {
   console.log("Getting all user info!----");
   try {
-    const users = await getAllUsers();
+    const users = await _getAllUsers();
 
     for (let i = 0; i < users.length; i++) {
       let user = users[i];
@@ -120,7 +122,8 @@ async function getAllUserInfo() {
   }
 }
 
-async function getAllUsers() {
+//helper function, for internal use
+async function _getAllUsers() {
   try {
     const { rows: users } = await client.query(
       `
@@ -139,6 +142,6 @@ module.exports = {
   createUser,
   getUser,
   getUserByEmail,
-  getAllUsers,
+  _getAllUsers,
   getAllUserInfo,
 };

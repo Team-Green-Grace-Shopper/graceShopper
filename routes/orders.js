@@ -7,10 +7,10 @@ const ordersRouter = Router();
 //CHECKOUT CART
 ordersRouter.patch("/checkout", async (req, res, next) => {
   try {
-    const { id } = req.body;
+    const { orderId } = req.body;
 
-    const order = await checkoutCart(id);
-    res.status(200).send(order);
+    const cart = await checkoutCart(orderId);
+    res.status(200).send(cart);
   } catch (error) {
     return next(error);
   }
