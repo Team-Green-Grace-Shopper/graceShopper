@@ -9,13 +9,18 @@ import Products from "./pages/Products";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import SingleProduct from "./pages/SingleProduct";
-import AdminUsers from "./pages/AdminUsers";
-import UserCart from "./pages/UserCart";
 import CreateProduct from "./components/CreateProductForm";
+import GuestCart from "./pages/GuestCart";
+import GuestCheckout from "./pages/GuestCheckout";
+import UserCart from "./pages/user/UserCart";
+import AdminUsers from "./pages/admin/AdminUsers";
 
 const App = () => {
   const api = "http://localhost:4000/api";
+
   const [user, setUser] = useState(null);
+  const [guestCart, setGuestCart] = useState([]);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -57,12 +62,25 @@ const App = () => {
           }
         />
         <Route path="/signup" element={<Signup api={api} />} />
-        <Route path="products/:id" element={<SingleProduct />} />
+        <Route
+          path="products/:productId"
+          element={
+            <SingleProduct guestCart={guestCart} setGuestCart={setGuestCart} />
+          }
+        />
         <Route path="users/all" element={<AdminUsers />} />
         <Route path="cart/:userId" element={<UserCart />} />
         <Route
+          path="cart/guest"
+          element={<GuestCart guestCart={guestCart} />}
+        />
+        <Route
           path="/createproduct"
           element={<CreateProduct api={api} user={user} />}
+        />
+        <Route
+          path="checkout/guest"
+          element={<GuestCheckout guestCart={guestCart} />}
         />
       </Routes>
     </div>

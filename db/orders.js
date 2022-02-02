@@ -24,7 +24,7 @@ async function checkoutCart(orderId) {
     const { rows: order } = await client.query(
       `
       UPDATE orders
-      SET "orderType" = order
+      SET "orderType" = 'order'
       WHERE id = $1
       RETURNING *;
       `,
@@ -54,8 +54,26 @@ async function getAllOrdersByUserId(userId) {
   }
 }
 
+async function getCartIdByUserId(userId) {
+  try {
+    const { rows: cartId } = await client.query(
+      `
+      SELECT id
+      FROM orders
+      WHERE "userId" = $1 && "orderType" = 'cart';
+      `,
+      [userId]
+    );
+
+    return cartId;
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   createCart,
   checkoutCart,
   getAllOrdersByUserId,
+  getCartIdByUserId,
 };

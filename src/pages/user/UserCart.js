@@ -6,13 +6,15 @@ import {
   updateCartItem,
   deleteCartItem,
   checkoutCart,
-} from "../api/apiCalls";
+} from "../../api/apiCalls";
 
 const UserCart = (props) => {
   const { userId } = useParams();
 
   const [cart, setCart] = useState([]);
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(0);
+  const [isEdited, setIsEdited] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
 
   useEffect(() => {
     async function loadCart() {
@@ -20,12 +22,14 @@ const UserCart = (props) => {
       setCart(response);
     }
     loadCart();
-  }, [setCart, setQuantity]);
+    setIsDeleted(false);
+    setIsEdited(false);
+  }, [isEdited, isDeleted]);
 
   const checkoutHandler = async (event) => {
     event.preventDefault();
     console.log("checkout button clicked");
-    await checkoutCart(1);
+    // await checkoutCart(fix);
   };
 
   return (
@@ -39,6 +43,7 @@ const UserCart = (props) => {
           event.preventDefault();
           console.log("delete button clicked");
           await deleteCartItem(item.orderItemsId);
+          setIsDeleted(true);
         };
 
         return (
@@ -46,7 +51,7 @@ const UserCart = (props) => {
             <p>order id: {item.orderId}</p>
             <p>order item id: {item.orderItemsId}</p>
             <p>name: {item.name}</p>
-            <img src={item.imageURL} alt={item.name} />
+            <img className="teeImg" src={item.imageURL} alt={item.name} />
             <p>price: {item.price}</p>
             <p>size: {item.size}</p>
 
@@ -70,6 +75,7 @@ const UserCart = (props) => {
                     item.orderItemsId
                   );
                   await updateCartItem(item.orderItemsId, quantity);
+                  setIsEdited(true);
                 }}
               >
                 Update

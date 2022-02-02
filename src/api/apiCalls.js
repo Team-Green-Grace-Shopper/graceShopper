@@ -63,6 +63,18 @@ export const checkoutCart = async (orderId) => {
   }
 };
 
+export const getCartIdByUserId = async (userId) => {
+  const response = await fetch(`${APIURL}/orders/cartId/${userId}`);
+
+  if (response.ok) {
+    const result = await response.json();
+    return result;
+  } else {
+    const error = await response.json();
+    throw new Error(error.error);
+  }
+};
+
 // ----------ORDER ITEMS API CALLS-------------
 export const getAllOrderItems = async (orderId) => {
   const response = await fetch(`${APIURL}/orderItems/${orderId}`);
@@ -78,6 +90,26 @@ export const getAllOrderItems = async (orderId) => {
 
 export const getCartByUser = async (userId) => {
   const response = await fetch(`${APIURL}/orderItems/cart/${userId}`);
+
+  if (response.ok) {
+    const result = await response.json();
+    return result;
+  } else {
+    const error = await response.json();
+    throw new Error(error.error);
+  }
+};
+
+export const createCartItem = async (userItemObj) => {
+  const response = await fetch(``, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      userItemObj,
+    }),
+  });
 
   if (response.ok) {
     const result = await response.json();
