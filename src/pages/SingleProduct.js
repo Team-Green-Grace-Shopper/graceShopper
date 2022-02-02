@@ -31,6 +31,7 @@ const SingleProduct = ({ guestCart, setGuestCart }) => {
   }, [guestCart]);
 
   const guestItemObj = {
+    id: product.id,
     name: product.name,
     imageURL: product.imageURL,
     quantity: quantity,
@@ -57,45 +58,54 @@ const SingleProduct = ({ guestCart, setGuestCart }) => {
   // };
 
   return (
-    <div>
-      <Link to={`/products`}>
-        <button>Back To All Products</button>
-      </Link>
-      <h2>Single Product Page</h2>
-      <p>id:{product.id}</p>
-      <p>name:{product.name}</p>
-      <p>description:{product.description}</p>
-      <p>price:{product.price}</p>
-      <img src={product.imageURL} alt={product.description} />
+    <div className="singleProduct">
+      <div className="sp_main">
+        <div className="left">
+          <Link to={`/products`}>
+            <button>Back To All Products</button>
+          </Link>
+          <img
+            className="teeImg"
+            src={product.imageURL}
+            alt={product.description}
+          />
+        </div>
 
-      <form>
-        <label>Size</label>
-        <select
-          className="sizeSelect"
-          onChange={(event) => {
-            setSize(event.target.value);
-          }}
-        >
-          <option defaultValue>Select a size</option>
-          <option>SM</option>
-          <option>MD</option>
-          <option>LG</option>
-        </select>
-        <br></br>
+        <div className="right">
+          <h3>{product.name}</h3>
+          <p>{product.description}</p>
+          <p>${product.price}</p>
 
-        <label>Quantity</label>
-        <input
-          className="quantityInput"
-          type="number"
-          defaultValue="1"
-          onChange={(event) => {
-            setQuantity(event.target.value);
-          }}
-        />
-      </form>
+          <form>
+            <label>Size</label>
+            <select
+              className="sizeSelect"
+              onChange={(event) => {
+                setSize(event.target.value);
+              }}
+            >
+              <option defaultValue>Select a size</option>
+              <option>SM</option>
+              <option>MD</option>
+              <option>LG</option>
+            </select>
+            <br></br>
 
-      {/* <button onClick={userAddHandler}>Add To Cart (u)</button> */}
-      <button onClick={guestAddHandler}>Add To Cart (g)</button>
+            <label>Quantity</label>
+            <input
+              className="quantityInput"
+              type="number"
+              defaultValue="1"
+              onChange={(event) => {
+                setQuantity(event.target.value);
+              }}
+            />
+          </form>
+
+          {/* <button onClick={userAddHandler}>Add To Cart (u)</button> */}
+          <button onClick={guestAddHandler}>Add To Cart (g)</button>
+        </div>
+      </div>
     </div>
   );
 };

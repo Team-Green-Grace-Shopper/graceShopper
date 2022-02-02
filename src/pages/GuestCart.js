@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 import "./GuestCart.css";
 
 const GuestCart = ({ guestCart }) => {
-  const [quantity, setQuantity] = useState(0);
   const [isDeleted, setIsDeleted] = useState(false);
+
+  let quantity = 0;
 
   useEffect(() => {
     setIsDeleted(false);
-  }, [quantity, isDeleted]);
+    console.log("guestCart: ", guestCart);
+  }, [isDeleted]);
 
   const deleteHandler = async (event) => {
     event.preventDefault();
@@ -26,8 +28,14 @@ const GuestCart = ({ guestCart }) => {
       </Link>
       {guestCart &&
         guestCart.map((item, index) => {
+          const updateHandler = async (event) => {
+            event.preventDefault();
+            console.log("update button clicked");
+            guestCart[index].quantity = quantity;
+          };
+
           return (
-            <div className="item">
+            <div key={item.id} className="item">
               <p>name: {item.name}</p>
               <img className="teeImg" src={item.imageURL} alt={item.name} />
               <p>price: {item.price}</p>
@@ -40,12 +48,14 @@ const GuestCart = ({ guestCart }) => {
                   type="number"
                   defaultValue={item.quantity}
                   onChange={(event) => {
-                    setQuantity(event.target.value);
+                    quantity = event.target.value;
                     console.log(quantity);
                   }}
                 />
 
-                <button type="button">Update</button>
+                <button type="submit" onClick={updateHandler}>
+                  Update
+                </button>
               </form>
 
               <br></br>
