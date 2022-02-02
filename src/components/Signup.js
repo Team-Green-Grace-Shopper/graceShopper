@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./Signup.css";
 
+//   if (response.ok) {
+//     const result = await response.json();
+//     return navigate("/login");
+//   } else {
+//     alert("Profile not created, plese try again.");
+//   }
 const Signup = ({ api }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,7 +28,6 @@ const Signup = ({ api }) => {
       });
 
       if (response.ok) {
-        const result = await response.json();
         return navigate("/login");
       } else {
         alert("Profile not created, plese try again.");
@@ -30,6 +35,7 @@ const Signup = ({ api }) => {
     }
     fetchSignup();
   };
+
   return (
     <div className="signup">
       <h1> Sign-up </h1>

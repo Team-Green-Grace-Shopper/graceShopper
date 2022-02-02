@@ -27,7 +27,7 @@ const Login = ({ api, setLocalStorageUser }) => {
         setLocalStorageUser(result);
         navigate("/");
       } else {
-        alert("Incorrect Username/Password");
+        alert(result.error);
       }
     }
     fetchLogin();

@@ -15,13 +15,13 @@ const AdminProducts = (props) => {
   }, []);
 
   const onClickDeleteHandler = (event) => {
-      const deleteRoutine = async () => {
-        const response = await fetch (`${props.api}/${products.id}`, {
+      const deleteRoutine = async (products) => {
+        const response = await fetch (`${props.api}/${props.products.productId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
                 /* Authorization : `Bearer ${user.token}`, */
-            }
+            },
             }).then(response => response.json())
             .then(result => {
                 console.log(result);
@@ -30,7 +30,22 @@ const AdminProducts = (props) => {
       }
       deleteRoutine();
   }
-
+ /*  export const deleteCartItem = async (orderItemId) => {
+    const response = await fetch(`${APIURL}/orderItems/${orderItemId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  
+    if (response.ok) {
+      const result = await response.json();
+      return result;
+    } else {
+      const error = await response.json();
+      throw new Error(error.error);
+    }
+  }; */
   return (
     <div className="products">
       <h1>All Products</h1>

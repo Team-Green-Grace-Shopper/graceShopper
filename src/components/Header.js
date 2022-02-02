@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./Header.css";
 
 const Header = ({ userLogout, user }) => {
@@ -33,7 +33,7 @@ const Header = ({ userLogout, user }) => {
             Create Product
           </NavLink>
         )}
-
+        
         <NavLink className="link" to="/users/all">
           View Users
         </NavLink>

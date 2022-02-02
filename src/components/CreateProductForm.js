@@ -15,6 +15,7 @@ const CreateProduct = ({ api }) => {
   const onClickPostHandler = async (event) => {
     event.preventDefault();
 
+<<<<<<< HEAD
     try {
       const response = await fetch(`${api}/products`, {
           method: "POST",
@@ -43,6 +44,35 @@ const CreateProduct = ({ api }) => {
       alert(error.message);
     }
   };
+=======
+        try{
+            const response = await fetch(`${api}/products`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type' : 'application/json',
+                    /* headers: {'Content-Type': 'multipart/form-data'} */
+                    /* Authorization: `Bearer ${user.token}`, */
+                },
+                body: JSON.stringify({
+                    name: nameValue,
+                    description: descriptionValue,
+                    price: priceValue,
+                    imageURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIiszY77TwN_MW3k6Uhr81IUjpNYmzQFjThA&usqp=CAU',
+                }),
+            }),
+            result = await response.json();
+            console.log(result);
+
+            if(result.ok) {
+                navigate('/adminproducts');
+            } else {
+                throw new Error(result.error)
+            }
+        }catch (error) {
+            alert(error)
+        }       
+    };
+>>>>>>> main
 
   /* const onUploadFileHandler = (event) => {
         event.preventDefault();
@@ -91,6 +121,7 @@ const CreateProduct = ({ api }) => {
                 id="file"
                 accept="image/*"
             /> */}
+<<<<<<< HEAD
       <button onClick={onClickPostHandler} type="submit">
         Submit
       </button>
@@ -98,4 +129,10 @@ const CreateProduct = ({ api }) => {
   );
 };
 
+=======
+            <button onClick={onClickPostHandler} type="submit">Submit</button>
+        </form>
+    )
+}
+>>>>>>> main
 export default CreateProduct;
