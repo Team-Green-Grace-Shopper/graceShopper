@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "./App.css";
 
@@ -55,14 +55,11 @@ const App = () => {
             <Login api={api} setLocalStorageUser={setLocalStorageUser} />
           }
         />
-        <Route path="/signup" element={<Signup api={api} />} />
-        <Route
-          path="/login"
-          element={
-            <Login api={api} setLocalStorageUser={setLocalStorageUser} />
+        <Route 
+          path="/signup" 
+          element={<Signup api={api} />
           }
         />
-        <Route path="/signup" element={<Signup api={api} />} />
         <Route
           path="products/:productId"
           element={
