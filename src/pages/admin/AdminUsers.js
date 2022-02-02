@@ -15,7 +15,7 @@ const AdminUsers = (props) => {
   }, []);
 
   return (
-    <div className="products">
+    <div className="adminUsers">
       <h1>[ADMIN] All Users</h1>
       {users.map((user) => {
         return (

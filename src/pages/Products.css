@@ -1,3 +1,23 @@
+.products {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  margin: 1rem;
+}
+
+.main {
+  display: flex;
+}
+
+.product {
+  border: 1px solid navy;
+  padding: 1rem;
+  margin: 1rem;
+}
+
 .teeImg {
   width: 500px;
 }

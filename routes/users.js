@@ -12,7 +12,7 @@ const {
   createUser,
   getUser,
   getUserByEmail,
-  getAllUsers,
+  _getAllUsers,
   getAllUserInfo,
   getAllOrdersByUserId,
 } = require("../db");
