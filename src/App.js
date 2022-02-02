@@ -14,6 +14,7 @@ import GuestCart from "./pages/GuestCart";
 import GuestCheckout from "./pages/GuestCheckout";
 import UserCart from "./pages/user/UserCart";
 import AdminUsers from "./pages/admin/AdminUsers";
+import AdminProducts from "./components/AdminProducts";
 
 const App = () => {
   const api = "http://localhost:4000/api";
@@ -69,6 +70,11 @@ const App = () => {
           }
         />
         <Route path="users/all" element={<AdminUsers />} />
+        <Route
+          path="/createproduct"
+          element={<CreateProduct api={api} user={user} />}
+        />
+        <Route path="/adminproducts" element={<AdminProducts api={api} />} />
         <Route path="cart/:userId" element={<UserCart />} />
         <Route
           path="cart/guest"

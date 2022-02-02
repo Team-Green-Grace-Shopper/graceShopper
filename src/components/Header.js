@@ -33,9 +33,11 @@ const Header = ({ userLogout, user }) => {
             Create Product
           </NavLink>
         )}
+
         <NavLink className="link" to="/users/all">
           View Users
         </NavLink>
+
         {user && (
           <NavLink className="link" onClick={userLogout} to="/">
             Logout
@@ -53,6 +55,12 @@ const Header = ({ userLogout, user }) => {
           <NavLink to="cart/guest">
             <i className="fas fa-shopping-cart"></i>
             Cart (g)
+          </NavLink>
+        )}
+
+        {user && (
+          <NavLink className="link" to="/adminproducts">
+            View Products
           </NavLink>
         )}
       </nav>
