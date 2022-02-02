@@ -93,5 +93,5 @@ const CreateProduct = ({api}) => {
             <button onClick={onClickPostHandler} type="submit">Submit</button>
         </form>
     )
-
+}
 export default CreateProduct;
