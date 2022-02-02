@@ -55,23 +55,22 @@ const App = () => {
             <Login api={api} setLocalStorageUser={setLocalStorageUser} />
           }
         />
-        <Route 
-          path="/signup" 
-          element={<Signup api={api} />
-          }
-        />
+        <Route path="/signup" element={<Signup api={api} />} />
         <Route
           path="products/:productId"
           element={
             <SingleProduct guestCart={guestCart} setGuestCart={setGuestCart} />
           }
         />
-        <Route path="users/all" element={<AdminUsers />} />
+        <Route path="users/all" user={user} element={<AdminUsers />} />
         <Route
           path="/createproduct"
           element={<CreateProduct api={api} user={user} />}
         />
-        <Route path="/adminproducts" element={<AdminProducts api={api} />} />
+        <Route
+          path="/adminproducts"
+          element={<AdminProducts api={api} user={user} />}
+        />
         <Route path="cart/:userId" element={<UserCart />} />
         <Route
           path="cart/guest"
@@ -81,6 +80,7 @@ const App = () => {
           path="/createproduct"
           element={<CreateProduct api={api} user={user} />}
         />
+
         <Route
           path="checkout/guest"
           element={<GuestCheckout guestCart={guestCart} />}

@@ -38,6 +38,7 @@ const UserCart = (props) => {
       <Link to="/products">
         <button>Back To Products</button>
       </Link>
+
       {cart.map((item) => {
         const deleteHandler = async (event) => {
           event.preventDefault();
