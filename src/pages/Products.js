@@ -20,23 +20,24 @@ const Products = (props) => {
       <h1>All Products</h1>
       {products.map((product) => {
         return (
-          <div>
+          <div key={product.id}>
             <p>Name: {product.name}</p>
             <p>Description: {product.description}</p>
             <p>Price: {product.price}</p>
-            <img src={product.imageURL} alt = {product.description} />
+            <img
+              className="teeImg"
+              src={product.imageURL}
+              alt={product.description}
+            />
 
-            <Link to = {`/products/${product.id}`}>
+            <Link to={`/products/${product.id}`}>
               <button>View</button>
             </Link>
-            
           </div>
         );
       })}
     </div>
   );
 };
-      
-
 
 export default Products;

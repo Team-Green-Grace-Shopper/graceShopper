@@ -1,6 +1,10 @@
 const { Router } = require("express");
 
-const { checkoutCart, getAllOrdersByUserId } = require("../db");
+const {
+  checkoutCart,
+  getAllOrdersByUserId,
+  getCartIdByUserId,
+} = require("../db");
 
 const ordersRouter = Router();
 
@@ -18,12 +22,23 @@ ordersRouter.patch("/checkout", async (req, res, next) => {
 
 //GET ALL ORDERS BY UID
 ordersRouter.get("/:userId", async (req, res, next) => {
-  console.log("inside orders by uid route---");
   try {
     const { userId } = req.params;
     const allOrders = await getAllOrdersByUserId(userId);
 
     res.status(200).send(allOrders);
+  } catch (error) {
+    return next(error);
+  }
+});
+
+//GET CART ID BY UID
+ordersRouter.get("/cartId/:userId", async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const cartId = await getCartIdByUserId(userId);
+
+    res.status(200).send(cartId);
   } catch (error) {
     return next(error);
   }

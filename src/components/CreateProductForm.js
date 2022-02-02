@@ -1,6 +1,5 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 
 //name, description, price, imageURL
 // cannot read properties of undefined reading 'message'
@@ -13,8 +12,8 @@ const CreateProduct = ({api}) => {
     /* const [image, setImage] = useState(''); */
     const navigate = useNavigate();
 
-    const onClickPostHandler = async (event) => {
-        event.preventDefault();
+  const onClickPostHandler = async (event) => {
+    event.preventDefault();
 
         try{
             const response = await fetch(`${api}/products`, {
@@ -94,7 +93,5 @@ const CreateProduct = ({api}) => {
             <button onClick={onClickPostHandler} type="submit">Submit</button>
         </form>
     )
-
-}
 
 export default CreateProduct;
