@@ -71,9 +71,9 @@ const AdminProducts = (props) => {
       <h1>All Products</h1>
       {products.map((product) => {
         return (
-          <div>
-            <i onClick={onClickDeleteHandler} class="fas fa-minus"></i>
-            <i class="far fa-edit"></i>
+          <div key={product.id}>
+            <i onClick={onClickDeleteHandler} className="fas fa-minus"></i>
+            <i className="far fa-edit"></i>
 
             <p>Name: {product.name}</p>
             <p>Description: {product.description}</p>

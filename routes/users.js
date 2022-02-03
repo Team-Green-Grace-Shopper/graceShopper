@@ -20,6 +20,7 @@ const {
 //REGISTER USER
 usersRouter.post("/register", async (req, res, next) => {
   const { email, password } = req.body;
+  const isAdmin = false;
 
   try {
     if (!email) {
@@ -42,8 +43,8 @@ usersRouter.post("/register", async (req, res, next) => {
     if (retrievedUser) {
       res.status(400).send({ error: "Email already exists" });
     }
-
-    const createdUser = await createUser({ email, password });
+    
+    const createdUser = await createUser({ email, password, isAdmin });
 
     res.status(201).json({ user: createdUser });
   } catch (error) {

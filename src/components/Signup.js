@@ -25,12 +25,14 @@ const Signup = ({ api }) => {
           email: email,
           password: password,
         }),
-      });
+      }),
+
+      result = await response.json();
 
       if (response.ok) {
         return navigate("/login");
       } else {
-        alert("Profile not created, plese try again.");
+        alert(result.error);
       }
     }
     fetchSignup();
