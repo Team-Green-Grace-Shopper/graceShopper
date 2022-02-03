@@ -78,7 +78,7 @@ const UserCart = (props) => {
         );
       })}
       <br></br>
-      <Link to="/checkout/guest">
+      <Link to={`/checkout/${userId}`}>
         <button>Checkout</button>
       </Link>
     </div>

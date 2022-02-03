@@ -1,7 +1,17 @@
-import React from "react";
-import "./GuestCheckout.css";
+import React, { useState, useEffect } from "react";
+import { getCartByUser } from "../../api/apiCalls";
+import "./UserCheckout.css";
 
-const GuestCheckout = ({ guestCart }) => {
+const UserCheckout = ({ user }) => {
+  const [cart, setCart] = useState([]);
+  useEffect(() => {
+    const loadCart = async () => {
+      const response = await getCartByUser(user.id);
+      setCart(response);
+    };
+    loadCart();
+  }, [setCart]);
+
   const checkoutHandler = async (event) => {
     event.preventDefault();
     console.log("checkout button clicked");
@@ -11,7 +21,7 @@ const GuestCheckout = ({ guestCart }) => {
 
   return (
     <div className="checkout">
-      <h1>Guest Checkout</h1>
+      <h1>User Checkout</h1>
       <div className="main">
         <div className="left">
           <h3>User Info</h3>
@@ -111,8 +121,8 @@ const GuestCheckout = ({ guestCart }) => {
       </div>
       <div className="bottom">
         <h3>Order Details</h3>
-        {guestCart &&
-          guestCart.map((item) => {
+        {cart &&
+          cart.map((item) => {
             return (
               <div className="item">
                 <p>name: {item.name}</p>
@@ -128,4 +138,4 @@ const GuestCheckout = ({ guestCart }) => {
   );
 };
 
-export default GuestCheckout;
+export default UserCheckout;
