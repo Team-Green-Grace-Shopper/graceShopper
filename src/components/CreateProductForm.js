@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-//name, description, price, imageURL
 // cannot read properties of undefined reading 'message'
 //that means a variable is undefined
 //created but deleted
@@ -9,51 +8,57 @@ const CreateProduct = ({ api }) => {
   const [nameValue, setNameValue] = useState("");
   const [descriptionValue, setDescriptionValue] = useState("");
   const [priceValue, setPriceValue] = useState("");
-  /* const [image, setImage] = useState(''); */
+  const [image, setImage] = useState([]);
   const navigate = useNavigate();
 
   const onClickPostHandler = async (event) => {
     event.preventDefault();
 
-    try {
       const response = await fetch(`${api}/products`, {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": ["application/json", "multipart/form-data"]
             /* headers: {'Content-Type': 'multipart/form-data'} */
             /* Authorization: `Bearer ${user.token}`, */
           },
+        /*   const headers = new Headers({
+            'Content-Type': ['text/plain', 'application/json']
+        }); */
           body: JSON.stringify({
             name: nameValue,
             description: descriptionValue,
             price: priceValue,
-            imageURL:
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIiszY77TwN_MW3k6Uhr81IUjpNYmzQFjThA&usqp=CAU",
+            imageURL: image,
           }),
-        }),
-        result = await response.json();
-      console.log(result);
+        });
 
-      if (result.ok) {
+        const result = await response.json();
+        console.log(result);
+
+      if(result.id) {
         navigate("/adminproducts");
       } else {
-        throw new Error(result.error);
+        alert(result.error);
       }
-    } catch (error) {
-      alert(error);
-    }
+    
   };
 
   /* const onUploadFileHandler = (event) => {
         event.preventDefault();
-        const files = event.target.files;
+        const file = useRef(null);
         setImage(new FormData());
-        image.append('image', files[0]);
-    } */
+        image.append('image', file[0]);
+    }; */
+    
+  const onSubmitHandler = (event) => {
+      event.preventDefault();
+      onClickPostHandler();
+      onUploadFileHandler();
+  };
 
   return (
     <form>
-      <label for="name">Name:</label>
+      <label >Name:</label>
       <input
         type="text"
         name="name"
@@ -63,7 +68,7 @@ const CreateProduct = ({ api }) => {
           setNameValue(event.target.value);
         }}
       />
-      <label for="description">Description:</label>
+      <label >Description:</label>
       <input
         type="text"
         name="description"
@@ -73,7 +78,7 @@ const CreateProduct = ({ api }) => {
           setDescriptionValue(event.target.value);
         }}
       />
-      <label for="price">Price:</label>
+      <label >Price:</label>
       <input
         min="0"
         step="1.00"
@@ -85,13 +90,13 @@ const CreateProduct = ({ api }) => {
           setPriceValue(event.target.value);
         }}
       />
-      {/*  <lable for="file">Upload File:</lable>
+       <lable>Upload File:</lable>
             <input 
                 type="file"
-                id="file"
+                ref="file"
                 accept="image/*"
-            /> */}
-      <button onClick={onClickPostHandler} type="submit">
+            />
+      <button onClick={onSubmitHandler} type="submit">
         Submit
       </button>
     </form>

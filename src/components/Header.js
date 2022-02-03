@@ -57,12 +57,6 @@ const Header = ({ userLogout, user }) => {
             Cart (g)
           </NavLink>
         )}
-
-        {user && (
-          <NavLink className="link" to="/adminproducts">
-            View Products
-          </NavLink>
-        )}
       </nav>
     </div>
   );
