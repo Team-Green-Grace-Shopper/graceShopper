@@ -60,7 +60,7 @@ async function getCartIdByUserId(userId) {
       `
       SELECT id
       FROM orders
-      WHERE "userId" = $1 && "orderType" = 'cart';
+      WHERE "userId" = $1 AND "orderType" = 'cart';
       `,
       [userId]
     );

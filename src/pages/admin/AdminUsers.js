@@ -8,7 +8,6 @@ const AdminUsers = (props) => {
   useEffect(() => {
     async function loadAllUsers() {
       let response = await fetchAllUserInfo();
-      console.log(response.users);
       setUsers(response.users);
     }
     loadAllUsers();
@@ -26,14 +25,14 @@ const AdminUsers = (props) => {
             {user.orders &&
               user.orders.map((order) => {
                 return (
-                  <div>
+                  <div key={order.orderId}>
                     <p>Orders:</p>
                     <p>order id: {order.orderId}</p>
                     <p>order type: {order.orderType}</p>
                     <p>-----------</p>
                     {order.items.map((item) => {
                       return (
-                        <div>
+                        <div key={item.orderItemsId}>
                           <p>Order Items:</p>
                           <p>name:{item.name}</p>
                           <img

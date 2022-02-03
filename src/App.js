@@ -59,7 +59,11 @@ const App = () => {
         <Route
           path="products/:productId"
           element={
-            <SingleProduct guestCart={guestCart} setGuestCart={setGuestCart} />
+            <SingleProduct
+              user={user}
+              guestCart={guestCart}
+              setGuestCart={setGuestCart}
+            />
           }
         />
         <Route path="users/all" user={user} element={<AdminUsers />} />

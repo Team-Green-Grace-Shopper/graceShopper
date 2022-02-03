@@ -101,14 +101,12 @@ export const getCartByUser = async (userId) => {
 };
 
 export const createCartItem = async (userItemObj) => {
-  const response = await fetch(``, {
+  const response = await fetch(`${APIURL}/orderItems/create`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      userItemObj,
-    }),
+    body: JSON.stringify(userItemObj),
   });
 
   if (response.ok) {
@@ -126,9 +124,7 @@ export const updateCartItem = async (orderItemsId, quantity) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      quantity,
-    }),
+    body: JSON.stringify({ quantity: quantity }),
   });
 
   if (response.ok) {

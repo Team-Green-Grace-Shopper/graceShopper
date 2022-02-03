@@ -5,7 +5,6 @@ import {
   getCartByUser,
   updateCartItem,
   deleteCartItem,
-  checkoutCart,
 } from "../../api/apiCalls";
 
 const UserCart = (props) => {
@@ -24,13 +23,7 @@ const UserCart = (props) => {
     loadCart();
     setIsDeleted(false);
     setIsEdited(false);
-  }, [isEdited, isDeleted]);
-
-  const checkoutHandler = async (event) => {
-    event.preventDefault();
-    console.log("checkout button clicked");
-    // await checkoutCart(fix);
-  };
+  }, [userId, isEdited, isDeleted]);
 
   return (
     <div className="cart">
@@ -48,7 +41,7 @@ const UserCart = (props) => {
         };
 
         return (
-          <div className="item">
+          <div key={item.orderItemsId} className="item">
             <p>order id: {item.orderId}</p>
             <p>order item id: {item.orderItemsId}</p>
             <p>name: {item.name}</p>
@@ -63,18 +56,14 @@ const UserCart = (props) => {
                 type="number"
                 defaultValue={item.quantity}
                 onChange={(event) => {
-                  setQuantity(event.target.value);
-                  console.log(quantity);
+                  const numQuantity = parseInt(event.target.value);
+                  setQuantity(numQuantity);
                 }}
               />
 
               <button
                 onClick={async (event) => {
                   event.preventDefault();
-                  console.log(
-                    "update button clicked for item # ",
-                    item.orderItemsId
-                  );
                   await updateCartItem(item.orderItemsId, quantity);
                   setIsEdited(true);
                 }}
@@ -89,7 +78,9 @@ const UserCart = (props) => {
         );
       })}
       <br></br>
-      <button onClick={checkoutHandler}>Checkout</button>
+      <Link to="/checkout/guest">
+        <button>Checkout</button>
+      </Link>
     </div>
   );
 };

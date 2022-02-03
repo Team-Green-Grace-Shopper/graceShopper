@@ -43,7 +43,7 @@ usersRouter.post("/register", async (req, res, next) => {
     if (retrievedUser) {
       res.status(400).send({ error: "Email already exists" });
     }
-    
+
     const createdUser = await createUser({ email, password, isAdmin });
 
     res.status(201).json({ user: createdUser });

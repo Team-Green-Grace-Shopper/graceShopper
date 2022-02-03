@@ -9,7 +9,6 @@ const GuestCart = ({ guestCart }) => {
 
   useEffect(() => {
     setIsDeleted(false);
-    console.log("guestCart: ", guestCart);
   }, [isDeleted]);
 
   const deleteHandler = async (event) => {

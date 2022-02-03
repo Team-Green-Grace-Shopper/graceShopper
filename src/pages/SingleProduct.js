@@ -8,13 +8,13 @@ import {
 } from "../api/apiCalls";
 import { useParams } from "react-router-dom";
 
-const SingleProduct = ({ guestCart, setGuestCart }) => {
+const SingleProduct = ({ user, guestCart, setGuestCart }) => {
   const { productId } = useParams();
 
   const [product, setProduct] = useState([]);
   const [size, setSize] = useState("");
   const [quantity, setQuantity] = useState(1);
-  // const [cartId, setCartId] = useState(0);
+  const [cartId, setCartId] = useState(0);
 
   useEffect(() => {
     async function loadProduct() {
@@ -23,12 +23,14 @@ const SingleProduct = ({ guestCart, setGuestCart }) => {
     }
     loadProduct();
 
-    // async function loadCartId() {
-    //   let response = await getCartIdByUserId(4);
-    //   setCartId(response);
-    // }
-    // loadCartId();
-  }, [guestCart]);
+    if (user) {
+      async function loadCartId() {
+        let response = await getCartIdByUserId(user.id);
+        setCartId(response[0].id);
+      }
+      loadCartId();
+    }
+  }, [productId, user]);
 
   const guestItemObj = {
     id: product.id,
@@ -44,18 +46,18 @@ const SingleProduct = ({ guestCart, setGuestCart }) => {
     setGuestCart([...guestCart, guestItemObj]);
   };
 
-  // const userItemObj = {
-  //   orderId: cartId,
-  //   product: product.id,
-  //   quantity: quantity,
-  //   size: size,
-  //   price: product.price,
-  // };
+  const userItemObj = {
+    orderId: cartId,
+    productId: product.id,
+    quantity: quantity,
+    size: size,
+    price: product.price,
+  };
 
-  // const userAddHandler = async (event) => {
-  //   event.preventDefault();
-  //   await createCartItem(userItemObj);
-  // };
+  const userAddHandler = async (event) => {
+    event.preventDefault();
+    await createCartItem(userItemObj);
+  };
 
   return (
     <div className="singleProduct">
@@ -74,7 +76,7 @@ const SingleProduct = ({ guestCart, setGuestCart }) => {
         <div className="right">
           <h3>{product.name}</h3>
           <p>{product.description}</p>
-          <p>${product.price}</p>
+          <p>{product.price}</p>
 
           <form>
             <label>Size</label>
@@ -102,8 +104,11 @@ const SingleProduct = ({ guestCart, setGuestCart }) => {
             />
           </form>
 
-          {/* <button onClick={userAddHandler}>Add To Cart (u)</button> */}
-          <button onClick={guestAddHandler}>Add To Cart (g)</button>
+          {user ? (
+            <button onClick={userAddHandler}>Add To Cart (u)</button>
+          ) : (
+            <button onClick={guestAddHandler}>Add To Cart (g)</button>
+          )}
         </div>
       </div>
     </div>
