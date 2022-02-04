@@ -5,13 +5,13 @@ const { getAllOrdersByUserId } = require("./orders");
 const { getAllOrderItems } = require("./orderItems");
 
 async function createUser({ email, password, isAdmin }) {
-   //email validation
-   const existingUser = await getUserByEmail(email);
-   if (existingUser) {
-     throw new Error(
-       "A user with this email address has already registered with us."
-     );
-   }
+  //email validation
+  const existingUser = await getUserByEmail(email);
+  if (existingUser) {
+    throw new Error(
+      "A user with this email address has already registered with us."
+    );
+  }
 
   //if we were to store salt count in .env file:
   //const saltCount = Number.parseInt(process.env.SALT_COUNT);
@@ -44,16 +44,14 @@ async function getUser({ email, password }) {
     //email validation
     const existingUser = await getUserByEmail(email);
     if (!existingUser) {
-      throw new Error(
-        "Unregisted email, please sign-up."
-      );
+      throw new Error("Unregisted email, please sign-up.");
     }
 
     const {
       rows: [user],
     } = await client.query(
       `
-      SELECT id, email, password
+      SELECT *
       FROM users
       WHERE email = $1;
       `,
@@ -92,7 +90,6 @@ async function getUserByEmail(email) {
   }
 }
 
-//FIX
 async function getAllUserInfo() {
   console.log("Getting all user info!----");
   try {

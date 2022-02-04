@@ -22,6 +22,11 @@ const App = () => {
 
   const [user, setUser] = useState(null);
   const [guestCart, setGuestCart] = useState([]);
+  const [subtotal, setSubtotal] = useState(0);
+  const [shipCost, setShipCost] = useState("-");
+  const [shipOption, setShipOption] = useState("");
+  // const [total, setTotal] = useState(subtotal);
+  const [totalItemNumber, setTotalItemNumber] = useState(0);
 
   const navigate = useNavigate();
 
@@ -76,8 +81,32 @@ const App = () => {
           path="/adminproducts"
           element={<AdminProducts api={api} user={user} />}
         />
-        <Route path="cart/:userId" element={<UserCart />} />
-        <Route path="checkout/:userId" element={<UserCheckout user={user} />} />
+        <Route
+          path="cart/user"
+          element={
+            <UserCart
+              user={user}
+              subtotal={subtotal}
+              setSubtotal={setSubtotal}
+              totalItemNumber={totalItemNumber}
+              setTotalItemNumber={setTotalItemNumber}
+            />
+          }
+        />
+        <Route
+          path="checkout/user"
+          element={
+            <UserCheckout
+              user={user}
+              subtotal={subtotal}
+              shipCost={shipCost}
+              setShipCost={setShipCost}
+              shipOption={shipOption}
+              setShipOption={setShipOption}
+              totalItemNumber={totalItemNumber}
+            />
+          }
+        />
         <Route
           path="cart/guest"
           element={<GuestCart guestCart={guestCart} />}

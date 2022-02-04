@@ -45,7 +45,7 @@ const Header = ({ userLogout, user }) => {
         )}
 
         {user && (
-          <NavLink to={`/cart/${user.id}`}>
+          <NavLink to={`/cart/user`}>
             <i className="fas fa-shopping-cart"></i>
             Cart (u)
           </NavLink>

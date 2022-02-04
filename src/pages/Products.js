@@ -9,7 +9,6 @@ const Products = (props) => {
   useEffect(() => {
     async function loadProducts() {
       let response = await getAllProducts();
-      console.log(response);
       setProducts(response);
     }
     loadProducts();

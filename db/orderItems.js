@@ -97,7 +97,8 @@ async function getCartByUser(userId) {
       JOIN products ON products.id = "orderItems"."productId"
       JOIN orders on orders.id = "orderItems"."orderId"
       JOIN users ON users.id = orders."userId"
-      WHERE "userId" = $1 AND "orderType" = 'cart';
+      WHERE "userId" = $1 AND "orderType" = 'cart'
+      ORDER BY "creationTime" ASC;
       `,
       [userId]
     );

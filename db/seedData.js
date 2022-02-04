@@ -52,7 +52,8 @@ async function createTables() {
         "productId" INTEGER REFERENCES products(id) NOT NULL,
         quantity INTEGER NOT NULL,
         size VARCHAR(255),
-        price INTEGER NOT NULL
+        price INTEGER NOT NULL,
+        "creationTime" TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
       );
 
     `);
