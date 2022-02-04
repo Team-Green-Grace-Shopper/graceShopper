@@ -9,12 +9,13 @@ import Products from "./pages/Products";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import SingleProduct from "./pages/SingleProduct";
-/* import CreateProduct from "./components/CreateProductForm"; */
+import CreateProduct from "./components/CreateProductForm";
 import GuestCart from "./pages/GuestCart";
 import GuestCheckout from "./pages/GuestCheckout";
 import UserCart from "./pages/user/UserCart";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminProducts from "./components/AdminProducts";
+import EditProduct from "./components/EditProductForm";
 
 const App = () => {
   const api = "http://localhost:4000/api";
@@ -63,10 +64,10 @@ const App = () => {
           }
         />
         <Route path="users/all" user={user} element={<AdminUsers />} />
-        {/* <Route
+        <Route
           path="/createproduct"
           element={<CreateProduct api={api} user={user} />}
-        /> */}
+        />
         <Route
           path="/adminproducts"
           element={<AdminProducts api={api} user={user} />}
@@ -79,6 +80,10 @@ const App = () => {
         <Route
           path="checkout/guest"
           element={<GuestCheckout guestCart={guestCart} />}
+        />
+         <Route
+          path="adminproducts/editproduct/:userId"
+          element={<EditProduct />}
         />
       </Routes>
     </div>

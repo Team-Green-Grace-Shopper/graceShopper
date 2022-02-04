@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { getAllProducts } from "../api/apiCalls";
+import { useNavigate, Link } from "react-router-dom";
 import "./AdminProducts.css";
 
+
 const AdminProducts = (props) => {
-  let user = props.user;
   const [products, setProducts] = useState([]);
+  const [isDeleted, setIsDeleted] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    //check if logged in
     async function loadProducts() {
       let response = await getAllProducts();
       console.log(response);
@@ -18,72 +18,58 @@ const AdminProducts = (props) => {
     loadProducts();
   }, []);
 
-  //to protect route on front-end
-  // useEffect(() => {
-  //   console.log("in useEffect, user: ", user);
+  useEffect(() => {
+    setIsDeleted(false);
+  }, [isDeleted]);
 
-  //   //check if admin
-  //   if (!(user && user.isAdmin)) {
-  //     navigate("/");
-  //   }
-  // }, []);
-
-  const onClickDeleteHandler = (event) => {
-    const deleteRoutine = async (products) => {
-      const response = await fetch(`${props.api}/${props.products.productId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          /* Authorization : `Bearer ${user.token}`, */
-        },
-      })
-        .then((response) => response.json())
-        .then((result) => {
-          console.log(result);
-        })
-        .catch(console.error);
-    };
-    deleteRoutine();
-  };
-  /*  export const deleteCartItem = async (orderItemId) => {
-    const response = await fetch(`${APIURL}/orderItems/${orderItemId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-  
-    if (response.ok) {
-      const result = await response.json();
-      return result;
-    } else {
-      const error = await response.json();
-      throw new Error(error.error);
-    }
-  }; */
-
-  //fix #2 to check isAdmin
-  //if not admin, return (plain html)
-  //if admin, return below
-
+ 
   return (
-    <div className="products">
+    <div className="products" >
       <h1>All Products</h1>
       {products.map((product) => {
+
+        const onClickDeleteHandler = (event) => {
+        const deleteProduct = async () => {
+        
+          const response = await fetch(`${props.api}/products/${product.id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                /* Authorization : `Bearer ${user.token}`, */
+            },
+            });
+            
+            setIsDeleted(true);
+
+            if (response.ok) {
+              const result = await response.json();
+              
+              return result;
+            } else {
+              const error = await response.json();
+              throw new Error(error.error);
+            }
+            
+        }   
+        deleteProduct();
+  }
         return (
           <div key={product.id}>
             <i onClick={onClickDeleteHandler} className="fas fa-minus"></i>
+            <Link to={`editproduct/${product.id}`}> 
             <i className="far fa-edit"></i>
-
+            </Link>
             <p>Name: {product.name}</p>
             <p>Description: {product.description}</p>
             <p>Price: {product.price}</p>
-            <img src={product.imageURL} alt={product.description} />
+            <img src={product.imageURL} alt = {product.description} />
           </div>
         );
       })}
     </div>
   );
 };
+      
+//  link "products/:productId"
 
 export default AdminProducts;
