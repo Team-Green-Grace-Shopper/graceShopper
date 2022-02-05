@@ -9,7 +9,7 @@ const Header = ({ userLogout, user }) => {
       <div className="title">
         <img
           className="logo"
-          src="https://i.postimg.cc/VN45j9x7/Audacitee.png"
+          src="https://i.postimg.cc/0Nmgn3JN/image-copy.png"
           alt="Audacitee logo"
         />
       </div>

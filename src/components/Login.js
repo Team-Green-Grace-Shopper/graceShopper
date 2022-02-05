@@ -25,6 +25,7 @@ const Login = ({ api, setLocalStorageUser }) => {
 
       if (response.ok) {
         setLocalStorageUser(result);
+        console.log(result);
         navigate("/");
       } else {
         alert(result.error);

@@ -9,13 +9,13 @@ import Products from "./pages/Products";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import SingleProduct from "./pages/SingleProduct";
-import CreateProduct from "./components/CreateProductForm";
+import CreateProduct from "./pages/admin/CreateProductForm";
 import GuestCart from "./pages/GuestCart";
 import GuestCheckout from "./pages/GuestCheckout";
 import UserCart from "./pages/user/UserCart";
 import AdminUsers from "./pages/admin/AdminUsers";
-import AdminProducts from "./components/AdminProducts";
-import EditProduct from "./components/EditProductForm";
+import AdminProducts from "./pages/admin/AdminProducts";
+import EditProduct from "./pages/admin/EditProductForm";
 
 const App = () => {
   const api = "http://localhost:4000/api";
@@ -83,7 +83,7 @@ const App = () => {
         />
          <Route
           path="adminproducts/editproduct/:userId"
-          element={<EditProduct />}
+          element={<EditProduct api={api} />}
         />
       </Routes>
     </div>

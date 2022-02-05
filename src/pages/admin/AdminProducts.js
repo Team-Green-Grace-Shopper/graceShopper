@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { getAllProducts } from "../api/apiCalls";
+import { getAllProducts } from "../../api/apiCalls";
 import { useNavigate, Link } from "react-router-dom";
 import "./AdminProducts.css";
 
 
 const AdminProducts = (props) => {
   const [products, setProducts] = useState([]);
-  const [isDeleted, setIsDeleted] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,11 +17,10 @@ const AdminProducts = (props) => {
     loadProducts();
   }, []);
 
-  useEffect(() => {
-    setIsDeleted(false);
-  }, [isDeleted]);
+ function refreshPage(){
+   window.location.reload(false);
+ }
 
- 
   return (
     <div className="products" >
       <h1>All Products</h1>
@@ -38,9 +36,7 @@ const AdminProducts = (props) => {
                 /* Authorization : `Bearer ${user.token}`, */
             },
             });
-            
-            setIsDeleted(true);
-
+        
             if (response.ok) {
               const result = await response.json();
               
@@ -52,6 +48,7 @@ const AdminProducts = (props) => {
             
         }   
         deleteProduct();
+        refreshPage();
   }
         return (
           <div key={product.id}>

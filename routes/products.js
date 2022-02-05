@@ -56,15 +56,16 @@ productsRouter.post("/", async (req, res, next) => {
   } catch (error) {}
 });
 
-//UPDATE PRODUCT
-productsRouter.patch("/:productId", checkIsAdmin, async (req, res, next) => {
+//UPDATE PRODUCT add checkIsAdmin
+productsRouter.patch("/:productId", async (req, res, next) => {
   try {
     const { productId } = req.params;
+    const id  = productId
     const { name, description, price, imageURL } = req.body;
 
     try {
       const updatedProduct = await updateProduct({
-        productId,
+        id,
         name,
         description,
         price,

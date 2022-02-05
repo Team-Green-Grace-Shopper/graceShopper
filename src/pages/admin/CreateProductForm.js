@@ -64,7 +64,7 @@ const CreateProduct = ({ api }) => {
       <label >Price:</label>
       <input
         min="0"
-        step="1.00"
+        step="0.01"
         type="number"
         name="price"
         value={priceValue}

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getProductById } from "../api/apiCalls";
 
 
 const EditProduct = ({api}) => {
@@ -8,60 +7,75 @@ const EditProduct = ({api}) => {
   const [descriptionValue, setDescriptionValue] = useState("");
   const [priceValue, setPriceValue] = useState("");
   const [image, setImage] = useState("");
-  const [products, setProducts] = useState([]);
+  const [product, setProduct] = useState([]);
   const navigate = useNavigate();
   const id = useParams()
 
-
-// you would need useParams pull productId out of the the route to use in 
-
-  const getProductById = async () => {
-    const response = await fetch(`${api}/products/${id}`);
-
-    if (response.ok) {
-      const result = await response.json();
-      console.log(result);
-      return result;
-    } else {
-      const error = await response.json();
-      throw new Error(error.error);
-    }
-  };
-
-  getProductById();  
-
-  const product = {
-      name: nameValue,
-      description: descriptionValue,
-      price: priceValue,
-      image: image,
-  }
+useEffect(() => {
+    const getProductById = async () => {
+        const response = await fetch(`${api}/products/${id.userId}`);
+    
+        if (response.ok) {
+        const result = await response.json();
+        setProduct(result);
+        return result;
+        } else {
+        const error = await response.json();
+        throw new Error(error.error);
+        }
+    };  
+    
+    getProductById();
+},[]);
 
   const onClickEditHandler = async (event) => {
       event.preventDefault();
-      const response = await fetch(`${api}/products`,{
-        method: 'PATCH',
+
+      if(!nameValue){
+              setNameValue(product.name)
+            };
+            if(!descriptionValue){
+              setDescriptionValue(product.description)
+            };
+            if(!priceValue){
+              setPriceValue(product.price)
+            };
+            if(!image){
+              setImage(product.imageURL)
+            };
+
+      const response = await fetch(`${api}/products/${id.userId}`,{
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+            /* Authorization: `Bearer ${user.token}`, */
+          },
         body: JSON.stringify({
             name: nameValue,
             description: descriptionValue,
             price: priceValue,
             imageURL: image
-
-        }) .then(response => response.json())
+        }) 
+    })     .then(response => response.json())
            .then(result => {
                console.log(result);
            })
            .catch(console.error)
+
       }
-      )}
-    
+
+      /* const onNameChangeHandler = async (event) => {
+        event.preventDefault();
+      } */
+   
+
   return (
     <form>
       <label >Name:</label>
       <input
         type="text"
         name="name"
-        defaultValue={products.name}
+        defaultValue={product.name}
         placeholder="name"
         onChange={(event) => {
           setNameValue(event.target.value);
@@ -71,7 +85,7 @@ const EditProduct = ({api}) => {
       <input
         type="text"
         name="description"
-        defaultValue={products.description}
+        defaultValue={product.description}
         placeholder="description"
         onChange={(event) => {
           setDescriptionValue(event.target.value);
@@ -80,10 +94,10 @@ const EditProduct = ({api}) => {
       <label >Price:</label>
       <input
         min="0"
-        step="1.00"
+        step="0.01"
         type="number"
         name="price"
-        defaultValue={products.price}
+        defaultValue={product.price}
         placeholder="price"
         onChange={(event) => {
           setPriceValue(event.target.value);
@@ -93,7 +107,7 @@ const EditProduct = ({api}) => {
       <input
         type="text"
         name="ImageURL"
-        defaultValue={products.imageURL}
+        defaultValue={product.imageURL}
         placeholder="image URL"
         onChange={(event) => {
           setImage(event.target.value);
