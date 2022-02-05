@@ -4,9 +4,22 @@ const {
   checkoutCart,
   getAllOrdersByUserId,
   getCartIdByUserId,
+  createOrder,
 } = require("../db");
 
 const ordersRouter = Router();
+
+//CREATE ORDER
+ordersRouter.post("/", async (req, res, next) => {
+  try {
+    const orderData = req.body;
+
+    const newOrder = await createOrder(orderData);
+    res.status(201).send(newOrder);
+  } catch (error) {
+    return next(error);
+  }
+});
 
 //CHECKOUT CART
 ordersRouter.patch("/checkout", async (req, res, next) => {

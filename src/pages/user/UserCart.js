@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./UserCart.css";
 import {
   getCartByUser,
   updateCartItem,
   deleteCartItem,
-  checkoutCart,
 } from "../../api/apiCalls";
 
-const UserCart = (props) => {
-  const { userId } = useParams();
+const UserCart = ({
+  user,
+  subtotal,
+  setSubtotal,
+  totalItemNumber,
+  setTotalItemNumber,
+}) => {
+  let subtotalTracker = 0;
+  let itemNumberTracker = 0;
 
   const [cart, setCart] = useState([]);
   const [quantity, setQuantity] = useState(0);
@@ -17,20 +23,20 @@ const UserCart = (props) => {
   const [isDeleted, setIsDeleted] = useState(false);
 
   useEffect(() => {
+    let userId = 0;
+    if (user) {
+      userId = user.id;
+    }
+
     async function loadCart() {
       let response = await getCartByUser(userId);
       setCart(response);
     }
     loadCart();
+
     setIsDeleted(false);
     setIsEdited(false);
-  }, [isEdited, isDeleted]);
-
-  const checkoutHandler = async (event) => {
-    event.preventDefault();
-    console.log("checkout button clicked");
-    // await checkoutCart(fix);
-  };
+  }, [user, isEdited, isDeleted]);
 
   return (
     <div className="cart">
@@ -38,6 +44,7 @@ const UserCart = (props) => {
       <Link to="/products">
         <button>Back To Products</button>
       </Link>
+      <p>Items ({totalItemNumber})</p>
 
       {cart.map((item) => {
         const deleteHandler = async (event) => {
@@ -47,49 +54,61 @@ const UserCart = (props) => {
           setIsDeleted(true);
         };
 
+        const editHandler = async (event) => {
+          event.preventDefault();
+          console.log("edit button clicked");
+          await updateCartItem(item.orderItemsId, quantity);
+          setIsEdited(true);
+        };
+
+        subtotalTracker = subtotalTracker + item.quantity * item.price;
+        setSubtotal(subtotalTracker);
+
+        itemNumberTracker = itemNumberTracker + item.quantity;
+        setTotalItemNumber(itemNumberTracker);
+
         return (
-          <div className="item">
-            <p>order id: {item.orderId}</p>
-            <p>order item id: {item.orderItemsId}</p>
-            <p>name: {item.name}</p>
-            <img className="teeImg" src={item.imageURL} alt={item.name} />
-            <p>price: {item.price}</p>
-            <p>size: {item.size}</p>
+          <div key={item.orderItemsId} className="item">
+            <div className="item_left">
+              <img className="teeImg" src={item.imageURL} alt={item.name} />
+              <div>
+                <p>name: {item.name}</p>
+                <p>size: {item.size}</p>
+                <form>
+                  <label>Quantity:</label>
+                  <input
+                    className="quantityInput"
+                    type="number"
+                    min="1"
+                    defaultValue={item.quantity}
+                    onChange={(event) => {
+                      const numQuantity = parseInt(event.target.value);
+                      setQuantity(numQuantity);
+                    }}
+                  />
 
-            <form>
-              <label>Quantity:</label>
-              <input
-                className="quantityInput"
-                type="number"
-                defaultValue={item.quantity}
-                onChange={(event) => {
-                  setQuantity(event.target.value);
-                  console.log(quantity);
-                }}
-              />
+                  <button onClick={editHandler}>Update</button>
 
-              <button
-                onClick={async (event) => {
-                  event.preventDefault();
-                  console.log(
-                    "update button clicked for item # ",
-                    item.orderItemsId
-                  );
-                  await updateCartItem(item.orderItemsId, quantity);
-                  setIsEdited(true);
-                }}
-              >
-                Update
-              </button>
-            </form>
+                  <button onClick={deleteHandler}>Delete</button>
+                </form>
+              </div>
+            </div>
 
-            <br></br>
-            <button onClick={deleteHandler}>Delete</button>
+            <div className="item_right">
+              <p>price: {item.price * item.quantity}</p>
+            </div>
           </div>
         );
       })}
       <br></br>
-      <button onClick={checkoutHandler}>Checkout</button>
+      <div className="subtotalLine">
+        <p>Subtotal: $ {subtotal}</p>
+      </div>
+      <br></br>
+
+      <Link to="/checkout/user">
+        <button>Checkout</button>
+      </Link>
     </div>
   );
 };

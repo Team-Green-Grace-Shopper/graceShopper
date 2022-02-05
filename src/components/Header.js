@@ -33,7 +33,7 @@ const Header = ({ userLogout, user }) => {
             Create Product
           </NavLink>
         )}
-        
+
         <NavLink className="link" to="/users/all">
           View Users
         </NavLink>
@@ -45,7 +45,7 @@ const Header = ({ userLogout, user }) => {
         )}
 
         {user && (
-          <NavLink to="/cart/4">
+          <NavLink to={`/cart/user`}>
             <i className="fas fa-shopping-cart"></i>
             Cart (u)
           </NavLink>
