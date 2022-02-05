@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./Signup.css";
+import { createOrder } from "../api/apiCalls";
 
 //   if (response.ok) {
 //     const result = await response.json();
@@ -15,22 +16,36 @@ const Signup = ({ api }) => {
 
   const onSubmitSignup = (event) => {
     event.preventDefault();
-    async function fetchSignup() {
-      const response = await fetch(`${api}/users/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      }),
 
-      result = await response.json();
+    async function fetchSignup() {
+      //1. register user
+      const response = await fetch(`${api}/users/register`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        }),
+        result = await response.json();
 
       if (response.ok) {
-        return navigate("/login");
+        const userId = result.user.id;
+        const cartObj = {
+          userId: userId,
+          orderType: "cart",
+        };
+
+        //2. create empty cart
+        async function makeCart() {
+          await createOrder(cartObj);
+        }
+        makeCart();
+
+        //3. redirect to login
+        navigate("/login");
       } else {
         alert(result.error);
       }
