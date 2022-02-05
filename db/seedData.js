@@ -1,4 +1,9 @@
-const { createUser, createProduct, createCart, createCartItem } = require("./");
+const {
+  createUser,
+  createProduct,
+  createOrder,
+  createCartItem,
+} = require("./");
 
 const { client } = require("./client");
 
@@ -28,7 +33,7 @@ async function createTables() {
       CREATE TABLE users (
         id SERIAL PRIMARY KEY,
         email VARCHAR(255) UNIQUE NOT NULL,
-        password VARCHAR(255) NOT NULL,
+        password VARCHAR(255),
         "isAdmin" BOOLEAN DEFAULT false
       );
       
@@ -52,7 +57,8 @@ async function createTables() {
         "productId" INTEGER REFERENCES products(id) NOT NULL,
         quantity INTEGER NOT NULL,
         size VARCHAR(255),
-        price INTEGER NOT NULL
+        price INTEGER NOT NULL,
+        "creationTime" TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
       );
 
     `);
@@ -156,17 +162,17 @@ async function createInitialOrders() {
     const ordersToCreate = [
       {
         userId: 4,
-        orderType: "cart",
+        orderType: "order",
       },
       {
         userId: 4,
-        orderType: "order",
+        orderType: "cart",
       },
     ];
 
     console.log("created orders to create");
 
-    const orders = await Promise.all(ordersToCreate.map(createCart));
+    const orders = await Promise.all(ordersToCreate.map(createOrder));
 
     console.log("Orders created:");
     console.log(orders);

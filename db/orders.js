@@ -1,10 +1,8 @@
 const { client } = require("./client");
 
-async function createCart({ userId, orderType }) {
+async function createOrder({ userId, orderType }) {
   try {
-    const {
-      rows: [cart],
-    } = await client.query(
+    const { rows: order } = await client.query(
       `
       INSERT INTO orders ("userId", "orderType")
       VALUES ($1, $2)
@@ -13,7 +11,7 @@ async function createCart({ userId, orderType }) {
       [userId, orderType]
     );
 
-    return cart;
+    return order;
   } catch (error) {
     throw error;
   }
@@ -60,7 +58,7 @@ async function getCartIdByUserId(userId) {
       `
       SELECT id
       FROM orders
-      WHERE "userId" = $1 && "orderType" = 'cart';
+      WHERE "userId" = $1 AND "orderType" = 'cart';
       `,
       [userId]
     );
@@ -72,7 +70,7 @@ async function getCartIdByUserId(userId) {
 }
 
 module.exports = {
-  createCart,
+  createOrder,
   checkoutCart,
   getAllOrdersByUserId,
   getCartIdByUserId,

@@ -5,13 +5,13 @@ const { getAllOrdersByUserId } = require("./orders");
 const { getAllOrderItems } = require("./orderItems");
 
 async function createUser({ email, password, isAdmin }) {
-   //email validation
-   const existingUser = await getUserByEmail(email);
-   if (existingUser) {
-     throw new Error(
-       "A user with this email address has already registered with us."
-     );
-   }
+  //email validation
+  const existingUser = await getUserByEmail(email);
+  if (existingUser) {
+    throw new Error(
+      "A user with this email address has already registered with us."
+    );
+  }
 
   //if we were to store salt count in .env file:
   //const saltCount = Number.parseInt(process.env.SALT_COUNT);
@@ -39,14 +39,32 @@ async function createUser({ email, password, isAdmin }) {
   }
 }
 
+async function createGuest(email, isAdmin) {
+  try {
+    const {
+      rows: [guest],
+    } = await client.query(
+      `
+      INSERT INTO users (email, "isAdmin")
+      VALUES ($1, $2)
+      ON CONFLICT (email) DO NOTHING
+      RETURNING *;
+      `,
+      [email, isAdmin]
+    );
+
+    return guest;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function getUser({ email, password }) {
   try {
     //email validation
     const existingUser = await getUserByEmail(email);
     if (!existingUser) {
-      throw new Error(
-        "Unregisted email, please sign-up."
-      );
+      throw new Error("Unregisted email, please sign-up.");
     }
 
     const {
@@ -92,7 +110,6 @@ async function getUserByEmail(email) {
   }
 }
 
-//FIX
 async function getAllUserInfo() {
   console.log("Getting all user info!----");
   try {
@@ -142,6 +159,7 @@ async function _getAllUsers() {
 
 module.exports = {
   createUser,
+  createGuest,
   getUser,
   getUserByEmail,
   _getAllUsers,

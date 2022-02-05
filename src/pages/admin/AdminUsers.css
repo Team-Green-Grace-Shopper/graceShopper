@@ -1,3 +1,27 @@
+.adminUsers {
+  border: 1px solid lightblue;
+  padding: 1rem;
+  margin: 1rem;
+}
+
+.userInfo {
+  border: 1px solid blue;
+  padding: 1rem;
+  margin: 1rem;
+}
+
+.orderInfo {
+  border: 1px solid purple;
+  padding: 1rem;
+  margin: 1rem;
+}
+
+.itemInfo {
+  border: 1px solid green;
+  padding: 1rem;
+  margin: 1rem;
+}
+
 .teeImg {
   width: 200px;
 }

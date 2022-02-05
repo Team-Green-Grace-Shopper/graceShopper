@@ -5,10 +5,16 @@
 }
 
 .item {
+  display: flex;
+  justify-content: space-between;
   border: 1px solid blue;
   padding: 1rem;
   margin-top: 1rem;
   margin-bottom: 1rem;
+}
+
+.item_left {
+  display: flex;
 }
 
 button {
@@ -19,6 +25,13 @@ button {
   cursor: pointer;
 }
 
+.subtotalLine {
+  border: 1px solid blue;
+  padding: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
 .quantityInput {
   border: 1px solid black;
   padding: 0.2rem;
@@ -27,5 +40,6 @@ button {
 }
 
 .teeImg {
-  width: 100px;
+  width: 75px;
+  overflow: hidden;
 }

@@ -26,6 +26,7 @@
   border: 1px solid black;
   padding: 0.2rem;
   margin: 0.3rem;
+  cursor: pointer;
 }
 
 .quantityInput {
@@ -35,4 +36,10 @@
 
 .teeImg {
   width: 500px;
+}
+
+button:disabled {
+  cursor: default;
+  border: 1px solid grey;
+  color: grey;
 }

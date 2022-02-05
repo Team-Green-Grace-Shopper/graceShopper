@@ -1,131 +1,139 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./GuestCheckout.css";
+import GuestCheckoutForm from "../components/GuestCheckoutForm";
+import { registerGuest, createOrder, createCartItem } from "../api/apiCalls";
 
-const Checkout = ({ guestCart }) => {
-  const checkoutHandler = async (event) => {
+const GuestCheckout = ({
+  guestCart,
+  subtotal,
+  setSubtotal,
+  shipCost,
+  setShipCost,
+  shipOption,
+  setShipOption,
+  totalItemNumber,
+  setTotalItemNumber,
+  email,
+  setEmail,
+  setFirstName,
+  setOrderNum,
+}) => {
+  const navigate = useNavigate();
+  const [total, setTotal] = useState(subtotal);
+  const orderItems = [];
+
+  useEffect(() => {
+    if (shipOption && shipOption.includes("Standard")) {
+      setShipCost(6);
+      setTotal(subtotal + parseInt(shipCost));
+    } else if (shipOption && shipOption.includes("Express")) {
+      setShipCost(15);
+      setTotal(subtotal + parseInt(shipCost));
+    } else if (shipOption && shipOption.includes("Next")) {
+      setShipCost(25);
+      setTotal(subtotal + parseInt(shipCost));
+    }
+  }, [shipOption, setShipCost, setTotal, subtotal, shipCost]);
+
+  const submitHandler = async (event) => {
     event.preventDefault();
-    console.log("checkout button clicked");
-    //create an order (with ordertype = 'order')
-    //add all items to order
+
+    //create guest user
+    const response = await registerGuest(email);
+
+    // create order with guest id
+    const orderObj = {
+      userId: response.user.id,
+      orderType: "order",
+    };
+    const order = await createOrder(orderObj);
+    setOrderNum(order[0].id);
+
+    //change guestcart items to order items
+    orderItems.forEach((item) => {
+      item.orderId = order[0].id;
+    }); //add order id to every item obj
+
+    await Promise.all(orderItems.map(createCartItem));
+
+    //reset # of items and subtotal
+    setTotalItemNumber(0);
+    setSubtotal(0);
+
+    //redirect page
+    navigate("/confirmation");
   };
 
   return (
-    <div className="checkout">
-      <h1>Checkout</h1>
+    <div className="guest_checkout">
+      <Link to="/cart/guest">
+        <button>Back to cart</button>
+      </Link>
+      <h1>User Checkout Page</h1>
+
       <div className="main">
         <div className="left">
-          <h3>User Info</h3>
-          <form>
-            <label>email</label>
-            <input />
-            <br></br>
-
-            <label>phone</label>
-            <input />
-            <br></br>
-
-            <label>first name</label>
-            <input />
-            <br></br>
-
-            <label>last name</label>
-            <input />
-            <br></br>
-
-            <label>address</label>
-            <input />
-            <br></br>
-
-            <label>city</label>
-            <input />
-            <br></br>
-
-            <label>state</label>
-            <input />
-            <br></br>
-
-            <label>zip code</label>
-            <input />
-            <br></br>
-
-            <button type="submit">Save and Continue</button>
-            <button type="button">Edit</button>
-          </form>
-          <h3>Shipping Option</h3>
-          <form>
-            <input type="radio" />
-            <label>Standard shipping (3-7 days) $6</label>
-            <br></br>
-
-            <input type="radio" />
-            <label>Express shipping (2-4 days) $15</label>
-            <br></br>
-
-            <input type="radio" />
-            <label>Next Day Shipping $25</label>
-
-            <button type="submit">Save and Continue</button>
-            <button type="button">Edit</button>
-          </form>
-          <h3>Payment</h3>
-          <form>
-            <label>First Name</label>
-            <input />
-            <br></br>
-
-            <label>Last Name</label>
-            <input />
-            <br></br>
-
-            <label>CC #</label>
-            <input />
-            <br></br>
-
-            <label>Exp</label>
-            <input />
-            <br></br>
-
-            <label>CVV/CVC</label>
-            <input />
-            <br></br>
-
-            <label>Billing Address</label>
-            <input />
-            <br></br>
-
-            <button type="submit">Save</button>
-            <button type="button">Edit</button>
-          </form>
+          <GuestCheckoutForm
+            shipOption={shipOption}
+            setShipOption={setShipOption}
+            setEmail={setEmail}
+            setFirstName={setFirstName}
+          />
         </div>
+
         <div className="right">
-          <p>item 1 $</p>
-          <p>item 2 $</p>
+          <div className="summaryLine">
+            <p>Items ({totalItemNumber})</p>
+            <p>$ {subtotal}</p>
+          </div>
+
+          <p>shipping $ {shipCost}</p>
           <p>-----</p>
-          <p>subtotal $</p>
-          <p>shipping $</p>
-          <p>tax $</p>
-          <p>-----</p>
-          <p>total $</p>
-          <button onClick={checkoutHandler}>Place Order</button>
+          <p>total $ {total}</p>
+          <button onClick={submitHandler}>Place Order</button>
         </div>
       </div>
+
       <div className="bottom">
-        <h3>Order Details</h3>
+        <p>Items ({totalItemNumber})</p>
         {guestCart &&
-          guestCart.map((item) => {
+          guestCart.map((item, index) => {
+            const orderItemObj = {
+              orderId: 0,
+              productId: item.id,
+              quantity: item.quantity,
+              size: item.size,
+              price: item.price,
+            };
+
+            orderItems.push(orderItemObj);
+
             return (
-              <div className="item">
-                <p>name: {item.name}</p>
-                <img className="teeImg" src={item.imageURL} alt={item.name} />
-                <p>price: {item.price}</p>
-                <p>size: {item.size}</p>
-                <p>quantity: {item.quantity}</p>
+              <div key={item.id} className="item">
+                <div className="item_left">
+                  <img className="teeImg" src={item.imageURL} alt={item.name} />
+
+                  <div>
+                    <p>name: {item.name}</p>
+                    <p>size: {item.size}</p>
+                    <p>quantity: {item.quantity}</p>
+                  </div>
+                </div>
+
+                <div className="item_right">
+                  <p>price: {item.price * item.quantity}</p>
+                </div>
               </div>
             );
           })}
+        <br></br>
+        <div className="subtotalLine">
+          <p>Subtotal: $ {subtotal}</p>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Checkout;
+export default GuestCheckout;

@@ -10,11 +10,11 @@ const {
 } = require("../db");
 
 //CREATE CART ITEM
-orderItemsRouter.post("/:productId", async (req, res, next) => {
+orderItemsRouter.post("/create", async (req, res, next) => {
   try {
-    const { productId } = req.params;
+    const orderItemObj = req.body;
 
-    const createdItem = await createCartItem(productId);
+    const createdItem = await createCartItem(orderItemObj);
     res.status(200).send(createdItem);
   } catch (error) {
     return next(error);
@@ -29,7 +29,8 @@ orderItemsRouter.patch("/:orderItemId", async (req, res, next) => {
     //   next()
     // }
     const { orderItemId } = req.params;
-    const { quantity } = req.body;
+
+    const quantity = req.body.quantity;
 
     const editedItem = await updateCartItem(orderItemId, quantity);
     res.status(200).send(editedItem);
