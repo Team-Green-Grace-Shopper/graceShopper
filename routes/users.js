@@ -85,7 +85,7 @@ usersRouter.post("/login", async (req, res, next) => {
     if (user) {
       const token = jwt.sign({ email: user.email, id: user.id }, JWT_SECRET);
 
-      res.status(200).send({ token, email: user.email, id: user.id });
+      res.status(200).send({ token, email: user.email, id: user.id, isAdmin: user.isAdmin });
     } else {
       throw new Error("Invalid password");
     }

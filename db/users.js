@@ -27,7 +27,7 @@ async function createUser({ email, password, isAdmin }) {
       INSERT INTO users (email, password, "isAdmin")
       VALUES($1, $2, $3)
       ON CONFLICT (email) DO NOTHING
-      RETURNING id, email; 
+      RETURNING id, email, "isAdmin"; 
     `,
       [email, hashedPassword, isAdmin]
     );
@@ -71,7 +71,7 @@ async function getUser({ email, password }) {
       rows: [user],
     } = await client.query(
       `
-      SELECT *
+      SELECT id, email, password, "isAdmin"
       FROM users
       WHERE email = $1;
       `,

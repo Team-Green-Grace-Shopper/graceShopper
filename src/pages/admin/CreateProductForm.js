@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // cannot read properties of undefined reading 'message'
@@ -8,7 +8,7 @@ const CreateProduct = ({ api }) => {
   const [nameValue, setNameValue] = useState("");
   const [descriptionValue, setDescriptionValue] = useState("");
   const [priceValue, setPriceValue] = useState("");
-  const [image, setImage] = useState([]);
+  const [image, setImage] = useState("");
   const navigate = useNavigate();
 
   const onClickPostHandler = async (event) => {
@@ -17,13 +17,9 @@ const CreateProduct = ({ api }) => {
       const response = await fetch(`${api}/products`, {
           method: "POST",
           headers: {
-            "Content-Type": ["application/json", "multipart/form-data"]
-            /* headers: {'Content-Type': 'multipart/form-data'} */
+            "Content-Type": "application/json"
             /* Authorization: `Bearer ${user.token}`, */
           },
-        /*   const headers = new Headers({
-            'Content-Type': ['text/plain', 'application/json']
-        }); */
           body: JSON.stringify({
             name: nameValue,
             description: descriptionValue,
@@ -41,19 +37,6 @@ const CreateProduct = ({ api }) => {
         alert(result.error);
       }
     
-  };
-
-  /* const onUploadFileHandler = (event) => {
-        event.preventDefault();
-        const file = useRef(null);
-        setImage(new FormData());
-        image.append('image', file[0]);
-    }; */
-    
-  const onSubmitHandler = (event) => {
-      event.preventDefault();
-      onClickPostHandler();
-      onUploadFileHandler();
   };
 
   return (
@@ -81,7 +64,7 @@ const CreateProduct = ({ api }) => {
       <label >Price:</label>
       <input
         min="0"
-        step="1.00"
+        step="0.01"
         type="number"
         name="price"
         value={priceValue}
@@ -90,13 +73,17 @@ const CreateProduct = ({ api }) => {
           setPriceValue(event.target.value);
         }}
       />
-       <lable>Upload File:</lable>
-            <input 
-                type="file"
-                ref="file"
-                accept="image/*"
-            />
-      <button onClick={onSubmitHandler} type="submit">
+      <label >Image URL:</label>
+      <input
+        type="text"
+        name="ImageURL"
+        value={image}
+        placeholder="image URL"
+        onChange={(event) => {
+          setImage(event.target.value);
+        }}
+      />
+      <button onClick={onClickPostHandler} type="submit">
         Submit
       </button>
     </form>

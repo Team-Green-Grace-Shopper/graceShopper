@@ -9,12 +9,13 @@ import Products from "./pages/Products";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import SingleProduct from "./pages/SingleProduct";
-/* import CreateProduct from "./components/CreateProductForm"; */
+import CreateProduct from "./pages/admin/CreateProductForm";
 import GuestCart from "./pages/GuestCart";
 import GuestCheckout from "./pages/GuestCheckout";
 import UserCart from "./pages/user/UserCart";
 import AdminUsers from "./pages/admin/AdminUsers";
-import AdminProducts from "./components/AdminProducts";
+import AdminProducts from "./pages/admin/AdminProducts";
+import EditProduct from "./pages/admin/EditProductForm";
 import UserCheckout from "./pages/user/UserCheckout";
 import PostCheckout from "./pages/PostCheckout";
 
@@ -80,10 +81,10 @@ const App = () => {
           }
         />
         <Route path="users/all" user={user} element={<AdminUsers />} />
-        {/* <Route
+        <Route
           path="/createproduct"
           element={<CreateProduct api={api} user={user} />}
-        /> */}
+        />
         <Route
           path="/adminproducts"
           element={<AdminProducts api={api} user={user} />}
@@ -167,6 +168,10 @@ const App = () => {
               orderNum={orderNum}
             />
           }
+        />
+         <Route
+          path="adminproducts/editproduct/:userId"
+          element={<EditProduct api={api} />}
         />
       </Routes>
     </div>

@@ -9,7 +9,7 @@ const Header = ({ userLogout, user }) => {
       <div className="title">
         <img
           className="logo"
-          src="https://i.postimg.cc/VN45j9x7/Audacitee.png"
+          src="https://i.postimg.cc/0Nmgn3JN/image-copy.png"
           alt="Audacitee logo"
         />
       </div>
@@ -33,7 +33,7 @@ const Header = ({ userLogout, user }) => {
             Create Product
           </NavLink>
         )}
-
+        
         <NavLink className="link" to="/users/all">
           View Users
         </NavLink>
@@ -45,7 +45,7 @@ const Header = ({ userLogout, user }) => {
         )}
 
         {user && (
-          <NavLink to={`/cart/user`}>
+          <NavLink to="/cart/4">
             <i className="fas fa-shopping-cart"></i>
             Cart (u)
           </NavLink>
