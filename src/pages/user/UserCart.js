@@ -16,6 +16,7 @@ const UserCart = ({
 }) => {
   let subtotalTracker = 0;
   let itemNumberTracker = 0;
+
   const [cart, setCart] = useState([]);
   const [quantity, setQuantity] = useState(0);
   const [isEdited, setIsEdited] = useState(false);
@@ -32,16 +33,10 @@ const UserCart = ({
       setCart(response);
     }
     loadCart();
-  }, [user]);
 
-  // useEffect(() => {
-  //   setSubtotal(subtotalTracker);
-  // }, [setSubtotal, subtotalTracker]);
-
-  useEffect(() => {
     setIsDeleted(false);
     setIsEdited(false);
-  }, [isEdited, isDeleted]);
+  }, [user, isEdited, isDeleted]);
 
   return (
     <div className="cart">
@@ -51,7 +46,7 @@ const UserCart = ({
       </Link>
       <p>Items ({totalItemNumber})</p>
 
-      {cart.map((item, index) => {
+      {cart.map((item) => {
         const deleteHandler = async (event) => {
           event.preventDefault();
           console.log("delete button clicked");
@@ -59,11 +54,14 @@ const UserCart = ({
           setIsDeleted(true);
         };
 
-        console.log("typeof quantity: ", typeof item.quantity);
+        const editHandler = async (event) => {
+          event.preventDefault();
+          console.log("edit button clicked");
+          await updateCartItem(item.orderItemsId, quantity);
+          setIsEdited(true);
+        };
 
         subtotalTracker = subtotalTracker + item.quantity * item.price;
-        console.log("index: ", index);
-        console.log("subtotalTracker: ", subtotalTracker);
         setSubtotal(subtotalTracker);
 
         itemNumberTracker = itemNumberTracker + item.quantity;
@@ -88,22 +86,15 @@ const UserCart = ({
                     }}
                   />
 
-                  <button
-                    onClick={async (event) => {
-                      event.preventDefault();
-                      await updateCartItem(item.orderItemsId, quantity);
-                      setIsEdited(true);
-                    }}
-                  >
-                    Update
-                  </button>
+                  <button onClick={editHandler}>Update</button>
+
                   <button onClick={deleteHandler}>Delete</button>
                 </form>
               </div>
             </div>
 
             <div className="item_right">
-              <p>price: {item.price}</p>
+              <p>price: {item.price * item.quantity}</p>
             </div>
           </div>
         );
@@ -113,7 +104,8 @@ const UserCart = ({
         <p>Subtotal: $ {subtotal}</p>
       </div>
       <br></br>
-      <Link to={`/checkout/user`}>
+
+      <Link to="/checkout/user">
         <button>Checkout</button>
       </Link>
     </div>

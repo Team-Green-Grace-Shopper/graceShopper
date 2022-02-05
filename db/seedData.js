@@ -1,4 +1,9 @@
-const { createUser, createProduct, createCart, createCartItem } = require("./");
+const {
+  createUser,
+  createProduct,
+  createOrder,
+  createCartItem,
+} = require("./");
 
 const { client } = require("./client");
 
@@ -28,7 +33,7 @@ async function createTables() {
       CREATE TABLE users (
         id SERIAL PRIMARY KEY,
         email VARCHAR(255) UNIQUE NOT NULL,
-        password VARCHAR(255) NOT NULL,
+        password VARCHAR(255),
         "isAdmin" BOOLEAN DEFAULT false
       );
       
@@ -167,7 +172,7 @@ async function createInitialOrders() {
 
     console.log("created orders to create");
 
-    const orders = await Promise.all(ordersToCreate.map(createCart));
+    const orders = await Promise.all(ordersToCreate.map(createOrder));
 
     console.log("Orders created:");
     console.log(orders);

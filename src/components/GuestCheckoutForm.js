@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
-import "./UserCheckoutForm.css";
+import React, { useState } from "react";
+import "./GuestCheckoutForm.css";
 
-const UserCheckoutForm = ({
-  user,
+const GuestCheckoutForm = ({
   shipOption,
   setShipOption,
   setEmail,
   setFirstName,
 }) => {
-  //USE STATE----------
+  //USE STATE-----------------
   // FORMS (OPEN/CLOSE)
   const [infoIsOpen, setInfoIsOpen] = useState(true);
   const [shippingIsOpen, setShippingIsOpen] = useState(false);
@@ -48,17 +47,15 @@ const UserCheckoutForm = ({
   const [ccNum, setCCNum] = useState("");
   const lastFourDigits = ccNum.slice(12); //only show last 4 digits on confirmation
 
-  useEffect(() => {
-    if (user) {
-      setEmail(user.email);
-    }
-  }, [user]);
-
   const infoHandler = async (event) => {
     event.preventDefault();
 
-    if (!fname) {
+    if (!fname && !infoEmail) {
+      setInfoFeedback("First name and email are required fields");
+    } else if (!fname) {
       setInfoFeedback("Please enter a first name");
+    } else if (!infoEmail) {
+      setInfoFeedback("Please enter an email address");
     } else {
       setInfoFeedback("");
       setInfoIsOpen(false);
@@ -96,16 +93,17 @@ const UserCheckoutForm = ({
 
   //--------RENDER--------
   return (
-    <div className="user_checkoutForm">
+    <div className="guest_checkoutForm">
       {/* --------INFO-------- */}
       <h3>User Info</h3>
       {infoIsOpen ? (
         <form>
           <label>email</label>
           <input
-            defaultValue={user.email}
+            defaultValue={infoEmail}
             required
             onChange={(event) => {
+              setInfoFeedback("");
               setInfoEmail(event.target.value);
               setEmail(event.target.value);
             }}
@@ -469,4 +467,4 @@ const UserCheckoutForm = ({
   );
 };
 
-export default UserCheckoutForm;
+export default GuestCheckoutForm;

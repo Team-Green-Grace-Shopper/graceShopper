@@ -10,6 +10,7 @@ const checkIsAdmin = require("../middleware/checkIsAdmin");
 
 const {
   createUser,
+  createGuest,
   getUser,
   getUserByEmail,
   _getAllUsers,
@@ -47,6 +48,20 @@ usersRouter.post("/register", async (req, res, next) => {
     const createdUser = await createUser({ email, password, isAdmin });
 
     res.status(201).json({ user: createdUser });
+  } catch (error) {
+    return next(error);
+  }
+});
+
+//REGISTER GUEST
+usersRouter.post("/guest", async (req, res, next) => {
+  const email = req.body.email;
+  const isAdmin = false;
+
+  try {
+    const createdGuest = await createGuest(email, isAdmin);
+
+    res.status(201).json({ user: createdGuest });
   } catch (error) {
     return next(error);
   }

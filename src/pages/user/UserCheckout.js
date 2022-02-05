@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
-import UserCheckoutForm from "../../components/UserCheckoutForm";
-import { getCartByUser } from "../../api/apiCalls";
+import { Link, useNavigate } from "react-router-dom";
 import "./UserCheckout.css";
+import UserCheckoutForm from "../../components/UserCheckoutForm";
+
+import {
+  getCartByUser,
+  getCartIdByUserId,
+  checkoutCart,
+  createOrder,
+} from "../../api/apiCalls";
 
 const UserCheckout = ({
   user,
@@ -11,19 +18,26 @@ const UserCheckout = ({
   shipOption,
   setShipOption,
   totalItemNumber,
+  setEmail,
+  setFirstName,
+  setOrderNum,
 }) => {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(subtotal);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    let userId = 0;
     if (user) {
-      const loadCart = async () => {
-        const response = await getCartByUser(user.id);
-        setCart(response);
-      };
-      loadCart();
+      userId = user.id;
     }
-  }, [user, setCart]);
+
+    async function loadCart() {
+      let response = await getCartByUser(userId);
+      setCart(response);
+    }
+    loadCart();
+  }, [user]);
 
   useEffect(() => {
     if (shipOption && shipOption.includes("Standard")) {
@@ -38,20 +52,38 @@ const UserCheckout = ({
     }
   }, [shipOption, setShipCost, setTotal, subtotal, shipCost]);
 
-  const checkoutHandler = async (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
-    console.log("checkout button clicked");
-    //call checkout function
+
+    //change type from 'cart' to 'order'
+    const response = await getCartIdByUserId(user.id);
+    setOrderNum(response[0].id);
+
+    await checkoutCart(response[0].id);
+
+    //make new empty cart
+    const orderData = {
+      userId: user.id,
+      orderType: "cart",
+    };
+    await createOrder(orderData);
+
+    navigate("/confirmation");
   };
 
   return (
-    <div className="checkout">
-      <h1>User Checkout</h1>
+    <div className="user_checkout">
+      <Link to="cart/user">
+        <button>Back to cart</button>
+      </Link>
+      <h1>User Checkout Page</h1>
+
       <div className="main">
-        {/* ---------USER INFO FORMS-------- */}
         <div className="left">
           <UserCheckoutForm
             user={user}
+            setFirstName={setFirstName}
+            setEmail={setEmail}
             shipOption={shipOption}
             setShipOption={setShipOption}
           />
@@ -60,32 +92,42 @@ const UserCheckout = ({
         {/* --------ORDER SUMMARY-------- */}
         <div className="right">
           <div className="summaryLine">
-            <p>Items ({total})</p>
+            <p>Items ({totalItemNumber})</p>
             <p>$ {subtotal}</p>
           </div>
 
           <p>shipping $ {shipCost}</p>
           <p>-----</p>
           <p>total $ {total}</p>
-          <button onClick={checkoutHandler}>Place Order</button>
+          <button onClick={submitHandler}>Place Order</button>
         </div>
       </div>
 
-      {/* --------ORDER ITEMS--------  */}
       <div className="bottom">
-        <h3>Order Details</h3>
-        {cart &&
-          cart.map((item) => {
-            return (
-              <div key={item.orderItemsId} className="item">
-                <p>name: {item.name}</p>
+        <p>Items ({totalItemNumber})</p>
+
+        {cart.map((item) => {
+          return (
+            <div key={item.orderItemsId} className="item">
+              <div className="item_left">
                 <img className="teeImg" src={item.imageURL} alt={item.name} />
-                <p>price: {item.price}</p>
-                <p>size: {item.size}</p>
-                <p>quantity: {item.quantity}</p>
+                <div>
+                  <p>name: {item.name}</p>
+                  <p>size: {item.size}</p>
+                  <p>quantity: {item.quantity}</p>
+                </div>
               </div>
-            );
-          })}
+
+              <div className="item_right">
+                <p>price: {item.price * item.quantity}</p>
+              </div>
+            </div>
+          );
+        })}
+        <br></br>
+        <div className="subtotalLine">
+          <p>Subtotal: $ {subtotal}</p>
+        </div>
       </div>
     </div>
   );

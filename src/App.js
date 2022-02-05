@@ -16,6 +16,7 @@ import UserCart from "./pages/user/UserCart";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminProducts from "./components/AdminProducts";
 import UserCheckout from "./pages/user/UserCheckout";
+import PostCheckout from "./pages/PostCheckout";
 
 const App = () => {
   const api = "http://localhost:4000/api";
@@ -25,8 +26,10 @@ const App = () => {
   const [subtotal, setSubtotal] = useState(0);
   const [shipCost, setShipCost] = useState("-");
   const [shipOption, setShipOption] = useState("");
-  // const [total, setTotal] = useState(subtotal);
   const [totalItemNumber, setTotalItemNumber] = useState(0);
+  const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [orderNum, setOrderNum] = useState(0);
 
   const navigate = useNavigate();
 
@@ -90,6 +93,7 @@ const App = () => {
               setSubtotal={setSubtotal}
               totalItemNumber={totalItemNumber}
               setTotalItemNumber={setTotalItemNumber}
+              setEmail={setEmail}
             />
           }
         />
@@ -103,17 +107,58 @@ const App = () => {
               setShipCost={setShipCost}
               shipOption={shipOption}
               setShipOption={setShipOption}
+              email={email}
+              setEmail={setEmail}
+              firstName={firstName}
+              setFirstName={setFirstName}
+              orderNum={orderNum}
+              setOrderNum={setOrderNum}
               totalItemNumber={totalItemNumber}
             />
           }
         />
         <Route
           path="cart/guest"
-          element={<GuestCart guestCart={guestCart} />}
+          element={
+            <GuestCart
+              guestCart={guestCart}
+              subtotal={subtotal}
+              setSubtotal={setSubtotal}
+              totalItemNumber={totalItemNumber}
+              setTotalItemNumber={setTotalItemNumber}
+            />
+          }
         />
         <Route
           path="checkout/guest"
-          element={<GuestCheckout guestCart={guestCart} />}
+          element={
+            <GuestCheckout
+              guestCart={guestCart}
+              subtotal={subtotal}
+              shipCost={shipCost}
+              setShipCost={setShipCost}
+              shipOption={shipOption}
+              setShipOption={setShipOption}
+              totalItemNumber={totalItemNumber}
+              email={email}
+              setEmail={setEmail}
+              firstName={firstName}
+              setFirstName={setFirstName}
+              orderNum={orderNum}
+              setOrderNum={setOrderNum}
+            />
+          }
+        />
+
+        <Route
+          path="confirmation"
+          element={
+            <PostCheckout
+              email={email}
+              firstName={firstName}
+              orderNum={orderNum}
+            />
+          }
         />
       </Routes>
     </div>

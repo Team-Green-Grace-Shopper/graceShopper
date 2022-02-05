@@ -15,6 +15,7 @@ const SingleProduct = ({ user, guestCart, setGuestCart }) => {
   const [size, setSize] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [cartId, setCartId] = useState(0);
+  const [feedback, setFeedback] = useState("");
 
   useEffect(() => {
     async function loadProduct() {
@@ -30,20 +31,25 @@ const SingleProduct = ({ user, guestCart, setGuestCart }) => {
       }
       loadCartId();
     }
-  }, [productId, user]);
+  }, [productId, user, feedback]);
 
   const guestItemObj = {
     id: product.id,
     name: product.name,
     imageURL: product.imageURL,
-    quantity: quantity,
+    quantity: parseInt(quantity),
     size: size,
     price: product.price,
   };
 
   const guestAddHandler = (event) => {
     event.preventDefault();
-    setGuestCart([...guestCart, guestItemObj]);
+    if (!size) {
+      setFeedback("Please select a size");
+    } else {
+      setGuestCart([...guestCart, guestItemObj]);
+      setFeedback("Added to cart!");
+    }
   };
 
   const userItemObj = {
@@ -56,7 +62,11 @@ const SingleProduct = ({ user, guestCart, setGuestCart }) => {
 
   const userAddHandler = async (event) => {
     event.preventDefault();
-    await createCartItem(userItemObj);
+    if (!size) {
+      setFeedback("Please select a size");
+    } else {
+      await createCartItem(userItemObj);
+    }
   };
 
   return (
@@ -76,7 +86,7 @@ const SingleProduct = ({ user, guestCart, setGuestCart }) => {
         <div className="right">
           <h3>{product.name}</h3>
           <p>{product.description}</p>
-          <p>{product.price}</p>
+          <p>{`$${product.price}`}</p>
 
           <form>
             <label>Size</label>
@@ -84,9 +94,14 @@ const SingleProduct = ({ user, guestCart, setGuestCart }) => {
               className="sizeSelect"
               onChange={(event) => {
                 setSize(event.target.value);
+                setFeedback("");
               }}
+              defaultValue="default"
+              required
             >
-              <option defaultValue>Select a size</option>
+              <option disabled value="default">
+                Select a size
+              </option>
               <option>SM</option>
               <option>MD</option>
               <option>LG</option>
@@ -100,15 +115,21 @@ const SingleProduct = ({ user, guestCart, setGuestCart }) => {
               defaultValue="1"
               onChange={(event) => {
                 setQuantity(event.target.value);
+                setFeedback("");
               }}
             />
-          </form>
+            {user ? (
+              <button type="submit" onClick={userAddHandler}>
+                Add To Cart (u)
+              </button>
+            ) : (
+              <button type="submit" onClick={guestAddHandler}>
+                Add To Cart (g)
+              </button>
+            )}
 
-          {user ? (
-            <button onClick={userAddHandler}>Add To Cart (u)</button>
-          ) : (
-            <button onClick={guestAddHandler}>Add To Cart (g)</button>
-          )}
+            {feedback ? <p>{feedback}</p> : null}
+          </form>
         </div>
       </div>
     </div>

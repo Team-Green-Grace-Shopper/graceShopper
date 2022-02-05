@@ -39,6 +39,26 @@ async function createUser({ email, password, isAdmin }) {
   }
 }
 
+async function createGuest(email, isAdmin) {
+  try {
+    const {
+      rows: [guest],
+    } = await client.query(
+      `
+      INSERT INTO users (email, "isAdmin")
+      VALUES ($1, $2)
+      ON CONFLICT (email) DO NOTHING
+      RETURNING *;
+      `,
+      [email, isAdmin]
+    );
+
+    return guest;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function getUser({ email, password }) {
   try {
     //email validation
@@ -139,6 +159,7 @@ async function _getAllUsers() {
 
 module.exports = {
   createUser,
+  createGuest,
   getUser,
   getUserByEmail,
   _getAllUsers,

@@ -12,9 +12,9 @@ const {
 //CREATE CART ITEM
 orderItemsRouter.post("/create", async (req, res, next) => {
   try {
-    const userItemObj = req.body;
+    const orderItemObj = req.body;
 
-    const createdItem = await createCartItem(userItemObj);
+    const createdItem = await createCartItem(orderItemObj);
     res.status(200).send(createdItem);
   } catch (error) {
     return next(error);
