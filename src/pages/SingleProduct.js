@@ -66,6 +66,7 @@ const SingleProduct = ({ user, guestCart, setGuestCart }) => {
       setFeedback("Please select a size");
     } else {
       await createCartItem(userItemObj);
+      setFeedback("Added to cart!");
     }
   };
 
@@ -102,9 +103,11 @@ const SingleProduct = ({ user, guestCart, setGuestCart }) => {
               <option disabled value="default">
                 Select a size
               </option>
+              <option>XS</option>
               <option>SM</option>
               <option>MD</option>
               <option>LG</option>
+              <option>XL</option>
             </select>
             <br></br>
 
@@ -112,6 +115,7 @@ const SingleProduct = ({ user, guestCart, setGuestCart }) => {
             <input
               className="quantityInput"
               type="number"
+              min="1"
               defaultValue="1"
               onChange={(event) => {
                 setQuantity(event.target.value);

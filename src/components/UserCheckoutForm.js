@@ -7,6 +7,7 @@ const UserCheckoutForm = ({
   setShipOption,
   setEmail,
   setFirstName,
+  setFormIsDone,
 }) => {
   //USE STATE----------
   // FORMS (OPEN/CLOSE)
@@ -91,6 +92,7 @@ const UserCheckoutForm = ({
       setPayFeedback("");
       setPaymentIsOpen(false);
       setPaymentIsDone(true);
+      setFormIsDone(true);
     }
   };
 

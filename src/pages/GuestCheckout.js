@@ -7,11 +7,13 @@ import { registerGuest, createOrder, createCartItem } from "../api/apiCalls";
 const GuestCheckout = ({
   guestCart,
   subtotal,
+  setSubtotal,
   shipCost,
   setShipCost,
   shipOption,
   setShipOption,
   totalItemNumber,
+  setTotalItemNumber,
   email,
   setEmail,
   setFirstName,
@@ -54,6 +56,12 @@ const GuestCheckout = ({
     }); //add order id to every item obj
 
     await Promise.all(orderItems.map(createCartItem));
+
+    //reset # of items and subtotal
+    setTotalItemNumber(0);
+    setSubtotal(0);
+
+    //redirect page
     navigate("/confirmation");
   };
 

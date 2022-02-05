@@ -68,6 +68,7 @@ const GuestCart = ({
                     <input
                       className="quantityInput"
                       type="number"
+                      min="1"
                       defaultValue={item.quantity}
                       onChange={(event) => {
                         setQuantity(parseInt(event.target.value));

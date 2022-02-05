@@ -79,6 +79,7 @@ const UserCart = ({
                   <input
                     className="quantityInput"
                     type="number"
+                    min="1"
                     defaultValue={item.quantity}
                     onChange={(event) => {
                       const numQuantity = parseInt(event.target.value);

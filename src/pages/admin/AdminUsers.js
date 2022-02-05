@@ -18,39 +18,39 @@ const AdminUsers = (props) => {
       <h1>[ADMIN] All Users</h1>
       {users.map((user) => {
         return (
-          <div key={user.userId}>
+          <div className="userInfo" key={user.userId}>
             <p>User Id: {user.userId}</p>
             <p>Email: {user.email}</p>
 
+            {user.orders ? <p>Orders:</p> : null}
             {user.orders &&
               user.orders.map((order) => {
                 return (
-                  <div key={order.orderId}>
-                    <p>Orders:</p>
+                  <div className="orderInfo" key={order.orderId}>
                     <p>order id: {order.orderId}</p>
                     <p>order type: {order.orderType}</p>
-                    <p>-----------</p>
-                    {order.items.map((item) => {
-                      return (
-                        <div key={item.orderItemsId}>
-                          <p>Order Items:</p>
-                          <p>name:{item.name}</p>
-                          <img
-                            className="teeImg"
-                            src={item.imageURL}
-                            alt={item.name}
-                          />
-                          <p>price: {item.price}</p>
-                          <p>size: {item.size}</p>
-                          <p>quantity: {item.quantity}</p>
-                          <p>------</p>
-                        </div>
-                      );
-                    })}
+
+                    {order.items ? <p>Order Items:</p> : null}
+                    {order.items &&
+                      order.items.map((item) => {
+                        return (
+                          <div className="itemInfo" key={item.orderItemsId}>
+                            <p>item id: {item.orderItemsId}</p>
+                            <p>name:{item.name}</p>
+                            <img
+                              className="teeImg"
+                              src={item.imageURL}
+                              alt={item.name}
+                            />
+                            <p>price: {item.price}</p>
+                            <p>size: {item.size}</p>
+                            <p>quantity: {item.quantity}</p>
+                          </div>
+                        );
+                      })}
                   </div>
                 );
               })}
-            <p>------------------------</p>
           </div>
         );
       })}

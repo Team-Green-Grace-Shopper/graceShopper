@@ -13,17 +13,20 @@ import {
 const UserCheckout = ({
   user,
   subtotal,
+  setSubtotal,
   shipCost,
   setShipCost,
   shipOption,
   setShipOption,
   totalItemNumber,
+  setTotalItemNumber,
   setEmail,
   setFirstName,
   setOrderNum,
 }) => {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(subtotal);
+  const [formIsDone, setFormIsDone] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -68,6 +71,11 @@ const UserCheckout = ({
     };
     await createOrder(orderData);
 
+    //reset # of items and subtotal
+    setTotalItemNumber(0);
+    setSubtotal(0);
+
+    //redirect page
     navigate("/confirmation");
   };
 
@@ -86,6 +94,7 @@ const UserCheckout = ({
             setEmail={setEmail}
             shipOption={shipOption}
             setShipOption={setShipOption}
+            setFormIsDone={setFormIsDone}
           />
         </div>
 
@@ -99,7 +108,9 @@ const UserCheckout = ({
           <p>shipping $ {shipCost}</p>
           <p>-----</p>
           <p>total $ {total}</p>
-          <button onClick={submitHandler}>Place Order</button>
+          <button disabled={!formIsDone ? true : false} onClick={submitHandler}>
+            Place Order
+          </button>
         </div>
       </div>
 

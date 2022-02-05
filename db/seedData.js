@@ -162,11 +162,11 @@ async function createInitialOrders() {
     const ordersToCreate = [
       {
         userId: 4,
-        orderType: "cart",
+        orderType: "order",
       },
       {
         userId: 4,
-        orderType: "order",
+        orderType: "cart",
       },
     ];
 

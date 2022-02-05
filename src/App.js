@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import "./App.css";
 
 // IMPORT COMPONENTS
@@ -50,6 +50,9 @@ const App = () => {
     console.log("you have logged out");
     setUser(null);
     localStorage.removeItem("user");
+
+    setSubtotal(0);
+    setTotalItemNumber(0);
     navigate("/");
   }
 
@@ -57,6 +60,7 @@ const App = () => {
     <div className="App">
       <Header userLogout={userLogout} user={user} />
       <Routes>
+        <Route path="/" element={<Navigate replace to="/products" />} />
         <Route path="products" element={<Products />} />
         <Route
           path="/login"
@@ -103,6 +107,7 @@ const App = () => {
             <UserCheckout
               user={user}
               subtotal={subtotal}
+              setSubtotal={setSubtotal}
               shipCost={shipCost}
               setShipCost={setShipCost}
               shipOption={shipOption}
@@ -114,6 +119,7 @@ const App = () => {
               orderNum={orderNum}
               setOrderNum={setOrderNum}
               totalItemNumber={totalItemNumber}
+              setTotalItemNumber={setTotalItemNumber}
             />
           }
         />
@@ -135,11 +141,13 @@ const App = () => {
             <GuestCheckout
               guestCart={guestCart}
               subtotal={subtotal}
+              setSubtotal={setSubtotal}
               shipCost={shipCost}
               setShipCost={setShipCost}
               shipOption={shipOption}
               setShipOption={setShipOption}
               totalItemNumber={totalItemNumber}
+              setTotalItemNumber={setTotalItemNumber}
               email={email}
               setEmail={setEmail}
               firstName={firstName}
