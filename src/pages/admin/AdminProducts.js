@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { getAllProducts } from "../../api/apiCalls";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./AdminProducts.css";
 
 
 const AdminProducts = (props) => {
   const [products, setProducts] = useState([]);
-  const navigate = useNavigate();
+  
 
   useEffect(() => {
     async function loadProducts() {

@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 import "./Header.css";
 
 const Header = ({ userLogout, user }) => {
-  //CONDITIONAL RENDERING FOR ADMIN VS USER ON SHOP VS CUSTOMER VIEW
   return (
     <div className="header">
       <div className="title">
@@ -23,21 +22,21 @@ const Header = ({ userLogout, user }) => {
             Login
           </NavLink>
         )}
-        {user && (
+        {user && user.isAdmin && (
           <NavLink className="link" to="/adminproducts">
             View Products
           </NavLink>
         )}
-        {user && (
+        {user && user.isAdmin && (
           <NavLink className="link" to="/createproduct">
             Create Product
           </NavLink>
         )}
-
-        <NavLink className="link" to="/users/all">
-          View Users
-        </NavLink>
-
+        {user && user.isAdmin && (
+          <NavLink className="link" to="/users/all">
+            View Users
+          </NavLink>
+        )}
         {user && (
           <NavLink className="link" onClick={userLogout} to="/">
             Logout
