@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-// cannot read properties of undefined reading 'message'
-//that means a variable is undefined
-//created but deleted
 const CreateProduct = ({ api }) => {
   const [nameValue, setNameValue] = useState("");
   const [descriptionValue, setDescriptionValue] = useState("");
