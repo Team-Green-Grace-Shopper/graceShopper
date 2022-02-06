@@ -33,7 +33,7 @@ const App = () => {
   const [orderNum, setOrderNum] = useState(0);
 
   const navigate = useNavigate();
-
+  
   useEffect(() => {
     const retrieveUser = localStorage.getItem("user");
     if (retrieveUser) {
@@ -41,7 +41,7 @@ const App = () => {
       setUser(userObject);
     }
   }, []);
-
+  
   function setLocalStorageUser(user) {
     localStorage.setItem("user", JSON.stringify(user));
     setUser(user);
@@ -56,6 +56,7 @@ const App = () => {
     setTotalItemNumber(0);
     navigate("/");
   }
+
 
   return (
     <div className="App">
@@ -80,15 +81,21 @@ const App = () => {
             />
           }
         />
-        <Route path="users/all" user={user} element={<AdminUsers />} />
-        <Route
+        {(user && user.isAdmin) && (<Route 
+          path="users/all" 
+          user={user} 
+          element={<AdminUsers />} />
+        )}
+        {(user && user.isAdmin) && (<Route
           path="/createproduct"
           element={<CreateProduct api={api} user={user} />}
         />
-        <Route
+        )}
+        {(user && user.isAdmin) && (<Route
           path="/adminproducts"
-          element={<AdminProducts api={api} user={user} />}
+          element={<AdminProducts api={api} />}
         />
+        )}
         <Route
           path="cart/user"
           element={
@@ -169,10 +176,11 @@ const App = () => {
             />
           }
         />
-         <Route
+        {(user && user.isAdmin) && (<Route
           path="adminproducts/editproduct/:userId"
           element={<EditProduct api={api} />}
         />
+        )}
       </Routes>
     </div>
   );

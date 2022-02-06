@@ -31,19 +31,6 @@ useEffect(() => {
   const onClickEditHandler = async (event) => {
       event.preventDefault();
 
-      if(!nameValue){
-              setNameValue(product.name)
-            };
-            if(!descriptionValue){
-              setDescriptionValue(product.description)
-            };
-            if(!priceValue){
-              setPriceValue(product.price)
-            };
-            if(!image){
-              setImage(product.imageURL)
-            };
-
       const response = await fetch(`${api}/products/${id.userId}`,{
         method: "PATCH",
         headers: {
@@ -56,17 +43,22 @@ useEffect(() => {
             price: priceValue,
             imageURL: image
         }) 
-    })     .then(response => response.json())
-           .then(result => {
-               console.log(result);
-           })
-           .catch(console.error)
-
+    });    
+           if (response.ok) {
+            const result = await response.json();
+            console.log(result);
+            navigate("/")
+            return result;
+            } else {
+            const error = await response.json();
+            throw new Error(error.error);
+            }
       }
 
-      /* const onNameChangeHandler = async (event) => {
+      const onNameChangeHandler = async (event) => {
         event.preventDefault();
-      } */
+        
+      }
    
 
   return (
