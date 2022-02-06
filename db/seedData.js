@@ -143,6 +143,69 @@ async function createInitialProducts() {
         imageURL:
           "https://imgprd19.hobbylobby.com/2/fe/7f/2fe7f9b08fb17ea5bffd92cf575dee4a8d898668/350Wx350H-634485-0320.jpg",
       },
+      {
+        name: "basic t-shirt - yellow",
+        description: "it is a t-shirt",
+        price: 10,
+        imageURL:
+          "https://imgprd19.hobbylobby.com/9/5f/26/95f264323ae49e65b2a53a909fcd7d9ee659f3c7/350Wx350H-422519-0320.jpg",
+      },
+      {
+        name: "basic t-shirt - pink",
+        description: "it is a t-shirt",
+        price: 10,
+        imageURL:
+          "https://imgprd19.hobbylobby.com/3/7d/79/37d79e89dfc9b9948dbe7357e04dfb04402d6d84/700Wx700H-601666-0320.jpg",
+      },
+      {
+        name: "basic t-shirt - black",
+        description: "it is a t-shirt",
+        price: 10,
+        imageURL:
+          "https://imgprd19.hobbylobby.com/2/fe/7f/2fe7f9b08fb17ea5bffd92cf575dee4a8d898668/350Wx350H-634485-0320.jpg",
+      },
+      {
+        name: "basic t-shirt - yellow",
+        description: "it is a t-shirt",
+        price: 10,
+        imageURL:
+          "https://imgprd19.hobbylobby.com/9/5f/26/95f264323ae49e65b2a53a909fcd7d9ee659f3c7/350Wx350H-422519-0320.jpg",
+      },
+      {
+        name: "basic t-shirt - pink",
+        description: "it is a t-shirt",
+        price: 10,
+        imageURL:
+          "https://imgprd19.hobbylobby.com/3/7d/79/37d79e89dfc9b9948dbe7357e04dfb04402d6d84/700Wx700H-601666-0320.jpg",
+      },
+      {
+        name: "basic t-shirt - black",
+        description: "it is a t-shirt",
+        price: 10,
+        imageURL:
+          "https://imgprd19.hobbylobby.com/2/fe/7f/2fe7f9b08fb17ea5bffd92cf575dee4a8d898668/350Wx350H-634485-0320.jpg",
+      },
+      {
+        name: "basic t-shirt - yellow",
+        description: "it is a t-shirt",
+        price: 10,
+        imageURL:
+          "https://imgprd19.hobbylobby.com/9/5f/26/95f264323ae49e65b2a53a909fcd7d9ee659f3c7/350Wx350H-422519-0320.jpg",
+      },
+      {
+        name: "basic t-shirt - pink",
+        description: "it is a t-shirt",
+        price: 10,
+        imageURL:
+          "https://imgprd19.hobbylobby.com/3/7d/79/37d79e89dfc9b9948dbe7357e04dfb04402d6d84/700Wx700H-601666-0320.jpg",
+      },
+      {
+        name: "basic t-shirt - black",
+        description: "it is a t-shirt",
+        price: 10,
+        imageURL:
+          "https://imgprd19.hobbylobby.com/2/fe/7f/2fe7f9b08fb17ea5bffd92cf575dee4a8d898668/350Wx350H-634485-0320.jpg",
+      },
     ];
 
     const products = await Promise.all(productsToCreate.map(createProduct));

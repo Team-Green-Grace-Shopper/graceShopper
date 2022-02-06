@@ -6,6 +6,7 @@ import {
   updateCartItem,
   deleteCartItem,
 } from "../../api/apiCalls";
+import { createPortal } from "react-dom";
 
 const UserCart = ({
   user,
@@ -23,6 +24,7 @@ const UserCart = ({
   const [isDeleted, setIsDeleted] = useState(false);
 
   useEffect(() => {
+    console.log("userEffect ran");
     let userId = 0;
     if (user) {
       userId = user.id;
@@ -50,6 +52,7 @@ const UserCart = ({
         const deleteHandler = async (event) => {
           event.preventDefault();
           console.log("delete button clicked");
+
           await deleteCartItem(item.orderItemsId);
           setIsDeleted(true);
         };

@@ -16,23 +16,27 @@ const Products = (props) => {
 
   return (
     <div className="products">
-      <h1>All Products</h1>
-      <div className="main">
+      <div className="products_breadcrumbs">
+        <p>All Products</p>
+      </div>
+      <div className="products_main">
         {products.map((product) => {
           return (
             <div className="product" key={product.id}>
-              <p>Name: {product.name}</p>
-              <p>Description: {product.description}</p>
-              <p>Price: {product.price}</p>
-              <img
-                className="teeImg"
-                src={product.imageURL}
-                alt={product.description}
-              />
-
               <Link to={`/products/${product.id}`}>
-                <button>View</button>
+                <div className="product_image">
+                  <img
+                    className="teeImg"
+                    src={product.imageURL}
+                    alt={product.description}
+                  />
+                  <div className="product_overlay" />
+                </div>
               </Link>
+              <Link className="product_link" to={`/products/${product.id}`}>
+                <p className="product_name">{product.name}</p>
+              </Link>
+              <p>{`$${product.price}`}</p>
             </div>
           );
         })}
