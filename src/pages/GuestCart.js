@@ -47,8 +47,6 @@ const GuestCart = ({
             setIsEdited(true);
           };
 
-          // const {id, name, imageurl, itemquantity, size, price} = item
-
           subtotalTracker = subtotalTracker + item.quantity * item.price;
           setSubtotal(subtotalTracker);
 

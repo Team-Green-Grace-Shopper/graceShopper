@@ -97,7 +97,7 @@ const SingleProduct = ({ user, guestCart, setGuestCart }) => {
         <div className="sp_right">
           <h3>{product.name}</h3>
           <p>{product.description}</p>
-          <p>{`$${product.price}`}</p>
+          <p>{`$${product.price}.00`}</p>
 
           <form className="sp_form">
             <div>
