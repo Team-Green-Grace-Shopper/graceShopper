@@ -234,7 +234,7 @@ const App = () => {
           }
         />
 
-        <Route path="/*" element={<Navigate replace to="/products" />} />
+        {/* <Route path="/*" element={<Navigate replace to="/products" />} /> */}
       </Routes>
     </div>
   );
