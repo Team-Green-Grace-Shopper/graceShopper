@@ -1,20 +1,71 @@
 .login {
-  border: 1px solid lightblue;
-  padding-bottom: 2rem;
-  margin: 1rem;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  /* flex-direction: column;
+  align-items: center; */
+  justify-content: center;
+  margin: 1rem;
+}
+
+.login h1 {
+  font-size: 3rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  padding-right: 1.5rem;
+  margin-right: 1.5rem;
+  border-right: 2px solid black;
+  width: 13vw;
+  text-align: right;
 }
 
 .login_form {
-  border: 1px solid navy;
+  /* border: 1px solid navy; */
+  display: flex;
+  /* align-items: center; */
+  flex-direction: column;
+  width: 15vw;
+}
+
+.login_field {
   display: flex;
   flex-direction: column;
-  padding: 1rem;
+  /* border: 1px solid blue; */
+}
+
+.login_form label {
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+.login_form input {
+  padding: 0.5rem;
+  border: 1px solid black;
 }
 
 .login_form input,
 button {
   margin-bottom: 1rem;
+}
+
+.login_form button {
+  color: white;
+  background-color: black;
+  padding: 0.5rem;
+  width: 100%;
+  text-transform: uppercase;
+}
+
+.login_form button:hover {
+  background-color: rgb(102, 102, 102);
+  transition: background-color 0.4s ease-in-out;
+}
+
+.login_form a {
+  color: black;
+  text-decoration: none;
+}
+
+.login_form a:hover {
+  color: red;
+  transition: color 0.4s ease-in-out;
 }

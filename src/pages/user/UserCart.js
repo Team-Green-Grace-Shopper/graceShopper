@@ -23,7 +23,6 @@ const UserCart = ({
   const [isDeleted, setIsDeleted] = useState(false);
 
   useEffect(() => {
-    console.log("userEffect ran");
     let userId = 0;
     if (user) {
       userId = user.id;

@@ -243,6 +243,18 @@ async function createInitialOrders() {
         userId: 4,
         orderType: "cart",
       },
+      {
+        userId: 1,
+        orderType: "cart",
+      },
+      {
+        userId: 2,
+        orderType: "cart",
+      },
+      {
+        userId: 3,
+        orderType: "cart",
+      },
     ];
 
     console.log("created orders to create");
@@ -267,28 +279,28 @@ async function createInitialOrderItems() {
         orderId: 1,
         productId: 2,
         quantity: 1,
-        size: "SM",
+        size: "S",
         price: 10,
       },
       {
         orderId: 1,
         productId: 3,
         quantity: 2,
-        size: "SM",
+        size: "S",
         price: 10,
       },
       {
         orderId: 1,
         productId: 1,
         quantity: 1,
-        size: "MD",
+        size: "M",
         price: 10,
       },
       {
         orderId: 2,
         productId: 1,
         quantity: 1,
-        size: "SM",
+        size: "S",
         price: 10,
       },
     ];

@@ -15,11 +15,11 @@ const AdminUsers = (props) => {
 
   return (
     <div className="adminUsers">
-      <h1>[ADMIN] All Users</h1>
+      <h1>All Users</h1>
       {users.map((user) => {
         return (
           <div className="userInfo" key={user.userId}>
-            <p>User Id: {user.userId}</p>
+            <p>User ID: {user.userId}</p>
             <p>Email: {user.email}</p>
 
             {user.orders ? <p>Orders:</p> : null}
@@ -27,24 +27,26 @@ const AdminUsers = (props) => {
               user.orders.map((order) => {
                 return (
                   <div className="orderInfo" key={order.orderId}>
-                    <p>order id: {order.orderId}</p>
-                    <p>order type: {order.orderType}</p>
-
+                    <p>Order ID: {order.orderId}</p>
+                    <p>Order Type: {order.orderType}</p>
                     {order.items ? <p>Order Items:</p> : null}
+
                     {order.items &&
                       order.items.map((item) => {
                         return (
                           <div className="itemInfo" key={item.orderItemsId}>
-                            <p>item id: {item.orderItemsId}</p>
-                            <p>name:{item.name}</p>
-                            <img
-                              className="teeImg"
-                              src={item.imageURL}
-                              alt={item.name}
-                            />
-                            <p>price: {item.price}</p>
-                            <p>size: {item.size}</p>
-                            <p>quantity: {item.quantity}</p>
+                            <div>
+                              <p>Item ID: {item.orderItemsId}</p>
+                              <p>Name: {item.name}</p>
+                              <img
+                                className="teeImg"
+                                src={item.imageURL}
+                                alt={item.name}
+                              />
+                              <p>Price: {item.price}.00</p>
+                              <p>Size: {item.size}</p>
+                              <p>Quantity: {item.quantity}</p>
+                            </div>
                           </div>
                         );
                       })}

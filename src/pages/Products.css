@@ -5,7 +5,6 @@
 }
 
 .products_main {
-  /* display: flex; */
   display: grid;
   grid-gap: 0;
   grid-template-columns: repeat(4, 1fr);
@@ -15,6 +14,45 @@
 
 .products_fade_in {
   opacity: 1;
+}
+
+.admin_products_main {
+  display: grid;
+  grid-gap: 0;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.admin_create_button {
+  display: flex;
+  color: white;
+  background-color: black;
+  padding: 1rem;
+  text-transform: uppercase;
+  margin: 1rem 0;
+  align-self: flex-end;
+}
+
+.admin_link {
+  text-decoration: none;
+}
+
+.admin_create_button:hover {
+  background-color: rgb(102, 102, 102);
+  transition: background-color 0.4s ease-in-out;
+}
+
+.admin_buttons_box {
+  display: flex;
+  justify-content: space-between;
+}
+
+.admin_buttons_box i {
+  color: black;
+}
+
+.admin_buttons_box i:hover {
+  color: red;
+  transition: color 0.4s ease-in-out;
 }
 
 .products_title {

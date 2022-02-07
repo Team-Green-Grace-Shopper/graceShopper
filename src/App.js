@@ -31,6 +31,7 @@ const App = () => {
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [orderNum, setOrderNum] = useState(0);
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -54,6 +55,7 @@ const App = () => {
 
     setSubtotal(0);
     setTotalItemNumber(0);
+    setMenuIsOpen(false);
     navigate("/");
   }
 
@@ -62,20 +64,25 @@ const App = () => {
       <Header
         userLogout={userLogout}
         user={user}
-        totalItemNumber={totalItemNumber}
+        menuIsOpen={menuIsOpen}
+        setMenuIsOpen={setMenuIsOpen}
       />
       <Routes>
         <Route path="/" element={<Navigate replace to="/products" />} />
+
         <Route path="products" element={<Products />} />
+
         <Route
           path="/login"
           element={
             <Login api={api} setLocalStorageUser={setLocalStorageUser} />
           }
         />
+
         <Route path="/signup" element={<Signup api={api} />} />
+
         <Route
-          path="products/:productId"
+          path="/products/:productId"
           element={
             <SingleProduct
               user={user}
@@ -86,55 +93,87 @@ const App = () => {
             />
           }
         />
-        {user && user.isAdmin && (
-          <Route path="users/all" user={user} element={<AdminUsers />} />
-        )}
-        {user && user.isAdmin && (
-          <Route
-            path="/createproduct"
-            element={<CreateProduct api={api} user={user} />}
-          />
-        )}
-        {user && user.isAdmin && (
-          <Route path="/adminproducts" element={<AdminProducts api={api} />} />
-        )}
+
         <Route
-          path="cart/user"
+          path="/users/all"
           element={
-            <UserCart
-              user={user}
-              subtotal={subtotal}
-              setSubtotal={setSubtotal}
-              totalItemNumber={totalItemNumber}
-              setTotalItemNumber={setTotalItemNumber}
-              setEmail={setEmail}
-            />
+            user && user.isAdmin ? (
+              <AdminUsers user={user} />
+            ) : (
+              <Navigate replace to="/products" />
+            )
           }
         />
+
         <Route
-          path="checkout/user"
+          path="/createproduct"
           element={
-            <UserCheckout
-              user={user}
-              subtotal={subtotal}
-              setSubtotal={setSubtotal}
-              shipCost={shipCost}
-              setShipCost={setShipCost}
-              shipOption={shipOption}
-              setShipOption={setShipOption}
-              email={email}
-              setEmail={setEmail}
-              firstName={firstName}
-              setFirstName={setFirstName}
-              orderNum={orderNum}
-              setOrderNum={setOrderNum}
-              totalItemNumber={totalItemNumber}
-              setTotalItemNumber={setTotalItemNumber}
-            />
+            user && user.isAdmin ? (
+              <CreateProduct api={api} user={user} />
+            ) : (
+              <Navigate replace to="/products" />
+            )
           }
         />
+
         <Route
-          path="cart/guest"
+          path="/adminproducts"
+          element={
+            user && user.isAdmin ? (
+              <AdminProducts api={api} />
+            ) : (
+              <Navigate replace to="/" />
+            )
+          }
+        />
+
+        <Route
+          path="/cart/user"
+          element={
+            user ? (
+              <UserCart
+                user={user}
+                subtotal={subtotal}
+                setSubtotal={setSubtotal}
+                totalItemNumber={totalItemNumber}
+                setTotalItemNumber={setTotalItemNumber}
+                setEmail={setEmail}
+              />
+            ) : (
+              <Navigate replace to="/cart/guest" />
+            )
+          }
+        />
+
+        <Route
+          path="/checkout/user"
+          element={
+            user ? (
+              <UserCheckout
+                user={user}
+                subtotal={subtotal}
+                setSubtotal={setSubtotal}
+                shipCost={shipCost}
+                setShipCost={setShipCost}
+                shipOption={shipOption}
+                setShipOption={setShipOption}
+                email={email}
+                setEmail={setEmail}
+                firstName={firstName}
+                setFirstName={setFirstName}
+                orderNum={orderNum}
+                setOrderNum={setOrderNum}
+                totalItemNumber={totalItemNumber}
+                setTotalItemNumber={setTotalItemNumber}
+              />
+            ) : (
+              <Navigate replace to="/checkout/guest" />
+            )
+          }
+        />
+
+        <Route
+          path="/cart/guest"
           element={
             <GuestCart
               guestCart={guestCart}
@@ -145,8 +184,9 @@ const App = () => {
             />
           }
         />
+
         <Route
-          path="checkout/guest"
+          path="/checkout/guest"
           element={
             <GuestCheckout
               guestCart={guestCart}
@@ -169,21 +209,32 @@ const App = () => {
         />
 
         <Route
-          path="confirmation"
+          path="/confirmation"
           element={
-            <PostCheckout
-              email={email}
-              firstName={firstName}
-              orderNum={orderNum}
-            />
+            email && firstName && orderNum ? (
+              <PostCheckout
+                email={email}
+                firstName={firstName}
+                orderNum={orderNum}
+              />
+            ) : (
+              <Navigate replace to="/products" />
+            )
           }
         />
-        {user && user.isAdmin && (
-          <Route
-            path="adminproducts/editproduct/:userId"
-            element={<EditProduct api={api} />}
-          />
-        )}
+
+        <Route
+          path="adminproducts/editproduct/:userId"
+          element={
+            user && user.isAdmin ? (
+              <EditProduct api={api} />
+            ) : (
+              <Navigate replace to="/products" />
+            )
+          }
+        />
+
+        <Route path="/*" element={<Navigate replace to="/products" />} />
       </Routes>
     </div>
   );

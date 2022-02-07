@@ -2,18 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Header.css";
 
-const Header = ({ userLogout, user, totalItemNumber }) => {
-  const [menuIsOpen, setMenuIsOpen] = useState(false);
-
-  useEffect(() => {}, [totalItemNumber]);
-
+const Header = ({ userLogout, user, menuIsOpen, setMenuIsOpen }) => {
   return (
     <div className="header">
       <nav className="header_nav">
         {/* GUEST */}
         {!user && (
           <Link className="nav_login" to="/login">
-            Login/Register
+            Log In/Sign Up
           </Link>
         )}
 
@@ -100,7 +96,7 @@ const Header = ({ userLogout, user, totalItemNumber }) => {
               }}
             >
               <i className="fas fa-shopping-cart"></i>
-              {`Cart (${totalItemNumber})`}
+              Cart
             </Link>
           </div>
         )}
@@ -115,7 +111,7 @@ const Header = ({ userLogout, user, totalItemNumber }) => {
               }}
             >
               <i className="fas fa-shopping-cart"></i>
-              {`Cart (${totalItemNumber})`}
+              Cart
             </Link>
           </div>
         )}

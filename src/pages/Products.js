@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import "./Products.css";
 import { getAllProducts } from "../api/apiCalls";
 
-const Products = (props) => {
+const Products = () => {
   const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     async function loadProducts() {
