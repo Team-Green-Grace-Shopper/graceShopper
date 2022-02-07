@@ -66,6 +66,7 @@
 .place_order_button {
   color: white;
   background-color: black;
+  padding: 0.5rem;
   width: 100%;
 }
 
@@ -74,4 +75,13 @@
   transition: background-color 0.4s ease-in-out;
 }
 
+.place_order_button:disabled {
+  color: lightgrey;
+  background-color: grey;
+}
+
 /* BOTTOM */
+.bottom {
+  margin-top: 2rem;
+  width: 62vw;
+}

@@ -6,6 +6,7 @@ const GuestCheckoutForm = ({
   setShipOption,
   setEmail,
   setFirstName,
+  setFormIsDone,
 }) => {
   //USE STATE-----------------
   // FORMS (OPEN/CLOSE)
@@ -88,6 +89,7 @@ const GuestCheckoutForm = ({
       setPayFeedback("");
       setPaymentIsOpen(false);
       setPaymentIsDone(true);
+      setFormIsDone(true);
     }
   };
 
@@ -158,9 +160,6 @@ const GuestCheckoutForm = ({
                 Save and Continue
               </button>
             </form>
-            {infoFeedback ? (
-              <p className="gcheckout_feedback">{infoFeedback}</p>
-            ) : null}
           </div>
         ) : (
           <div>
@@ -186,6 +185,9 @@ const GuestCheckoutForm = ({
             ) : null}
           </div>
         )}
+        {infoFeedback ? (
+          <p className="userinfo_feedback">{infoFeedback}</p>
+        ) : null}
       </div>
 
       {/* --------SHIPPING-------- */}
@@ -195,7 +197,7 @@ const GuestCheckoutForm = ({
           <div>
             <form className="shipping_subform">
               <div className="gcheckout_form_field">
-                <label>fname</label>
+                <label>First Name</label>
                 <input
                   defaultValue={fname}
                   onChange={(event) => {
@@ -206,7 +208,7 @@ const GuestCheckoutForm = ({
               </div>
 
               <div className="gcheckout_form_field">
-                <label>lname</label>
+                <label>Last Name</label>
                 <input
                   defaultValue={lname}
                   onChange={(event) => {
@@ -217,7 +219,7 @@ const GuestCheckoutForm = ({
               </div>
 
               <div className="gcheckout_form_field">
-                <label>address</label>
+                <label>Street</label>
                 <input
                   defaultValue={shipAddress}
                   onChange={(event) => {
@@ -238,26 +240,28 @@ const GuestCheckoutForm = ({
                 />
               </div>
 
-              <div className="gcheckout_form_field">
-                <label>state</label>
-                <input
-                  defaultValue={shipState}
-                  onChange={(event) => {
-                    setShipState(event.target.value);
-                    setPayState(event.target.value);
-                  }}
-                />
-              </div>
+              <div className="shipping_state_zip">
+                <div className="state gcheckout_form_field">
+                  <label>state</label>
+                  <input
+                    defaultValue={shipState}
+                    onChange={(event) => {
+                      setShipState(event.target.value);
+                      setPayState(event.target.value);
+                    }}
+                  />
+                </div>
 
-              <div className="gcheckout_form_field">
-                <label>zip code</label>
-                <input
-                  defaultValue={shipZip}
-                  onChange={(event) => {
-                    setShipZip(event.target.value);
-                    setPayZip(event.target.value);
-                  }}
-                />
+                <div className="gcheckout_form_field">
+                  <label>zip code</label>
+                  <input
+                    defaultValue={shipZip}
+                    onChange={(event) => {
+                      setShipZip(event.target.value);
+                      setPayZip(event.target.value);
+                    }}
+                  />
+                </div>
               </div>
 
               {/* SHIPPING OPTIONS */}
@@ -311,8 +315,6 @@ const GuestCheckoutForm = ({
                 Save and Continue
               </button>
             </form>
-
-            <div>{shipFeedback ? <p>{shipFeedback}</p> : null}</div>
           </div>
         ) : (
           <div>
@@ -322,12 +324,13 @@ const GuestCheckoutForm = ({
                   {shipFname} {shipLname}
                 </p>
                 <p>{shipAddress}</p>
-                <p>{shipCity}</p>
-                <p>{shipState}</p>
-                <p>{shipZip}</p>
+                <p>
+                  {shipCity}, {shipState} {shipZip}
+                </p>
                 <p>{shipOption}</p>
 
                 <button
+                  className="collapsed_subform_button"
                   onClick={(e) => {
                     setInfoIsOpen(false);
                     setShippingIsOpen(true);
@@ -340,140 +343,162 @@ const GuestCheckoutForm = ({
             ) : null}
           </div>
         )}
+        {shipFeedback ? (
+          <p className="shipping_feedback">{shipFeedback}</p>
+        ) : null}
       </div>
 
       {/* --------PAYMENT-------- */}
       <div className="gcheckout_subform">
         <h3>Payment</h3>
         {paymentIsOpen ? (
-          <form>
-            <label>First Name</label>
-            <input
-              defaultValue={fname}
-              onChange={(event) => {
-                setPayFname(event.target.value);
-              }}
-            />
-            <br></br>
-
-            <label>Last Name</label>
-            <input
-              defaultValue={lname}
-              onChange={(event) => {
-                setPayLname(event.target.value);
-              }}
-            />
-            <br></br>
-
-            <label>CC #</label>
-            <input
-              defaultValue={ccNum}
-              onChange={(event) => {
-                setPayFeedback("");
-                setCCNum(event.target.value);
-              }}
-            />
-            <br></br>
-
-            <label>Exp (MM/YY)</label>
-            <input />
-            <br></br>
-
-            <label>CVV/CVC</label>
-            <input />
-            <br></br>
-
-            <input
-              type="checkbox"
-              checked={isChecked ? "checked" : null}
-              onChange={(event) => {
-                setIsChecked(!isChecked);
-              }}
-            />
-            <label>Same as my shipping address.</label>
-            <br></br>
-
-            {isChecked ? (
-              <>
-                <p>
-                  {shipFname} {shipLname}
-                </p>
-                <p>{shipAddress}</p>
-                <p>
-                  {shipCity}, {shipState} {shipZip}
-                </p>
-              </>
-            ) : (
-              <>
-                <h3>Billing Address</h3>
-                <label>fname</label>
+          <div>
+            <form className="gcheckout_payment">
+              <div className="gcheckout_form_field">
+                <label>First Name</label>
                 <input
-                  defaultValue={payFname}
+                  defaultValue={fname}
                   onChange={(event) => {
                     setPayFname(event.target.value);
                   }}
                 />
-                <br></br>
-
-                <label>lname</label>
+              </div>
+              <div className="gcheckout_form_field">
+                <label>Last Name</label>
                 <input
-                  defaultValue={payLname}
+                  defaultValue={lname}
                   onChange={(event) => {
                     setPayLname(event.target.value);
                   }}
                 />
-                <br></br>
+              </div>
 
-                <label>address</label>
+              <div className="gcheckout_form_field">
+                <label>Credit Card Number</label>
                 <input
-                  defaultValue={payAddress}
+                  defaultValue={ccNum}
                   onChange={(event) => {
-                    setPayAddress(event.target.value);
+                    setPayFeedback("");
+                    setCCNum(event.target.value);
                   }}
                 />
-                <br></br>
+              </div>
+              <div className="payment_exp_cvv">
+                <div className="exp gcheckout_form_field">
+                  <label>Exp (MM/YY)</label>
+                  <input />
+                </div>
 
-                <label>city</label>
+                <div className="gcheckout_form_field">
+                  <label>CVV/CVC</label>
+                  <input />
+                </div>
+              </div>
+
+              <div className="payment_checkbox_field">
                 <input
-                  defaultValue={payCity}
+                  type="checkbox"
+                  checked={isChecked ? "checked" : null}
                   onChange={(event) => {
-                    setPayCity(event.target.value);
+                    setIsChecked(!isChecked);
                   }}
                 />
-                <br></br>
+                <label>Same as my shipping address</label>
+              </div>
 
-                <label>state</label>
-                <input
-                  defaultValue={payState}
-                  onChange={(event) => {
-                    setPayState(event.target.value);
-                  }}
-                />
-                <br></br>
+              {/* BILLING ADDRESS */}
+              {isChecked ? (
+                <div className="payment_same_address">
+                  <p>
+                    {shipFname} {shipLname}
+                  </p>
+                  <p>{shipAddress}</p>
+                  <p>
+                    {shipCity}, {shipState} {shipZip}
+                  </p>
+                </div>
+              ) : (
+                <div className="payment_billing_address">
+                  <div className="gcheckout_form_field">
+                    <label>first name</label>
+                    <input
+                      defaultValue={payFname}
+                      onChange={(event) => {
+                        setPayFname(event.target.value);
+                      }}
+                    />
+                  </div>
 
-                <label>zip code</label>
-                <input
-                  defaultValue={payZip}
-                  onChange={(event) => {
-                    setPayZip(event.target.value);
-                  }}
-                />
-                <br></br>
-              </>
-            )}
-            {payFeedback ? <p>{payFeedback}</p> : null}
-            <button onClick={paymentHandler} type="submit">
-              Save
-            </button>
-          </form>
+                  <div className="gcheckout_form_field">
+                    <label>last name</label>
+                    <input
+                      defaultValue={payLname}
+                      onChange={(event) => {
+                        setPayLname(event.target.value);
+                      }}
+                    />
+                  </div>
+                  <div className="gcheckout_form_field">
+                    <label>street</label>
+                    <input
+                      defaultValue={payAddress}
+                      onChange={(event) => {
+                        setPayAddress(event.target.value);
+                      }}
+                    />
+                  </div>
+                  <div className="gcheckout_form_field">
+                    <label>city</label>
+                    <input
+                      defaultValue={payCity}
+                      onChange={(event) => {
+                        setPayCity(event.target.value);
+                      }}
+                    />
+                  </div>
+
+                  <div className="shipping_state_zip">
+                    <div className="state gcheckout_form_field">
+                      <label>state</label>
+                      <input
+                        defaultValue={payState}
+                        onChange={(event) => {
+                          setPayState(event.target.value);
+                        }}
+                      />
+                    </div>
+                    <div className="gcheckout_form_field">
+                      <label>zip code</label>
+                      <input
+                        defaultValue={payZip}
+                        onChange={(event) => {
+                          setPayZip(event.target.value);
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <button
+                className="gcheckout_subform_button"
+                onClick={paymentHandler}
+                type="submit"
+              >
+                Save
+              </button>
+            </form>
+          </div>
         ) : (
           <div>
             {paymentIsDone ? (
-              <div>
+              <div className="collapsed_subform">
                 <p>Payment Method</p>
-                <p>[icon] Card ending in {lastFourDigits}</p>
+                <p>
+                  <i class="far fa-credit-card"></i> Card ending in{" "}
+                  {lastFourDigits}
+                </p>
 
-                <h3>Billing Address</h3>
                 {isChecked ? (
                   <p>Same as shipping address</p>
                 ) : (
@@ -489,6 +514,7 @@ const GuestCheckoutForm = ({
                 )}
 
                 <button
+                  className="collapsed_subform_button"
                   onClick={(e) => {
                     setInfoIsOpen(false);
                     setShippingIsOpen(false);
@@ -501,6 +527,7 @@ const GuestCheckoutForm = ({
             ) : null}
           </div>
         )}
+        {payFeedback ? <p className="payment_feedback">{payFeedback}</p> : null}
       </div>
     </div>
   );

@@ -46,7 +46,6 @@ const GuestCart = ({
 
           {!guestCart.length ? (
             <div className="gcart_empty">
-              <img className="gcart_empty_img" src="" alt="empty cart" />
               <p className="gcart_empty_message">No items in cart</p>
               <Link to="/products">
                 <p className="gcart_empty_link">← Back To All Products</p>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./UserCheckout.css";
+import "../GuestCheckout.css";
 import UserCheckoutForm from "../../components/UserCheckoutForm";
 
 import {
@@ -80,14 +80,21 @@ const UserCheckout = ({
   };
 
   return (
-    <div className="user_checkout">
-      <Link to="cart/user">
-        <button>Back to cart</button>
-      </Link>
-      <h1>User Checkout Page</h1>
+    <div className="gcheckout">
+      <div className="gcheckout_breadcrumbs">
+        <Link to="/products" className="gcheckout_breadcrumb_link">
+          <p>All Products</p>
+        </Link>
+        <p>&#187;</p>
+        <Link to="/cart/user" className="gcheckout_breadcrumb_link">
+          <p>Cart</p>
+        </Link>
+        <p>&#187;</p>
+        <p>Checkout</p>
+      </div>
 
-      <div className="main">
-        <div className="left">
+      <div className="gcheckout_main">
+        <div className="gcheckout_left">
           <UserCheckoutForm
             user={user}
             setFirstName={setFirstName}
@@ -99,46 +106,57 @@ const UserCheckout = ({
         </div>
 
         {/* --------ORDER SUMMARY-------- */}
-        <div className="right">
-          <div className="summaryLine">
+        <div className="gcheckout_right">
+          <div className="summary_line">
             <p>Items ({totalItemNumber})</p>
-            <p>$ {subtotal}</p>
+            <p>{`$${subtotal}.00`}</p>
           </div>
 
-          <p>shipping $ {shipCost}</p>
-          <p>-----</p>
-          <p>total $ {total}</p>
-          <button disabled={!formIsDone ? true : false} onClick={submitHandler}>
+          <div className="summary_line">
+            <p>Shipping</p>
+            {shipCost === "-" ? <p>{shipCost}</p> : <p>{`$${shipCost}.00`}</p>}
+          </div>
+
+          <div className="total_line">
+            <p>Total</p>
+            <p>{`$${total}.00`}</p>
+          </div>
+
+          <button
+            disabled={!formIsDone ? true : false}
+            className="place_order_button"
+            onClick={submitHandler}
+          >
             Place Order
           </button>
         </div>
       </div>
 
       <div className="bottom">
-        <p>Items ({totalItemNumber})</p>
-
         {cart.map((item) => {
           return (
-            <div key={item.orderItemsId} className="item">
-              <div className="item_left">
-                <img className="teeImg" src={item.imageURL} alt={item.name} />
-                <div>
-                  <p>name: {item.name}</p>
-                  <p>size: {item.size}</p>
-                  <p>quantity: {item.quantity}</p>
-                </div>
+            <div key={item.orderItemsId} className="gcart_item">
+              <Link to={`/products/${item.id}`}>
+                <img
+                  className="item_image"
+                  src={item.imageURL}
+                  alt={item.name}
+                />
+              </Link>
+
+              <div className="item_info">
+                <Link className="item_name_link" to={`/products/${item.id}`}>
+                  <p className="item_name">{`${item.name} - ${item.size}`}</p>
+                </Link>
+                <p>Quantity: {item.quantity}</p>
               </div>
 
-              <div className="item_right">
-                <p>price: {item.price * item.quantity}</p>
+              <div className="item_price">
+                <p>{`$${item.price * item.quantity}.00`}</p>
               </div>
             </div>
           );
         })}
-        <br></br>
-        <div className="subtotalLine">
-          <p>Subtotal: $ {subtotal}</p>
-        </div>
       </div>
     </div>
   );

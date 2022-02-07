@@ -181,6 +181,7 @@
   width: 100%;
   color: white;
   background-color: black;
+  padding: 0.5rem;
 }
 
 .gcart_checkout_button:hover {

@@ -74,7 +74,8 @@ const SingleProduct = ({
       setFeedback("Please select a size");
     } else {
       await createCartItem(userItemObj);
-      setButtonText("Added &#10003;");
+      setTotalItemNumber(totalItemNumber + quantity);
+      setButtonText("Added ✓");
     }
   };
 

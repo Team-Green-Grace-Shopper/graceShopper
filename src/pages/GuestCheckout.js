@@ -21,6 +21,7 @@ const GuestCheckout = ({
 }) => {
   const navigate = useNavigate();
   const [total, setTotal] = useState(subtotal);
+  const [formIsDone, setFormIsDone] = useState(false);
   const orderItems = [];
 
   useEffect(() => {
@@ -86,6 +87,7 @@ const GuestCheckout = ({
             setShipOption={setShipOption}
             setEmail={setEmail}
             setFirstName={setFirstName}
+            setFormIsDone={setFormIsDone}
           />
         </div>
 
@@ -105,16 +107,19 @@ const GuestCheckout = ({
             <p>{`$${total}.00`}</p>
           </div>
 
-          <button className="place_order_button" onClick={submitHandler}>
+          <button
+            disabled={!formIsDone ? true : false}
+            className="place_order_button"
+            onClick={submitHandler}
+          >
             Place Order
           </button>
         </div>
       </div>
 
       <div className="bottom">
-        <p>Items ({totalItemNumber})</p>
         {guestCart &&
-          guestCart.map((item, index) => {
+          guestCart.map((item) => {
             const orderItemObj = {
               orderId: 0,
               productId: item.id,
@@ -126,19 +131,24 @@ const GuestCheckout = ({
             orderItems.push(orderItemObj);
 
             return (
-              <div key={item.id} className="item">
-                <div className="item_left">
-                  <img className="teeImg" src={item.imageURL} alt={item.name} />
+              <div key={item.id} className="gcart_item">
+                <Link to={`/products/${item.id}`}>
+                  <img
+                    className="item_image"
+                    src={item.imageURL}
+                    alt={item.name}
+                  />
+                </Link>
 
-                  <div>
-                    <p>name: {item.name}</p>
-                    <p>size: {item.size}</p>
-                    <p>quantity: {item.quantity}</p>
-                  </div>
+                <div className="item_info">
+                  <Link className="item_name_link" to={`/products/${item.id}`}>
+                    <p className="item_name">{`${item.name} - ${item.size}`}</p>
+                  </Link>
+                  <p>Quantity: {item.quantity}</p>
                 </div>
 
-                <div className="item_right">
-                  <p>price: {item.price * item.quantity}</p>
+                <div className="item_price">
+                  <p>{`$${item.price * item.quantity}.00`}</p>
                 </div>
               </div>
             );

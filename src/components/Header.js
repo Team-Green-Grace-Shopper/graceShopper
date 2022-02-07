@@ -49,13 +49,25 @@ const Header = ({ userLogout, user, totalItemNumber }) => {
             {/* ADMIN */}
             {menuIsOpen && user.isAdmin ? (
               <div className="menu_box">
-                <Link className="menu_link" to="/adminproducts">
+                <Link
+                  className="menu_link"
+                  to="/adminproducts"
+                  onClick={(event) => {
+                    setMenuIsOpen(false);
+                  }}
+                >
                   <div className="menu_line">
                     <i className="menu_icon fas fa-tshirt"></i>All Products
                   </div>
                 </Link>
 
-                <Link className="menu_link" to="/users/all">
+                <Link
+                  className="menu_link"
+                  to="/users/all"
+                  onClick={(event) => {
+                    setMenuIsOpen(false);
+                  }}
+                >
                   <div className="menu_line">
                     <i class="menu_icon fas fa-users"></i>All Users
                   </div>
@@ -80,7 +92,13 @@ const Header = ({ userLogout, user, totalItemNumber }) => {
         {/* CART */}
         {user && (
           <div className="nav_cart_box">
-            <Link className="nav_cart" to="/cart/user">
+            <Link
+              className="nav_cart"
+              to="/cart/user"
+              onClick={(event) => {
+                setMenuIsOpen(false);
+              }}
+            >
               <i className="fas fa-shopping-cart"></i>
               {`Cart (${totalItemNumber})`}
             </Link>
@@ -89,7 +107,13 @@ const Header = ({ userLogout, user, totalItemNumber }) => {
 
         {!user && (
           <div className="nav_cart_box">
-            <Link className="nav_cart" to="cart/guest">
+            <Link
+              className="nav_cart"
+              to="cart/guest"
+              onClick={(event) => {
+                setMenuIsOpen(false);
+              }}
+            >
               <i className="fas fa-shopping-cart"></i>
               {`Cart (${totalItemNumber})`}
             </Link>
@@ -97,7 +121,13 @@ const Header = ({ userLogout, user, totalItemNumber }) => {
         )}
       </nav>
 
-      <Link className="audacitee_link" to="/products">
+      <Link
+        className="audacitee_link"
+        to="/products"
+        onClick={(event) => {
+          setMenuIsOpen(false);
+        }}
+      >
         <div className="header_audacitee">
           <h1 className="header_title">AUDACITEE</h1>
           <img

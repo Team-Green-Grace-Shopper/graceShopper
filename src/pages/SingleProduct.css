@@ -90,6 +90,7 @@
 .quantityInput {
   border: 1px solid black;
   width: 75px;
+  padding: 0.5rem;
 }
 
 .sp_submit_button {
@@ -97,6 +98,7 @@
   text-transform: uppercase;
   color: white;
   background-color: black;
+  padding: 0.5rem;
 }
 
 .sp_submit_button:hover {
