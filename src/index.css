@@ -1,0 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Amiri&family=Fira+Sans+Condensed:wght@300;400;500&display=swap");
+
+html,
+* {
+  font-family: "Fira Sans Condensed", sans-serif;
+  font-weight: 300;
+  background-color: white;
+  box-sizing: border-box;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}

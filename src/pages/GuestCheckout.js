@@ -21,6 +21,7 @@ const GuestCheckout = ({
 }) => {
   const navigate = useNavigate();
   const [total, setTotal] = useState(subtotal);
+  const [formIsDone, setFormIsDone] = useState(false);
   const orderItems = [];
 
   useEffect(() => {
@@ -66,39 +67,59 @@ const GuestCheckout = ({
   };
 
   return (
-    <div className="guest_checkout">
-      <Link to="/cart/guest">
-        <button>Back to cart</button>
-      </Link>
-      <h1>User Checkout Page</h1>
+    <div className="gcheckout">
+      <div className="gcheckout_breadcrumbs">
+        <Link to="/products" className="gcheckout_breadcrumb_link">
+          <p>All Products</p>
+        </Link>
+        <p>&#187;</p>
+        <Link to="/cart/guest" className="gcheckout_breadcrumb_link">
+          <p>Cart</p>
+        </Link>
+        <p>&#187;</p>
+        <p>Checkout</p>
+      </div>
 
-      <div className="main">
-        <div className="left">
+      <div className="gcheckout_main">
+        <div className="gcheckout_left">
           <GuestCheckoutForm
             shipOption={shipOption}
             setShipOption={setShipOption}
             setEmail={setEmail}
             setFirstName={setFirstName}
+            setFormIsDone={setFormIsDone}
           />
         </div>
 
-        <div className="right">
-          <div className="summaryLine">
+        <div className="gcheckout_right">
+          <div className="summary_line">
             <p>Items ({totalItemNumber})</p>
-            <p>$ {subtotal}</p>
+            <p>{`$${subtotal}.00`}</p>
           </div>
 
-          <p>shipping $ {shipCost}</p>
-          <p>-----</p>
-          <p>total $ {total}</p>
-          <button onClick={submitHandler}>Place Order</button>
+          <div className="summary_line">
+            <p>Shipping</p>
+            {shipCost === "-" ? <p>{shipCost}</p> : <p>{`$${shipCost}.00`}</p>}
+          </div>
+
+          <div className="total_line">
+            <p>Total</p>
+            <p>{`$${total}.00`}</p>
+          </div>
+
+          <button
+            disabled={!formIsDone ? true : false}
+            className="place_order_button"
+            onClick={submitHandler}
+          >
+            Place Order
+          </button>
         </div>
       </div>
 
       <div className="bottom">
-        <p>Items ({totalItemNumber})</p>
         {guestCart &&
-          guestCart.map((item, index) => {
+          guestCart.map((item) => {
             const orderItemObj = {
               orderId: 0,
               productId: item.id,
@@ -110,27 +131,28 @@ const GuestCheckout = ({
             orderItems.push(orderItemObj);
 
             return (
-              <div key={item.id} className="item">
-                <div className="item_left">
-                  <img className="teeImg" src={item.imageURL} alt={item.name} />
+              <div key={item.id} className="gcart_item">
+                <Link to={`/products/${item.id}`}>
+                  <img
+                    className="item_image"
+                    src={item.imageURL}
+                    alt={item.name}
+                  />
+                </Link>
 
-                  <div>
-                    <p>name: {item.name}</p>
-                    <p>size: {item.size}</p>
-                    <p>quantity: {item.quantity}</p>
-                  </div>
+                <div className="item_info">
+                  <Link className="item_name_link" to={`/products/${item.id}`}>
+                    <p className="item_name">{`${item.name} - ${item.size}`}</p>
+                  </Link>
+                  <p>Quantity: {item.quantity}</p>
                 </div>
 
-                <div className="item_right">
-                  <p>price: {item.price * item.quantity}</p>
+                <div className="item_price">
+                  <p>{`$${item.price * item.quantity}.00`}</p>
                 </div>
               </div>
             );
           })}
-        <br></br>
-        <div className="subtotalLine">
-          <p>Subtotal: $ {subtotal}</p>
-        </div>
       </div>
     </div>
   );

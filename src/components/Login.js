@@ -6,10 +6,15 @@ import "./Login.css";
 const Login = ({ api, setLocalStorageUser }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [buttonText, setButtonText] = useState("Log In");
+
   const navigate = useNavigate();
 
   const onSubmitLogin = (event) => {
     event.preventDefault();
+
+    setButtonText("Logging in...");
+
     async function fetchLogin() {
       const response = await fetch(`${api}/users/login`, {
           method: "POST",
@@ -38,20 +43,26 @@ const Login = ({ api, setLocalStorageUser }) => {
     <div className="login">
       <h1>Login</h1>
       <form className="login_form">
-        <input
-          type="text"
-          placeholder="enter email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-        />
-        <button onClick={onSubmitLogin}>Login</button>
-        <Link to="/signup"> Need to Sign-up?</Link>
+        <div className="login_field">
+          <label>email</label>
+          <input
+            type="text"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+          />
+        </div>
+
+        <div className="login_field">
+          <label>password</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+          />
+        </div>
+
+        <button onClick={onSubmitLogin}>{buttonText}</button>
+        <Link to="/signup">New here? Sign up here.</Link>
       </form>
     </div>
   );

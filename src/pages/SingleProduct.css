@@ -1,25 +1,83 @@
 .singleProduct {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ------BREADCRUMBS------ */
+.sp_breadcrumbs {
+  display: flex;
+}
+
+.sp_breadcrumbs * {
+  text-transform: uppercase;
+  margin: 0 0.2rem;
+}
+
+.sp_breadcrumb_link {
+  color: black;
+}
+
+.sp_breadcrumb_link:hover {
+  color: red;
+  transition: color 0.5s ease-in-out;
 }
 
 .sp_main {
-  max-width: 70vw;
-  border: 1px solid rgb(197, 197, 255);
-  padding: 1rem;
-  margin: 1rem;
   display: flex;
   justify-content: space-around;
+  margin-top: 2rem;
 }
 
-.left {
+/* .sp_left,
+.sp_right {
+  border: 1px solid red;
+} */
+
+/* ------LEFT------ */
+.sp_left {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.right * {
-  margin-bottom: 0.5rem;
+.sp_img {
+  width: 500px;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.sp_fade_in {
+  opacity: 1;
+}
+
+/* ------RIGHT------ */
+.sp_right {
+  margin: 3rem 0 0 2rem;
+  width: 300px;
+}
+
+.sp_right h3,
+.sp_right p {
+  margin-bottom: 1rem;
+}
+
+.sp_name {
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.sp_form {
+  display: flex;
+  flex-direction: column;
+}
+
+.sp_form > div {
+  margin-bottom: 1rem;
+}
+
+.sp_form label {
+  margin-right: 0.5rem;
 }
 
 .sizeSelect {
@@ -32,14 +90,22 @@
 .quantityInput {
   border: 1px solid black;
   width: 75px;
+  padding: 0.5rem;
 }
 
-.teeImg {
-  width: 500px;
+.sp_submit_button {
+  width: 200px;
+  text-transform: uppercase;
+  color: white;
+  background-color: black;
+  padding: 0.5rem;
 }
 
-button:disabled {
-  cursor: default;
-  border: 1px solid grey;
-  color: grey;
+.sp_submit_button:hover {
+  background-color: rgb(102, 102, 102);
+  transition: background-color 0.4s ease-in-out;
+}
+
+.sp_feedback {
+  color: red;
 }

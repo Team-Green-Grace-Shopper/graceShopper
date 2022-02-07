@@ -16,39 +16,14 @@ const PostCheckout = ({ email, firstName, orderNum }) => {
 
   return (
     <div className="postCheckout">
-      <div className="thankYou">
-        <h1>Thanks for your order, {firstName}!</h1>
-      </div>
-
-      <div className="orderConfirmation">
-        <p className="image">[cute pic here]</p>
-        <div className="message">
-          <p>We've sent a receipt with order details to {email}</p>
-          <p>Your order #{orderNum} is confirmed</p>
+      <div className="top">
+        <div className="thankYou">
+          <h1>Thanks for your order, {firstName}!</h1>
         </div>
-      </div>
 
-      <div className="products">
-        <h1>Keep shopping</h1>
-        <div className="main">
-          {products.map((product) => {
-            return (
-              <div className="product" key={product.id}>
-                <p>Name: {product.name}</p>
-                <p>Description: {product.description}</p>
-                <p>Price: {product.price}</p>
-                <img
-                  className="teeImg"
-                  src={product.imageURL}
-                  alt={product.description}
-                />
-
-                <Link to={`/products/${product.id}`}>
-                  <button>View</button>
-                </Link>
-              </div>
-            );
-          })}
+        <div className="orderConfirmation">
+          <p>We've sent a receipt with order details to {email}.</p>
+          <p>Your order #{orderNum} is confirmed.</p>
         </div>
       </div>
     </div>

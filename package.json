@@ -32,7 +32,7 @@
   "devDependencies": {
     "nodemon": "^2.0.4"
   },
-  "proxy": "http://localhost:4000",
+  "proxy": "https://nameless-chamber-67676.herokuapp.com/",
   "browserslist": {
     "production": [
       ">0.2%",

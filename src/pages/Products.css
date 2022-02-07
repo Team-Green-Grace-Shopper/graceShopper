@@ -4,20 +4,120 @@
   align-items: center;
 }
 
-h1 {
-  margin: 1rem;
+.products_main {
+  display: grid;
+  grid-gap: 0;
+  grid-template-columns: repeat(4, 1fr);
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
 }
 
-.main {
+.products_fade_in {
+  opacity: 1;
+}
+
+.admin_products_main {
+  display: grid;
+  grid-gap: 0;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.admin_create_button {
   display: flex;
+  color: white;
+  background-color: black;
+  padding: 1rem;
+  text-transform: uppercase;
+  margin: 1rem 0;
+  align-self: flex-end;
 }
 
+.admin_link {
+  text-decoration: none;
+}
+
+.admin_create_button:hover {
+  background-color: rgb(102, 102, 102);
+  transition: background-color 0.4s ease-in-out;
+}
+
+.admin_buttons_box {
+  display: flex;
+  justify-content: space-between;
+}
+
+.admin_buttons_box i {
+  color: black;
+}
+
+.admin_buttons_box i:hover {
+  color: red;
+  transition: color 0.4s ease-in-out;
+}
+
+.products_title {
+  text-transform: uppercase;
+}
+
+/* .breadcrumb_link:hover {
+  color: grey;
+  transition: color 0.4s ease-in-out;
+} */
+
+/* MAPPED PRODUCT */
 .product {
-  border: 1px solid navy;
   padding: 1rem;
   margin: 1rem;
+  text-transform: uppercase;
 }
 
-.teeImg {
-  width: 500px;
+.product_image {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  z-index: 1;
 }
+
+.product_image img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.product_overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgb(0, 0, 0, 0);
+  transition: background 0.4s ease-in-out;
+  z-index: -10;
+  width: 200px;
+  height: 200px;
+  /* opacity: 0.5; */
+}
+
+.product_image:hover .product_overlay {
+  background: rgb(255, 255, 255, 0.3);
+  transition: background 0.4s ease-in-out;
+  z-index: 10;
+}
+
+.product_link {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.product_link:hover {
+  color: red;
+  /* color: rgb(119, 119, 119); */
+  transition: color 0.4s ease-in-out;
+}
+
+.product_name {
+  font-weight: 500;
+}
+
+/* .teeImg {
+  width: 650px;
+  border: 1px solid grey;
+} */

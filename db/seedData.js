@@ -124,21 +124,96 @@ async function createInitialProducts() {
     const productsToCreate = [
       {
         name: "basic t-shirt - yellow",
-        description: "it is a t-shirt",
+        description:
+          "Sunshine in fabric form. This super-soft tee is made of 100% cotton and a perfect wardrobe staple.",
         price: 10,
         imageURL:
           "https://imgprd19.hobbylobby.com/9/5f/26/95f264323ae49e65b2a53a909fcd7d9ee659f3c7/350Wx350H-422519-0320.jpg",
       },
       {
-        name: "basic t-shirt - pink",
-        description: "it is a t-shirt",
+        name: "basic t-shirt - stone",
+        description:
+          "Keep it simple. This super-soft tee is made of 100% cotton and a perfect wardrobe staple.",
         price: 10,
         imageURL:
-          "https://imgprd19.hobbylobby.com/3/7d/79/37d79e89dfc9b9948dbe7357e04dfb04402d6d84/700Wx700H-601666-0320.jpg",
+          "https://imgprd19.hobbylobby.com/8/56/6d/8566d9f7459e9aca91040d45a7c3ae26b5ce499e/1400Wx1400H-633966-0320.jpg",
       },
       {
         name: "basic t-shirt - black",
-        description: "it is a t-shirt",
+        description:
+          "For the dark-mode enthusiasts. This super-soft tee is made of 100% cotton and a perfect wardrobe staple.",
+        price: 10,
+        imageURL:
+          "https://imgprd19.hobbylobby.com/2/fe/7f/2fe7f9b08fb17ea5bffd92cf575dee4a8d898668/350Wx350H-634485-0320.jpg",
+      },
+      {
+        name: "basic t-shirt - yellow",
+        description:
+          "Sunshine in fabric form. This super-soft tee is made of 100% cotton and a perfect wardrobe staple.",
+        price: 10,
+        imageURL:
+          "https://imgprd19.hobbylobby.com/9/5f/26/95f264323ae49e65b2a53a909fcd7d9ee659f3c7/350Wx350H-422519-0320.jpg",
+      },
+      {
+        name: "basic t-shirt - stone",
+        description:
+          "Keep it simple. This super-soft tee is made of 100% cotton and a perfect wardrobe staple.",
+        price: 10,
+        imageURL:
+          "https://imgprd19.hobbylobby.com/8/56/6d/8566d9f7459e9aca91040d45a7c3ae26b5ce499e/1400Wx1400H-633966-0320.jpg",
+      },
+      {
+        name: "basic t-shirt - black",
+        description:
+          "For the dark-mode enthusiasts. This super-soft tee is made of 100% cotton and a perfect wardrobe staple.",
+        price: 10,
+        imageURL:
+          "https://imgprd19.hobbylobby.com/2/fe/7f/2fe7f9b08fb17ea5bffd92cf575dee4a8d898668/350Wx350H-634485-0320.jpg",
+      },
+      {
+        name: "basic t-shirt - yellow",
+        description:
+          "Sunshine in fabric form. This super-soft tee is made of 100% cotton and a perfect wardrobe staple.",
+        price: 10,
+        imageURL:
+          "https://imgprd19.hobbylobby.com/9/5f/26/95f264323ae49e65b2a53a909fcd7d9ee659f3c7/350Wx350H-422519-0320.jpg",
+      },
+      {
+        name: "basic t-shirt - stone",
+        description:
+          "Keep it simple. This super-soft tee is made of 100% cotton and a perfect wardrobe staple.",
+        price: 10,
+        imageURL:
+          "https://imgprd19.hobbylobby.com/8/56/6d/8566d9f7459e9aca91040d45a7c3ae26b5ce499e/1400Wx1400H-633966-0320.jpg",
+      },
+      {
+        name: "basic t-shirt - black",
+        description:
+          "For the dark-mode enthusiasts. This super-soft tee is made of 100% cotton and a perfect wardrobe staple.",
+        price: 10,
+        imageURL:
+          "https://imgprd19.hobbylobby.com/2/fe/7f/2fe7f9b08fb17ea5bffd92cf575dee4a8d898668/350Wx350H-634485-0320.jpg",
+      },
+      {
+        name: "basic t-shirt - yellow",
+        description:
+          "Sunshine in fabric form. This super-soft tee is made of 100% cotton and a perfect wardrobe staple.",
+        price: 10,
+        imageURL:
+          "https://imgprd19.hobbylobby.com/9/5f/26/95f264323ae49e65b2a53a909fcd7d9ee659f3c7/350Wx350H-422519-0320.jpg",
+      },
+      {
+        name: "basic t-shirt - stone",
+        description:
+          "Keep it simple. This super-soft tee is made of 100% cotton and a perfect wardrobe staple.",
+        price: 10,
+        imageURL:
+          "https://imgprd19.hobbylobby.com/8/56/6d/8566d9f7459e9aca91040d45a7c3ae26b5ce499e/1400Wx1400H-633966-0320.jpg",
+      },
+      {
+        name: "basic t-shirt - black",
+        description:
+          "For the dark-mode enthusiasts. This super-soft tee is made of 100% cotton and a perfect wardrobe staple.",
         price: 10,
         imageURL:
           "https://imgprd19.hobbylobby.com/2/fe/7f/2fe7f9b08fb17ea5bffd92cf575dee4a8d898668/350Wx350H-634485-0320.jpg",
@@ -168,6 +243,18 @@ async function createInitialOrders() {
         userId: 4,
         orderType: "cart",
       },
+      {
+        userId: 1,
+        orderType: "cart",
+      },
+      {
+        userId: 2,
+        orderType: "cart",
+      },
+      {
+        userId: 3,
+        orderType: "cart",
+      },
     ];
 
     console.log("created orders to create");
@@ -192,28 +279,28 @@ async function createInitialOrderItems() {
         orderId: 1,
         productId: 2,
         quantity: 1,
-        size: "SM",
+        size: "S",
         price: 10,
       },
       {
         orderId: 1,
         productId: 3,
         quantity: 2,
-        size: "SM",
+        size: "S",
         price: 10,
       },
       {
         orderId: 1,
         productId: 1,
         quantity: 1,
-        size: "MD",
+        size: "M",
         price: 10,
       },
       {
         orderId: 2,
         productId: 1,
         quantity: 1,
-        size: "SM",
+        size: "S",
         price: 10,
       },
     ];

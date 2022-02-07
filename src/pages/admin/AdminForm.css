@@ -1,0 +1,40 @@
+.adminForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid green;
+}
+
+.adminForm h1 {
+  margin: 2rem 0;
+}
+
+.adminFormMain {
+  display: flex;
+  flex-direction: column;
+  width: 30vw;
+  margin-bottom: 8rem;
+}
+
+.adminFormMain label {
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+.adminFormMain input {
+  border: 1px solid black;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.adminFormButton {
+  text-transform: uppercase;
+  color: white;
+  padding: 0.5rem;
+  background-color: black;
+}
+
+.adminFormButton:hover {
+  background-color: rgb(102, 102, 102);
+  transition: background-color 0.4s ease-in-out;
+}

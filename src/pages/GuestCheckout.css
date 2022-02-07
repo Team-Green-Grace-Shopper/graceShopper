@@ -1,20 +1,87 @@
-.main {
+.gcheckout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* BREADCRUMBS */
+.gcheckout_breadcrumbs {
+  display: flex;
+  margin-bottom: 2rem;
+}
+
+.gcheckout_breadcrumbs * {
+  text-transform: uppercase;
+  margin: 0 0.2rem;
+}
+
+.gcheckout_breadcrumb_link {
+  color: black;
+}
+
+.gcheckout_breadcrumb_link:hover {
+  color: red;
+  transition: color 0.5s ease-in-out;
+}
+
+/* ---------------MAIN------------------ */
+.gcheckout_main {
+  display: flex;
+}
+
+/* LEFT */
+.gcheckout_left {
+  width: 45vw;
+  margin-right: 2rem;
+}
+
+/* RIGHT */
+.gcheckout_right {
+  padding: 2rem;
+  background-color: rgb(231, 231, 231);
+  width: 15vw;
+}
+
+.summary_line {
   display: flex;
   justify-content: space-between;
+  background-color: transparent;
 }
 
-.left {
-  border: 1px solid navy;
-  padding: 1rem;
-  margin: 1rem;
+.summary_line p,
+.total_line p {
+  background-color: transparent;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  font-weight: 400;
 }
 
-.right {
-  border: 1px solid navy;
-  padding: 1rem;
-  margin: 1rem;
+.total_line {
+  display: flex;
+  justify-content: space-between;
+  background-color: transparent;
+  margin: 2rem 0 0.5rem 0;
 }
 
-input {
-  border: 1px solid black;
+.place_order_button {
+  color: white;
+  background-color: black;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+.place_order_button:hover {
+  background-color: rgb(102, 102, 102);
+  transition: background-color 0.4s ease-in-out;
+}
+
+.place_order_button:disabled {
+  color: lightgrey;
+  background-color: grey;
+}
+
+/* BOTTOM */
+.bottom {
+  margin-top: 2rem;
+  width: 62vw;
 }

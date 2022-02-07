@@ -20,7 +20,8 @@ import UserCheckout from "./pages/user/UserCheckout";
 import PostCheckout from "./pages/PostCheckout";
 
 const App = () => {
-  const api = "http://localhost:4000/api";
+  // const api = "http://localhost:4000/api";
+  const api = "https://nameless-chamber-67676.herokuapp.com/api";
 
   const [user, setUser] = useState(null);
   const [guestCart, setGuestCart] = useState([]);
@@ -31,9 +32,10 @@ const App = () => {
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [orderNum, setOrderNum] = useState(0);
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
 
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const retrieveUser = localStorage.getItem("user");
     if (retrieveUser) {
@@ -41,7 +43,7 @@ const App = () => {
       setUser(userObject);
     }
   }, []);
-  
+
   function setLocalStorageUser(user) {
     localStorage.setItem("user", JSON.stringify(user));
     setUser(user);
@@ -54,85 +56,125 @@ const App = () => {
 
     setSubtotal(0);
     setTotalItemNumber(0);
+    setMenuIsOpen(false);
     navigate("/");
   }
 
-
   return (
     <div className="App">
-      <Header userLogout={userLogout} user={user} />
+      <Header
+        userLogout={userLogout}
+        user={user}
+        menuIsOpen={menuIsOpen}
+        setMenuIsOpen={setMenuIsOpen}
+      />
       <Routes>
         <Route path="/" element={<Navigate replace to="/products" />} />
+
         <Route path="products" element={<Products />} />
+
         <Route
           path="/login"
           element={
             <Login api={api} setLocalStorageUser={setLocalStorageUser} />
           }
         />
+
         <Route path="/signup" element={<Signup api={api} />} />
+
         <Route
-          path="products/:productId"
+          path="/products/:productId"
           element={
             <SingleProduct
               user={user}
               guestCart={guestCart}
               setGuestCart={setGuestCart}
+              totalItemNumber={totalItemNumber}
+              setTotalItemNumber={setTotalItemNumber}
             />
           }
         />
-        {(user && user.isAdmin) && (<Route 
-          path="users/all" 
-          user={user} 
-          element={<AdminUsers />} />
-        )}
-        {(user && user.isAdmin) && (<Route
+
+        <Route
+          path="/users/all"
+          element={
+            user && user.isAdmin ? (
+              <AdminUsers user={user} />
+            ) : (
+              <Navigate replace to="/products" />
+            )
+          }
+        />
+
+        <Route
           path="/createproduct"
-          element={<CreateProduct api={api} user={user} />}
+          element={
+            user && user.isAdmin ? (
+              <CreateProduct api={api} user={user} />
+            ) : (
+              <Navigate replace to="/products" />
+            )
+          }
         />
-        )}
-        {(user && user.isAdmin) && (<Route
+
+        <Route
           path="/adminproducts"
-          element={<AdminProducts api={api} />}
-        />
-        )}
-        <Route
-          path="cart/user"
           element={
-            <UserCart
-              user={user}
-              subtotal={subtotal}
-              setSubtotal={setSubtotal}
-              totalItemNumber={totalItemNumber}
-              setTotalItemNumber={setTotalItemNumber}
-              setEmail={setEmail}
-            />
+            user && user.isAdmin ? (
+              <AdminProducts api={api} />
+            ) : (
+              <Navigate replace to="/" />
+            )
           }
         />
+
         <Route
-          path="checkout/user"
+          path="/cart/user"
           element={
-            <UserCheckout
-              user={user}
-              subtotal={subtotal}
-              setSubtotal={setSubtotal}
-              shipCost={shipCost}
-              setShipCost={setShipCost}
-              shipOption={shipOption}
-              setShipOption={setShipOption}
-              email={email}
-              setEmail={setEmail}
-              firstName={firstName}
-              setFirstName={setFirstName}
-              orderNum={orderNum}
-              setOrderNum={setOrderNum}
-              totalItemNumber={totalItemNumber}
-              setTotalItemNumber={setTotalItemNumber}
-            />
+            user ? (
+              <UserCart
+                user={user}
+                subtotal={subtotal}
+                setSubtotal={setSubtotal}
+                totalItemNumber={totalItemNumber}
+                setTotalItemNumber={setTotalItemNumber}
+                setEmail={setEmail}
+              />
+            ) : (
+              <Navigate replace to="/cart/guest" />
+            )
           }
         />
+
         <Route
-          path="cart/guest"
+          path="/checkout/user"
+          element={
+            user ? (
+              <UserCheckout
+                user={user}
+                subtotal={subtotal}
+                setSubtotal={setSubtotal}
+                shipCost={shipCost}
+                setShipCost={setShipCost}
+                shipOption={shipOption}
+                setShipOption={setShipOption}
+                email={email}
+                setEmail={setEmail}
+                firstName={firstName}
+                setFirstName={setFirstName}
+                orderNum={orderNum}
+                setOrderNum={setOrderNum}
+                totalItemNumber={totalItemNumber}
+                setTotalItemNumber={setTotalItemNumber}
+              />
+            ) : (
+              <Navigate replace to="/checkout/guest" />
+            )
+          }
+        />
+
+        <Route
+          path="/cart/guest"
           element={
             <GuestCart
               guestCart={guestCart}
@@ -143,8 +185,9 @@ const App = () => {
             />
           }
         />
+
         <Route
-          path="checkout/guest"
+          path="/checkout/guest"
           element={
             <GuestCheckout
               guestCart={guestCart}
@@ -167,20 +210,32 @@ const App = () => {
         />
 
         <Route
-          path="confirmation"
+          path="/confirmation"
           element={
-            <PostCheckout
-              email={email}
-              firstName={firstName}
-              orderNum={orderNum}
-            />
+            email && firstName && orderNum ? (
+              <PostCheckout
+                email={email}
+                firstName={firstName}
+                orderNum={orderNum}
+              />
+            ) : (
+              <Navigate replace to="/products" />
+            )
           }
         />
-        {(user && user.isAdmin) && (<Route
+
+        <Route
           path="adminproducts/editproduct/:userId"
-          element={<EditProduct api={api} />}
+          element={
+            user && user.isAdmin ? (
+              <EditProduct api={api} />
+            ) : (
+              <Navigate replace to="/products" />
+            )
+          }
         />
-        )}
+
+        {/* <Route path="/*" element={<Navigate replace to="/products" />} /> */}
       </Routes>
     </div>
   );

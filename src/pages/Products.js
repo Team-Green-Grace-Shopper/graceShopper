@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import "./Products.css";
 import { getAllProducts } from "../api/apiCalls";
 
-const Products = (props) => {
+const Products = () => {
   const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     async function loadProducts() {
@@ -14,25 +15,34 @@ const Products = (props) => {
     loadProducts();
   }, []);
 
+  const mainOnLoadHandler = () => {
+    let element = document.querySelector(".products_main");
+    element.classList.add("products_fade_in");
+  };
+
   return (
     <div className="products">
-      <h1>All Products</h1>
-      <div className="main">
+      <div className="products_title">
+        <p>All Products</p>
+      </div>
+      <div className="products_main" onLoad={mainOnLoadHandler}>
         {products.map((product) => {
           return (
             <div className="product" key={product.id}>
-              <p>Name: {product.name}</p>
-              <p>Description: {product.description}</p>
-              <p>Price: {product.price}</p>
-              <img
-                className="teeImg"
-                src={product.imageURL}
-                alt={product.description}
-              />
-
               <Link to={`/products/${product.id}`}>
-                <button>View</button>
+                <div className="product_image">
+                  <img
+                    className="teeImg"
+                    src={product.imageURL}
+                    alt={product.description}
+                  />
+                  <div className="product_overlay" />
+                </div>
               </Link>
+              <Link className="product_link" to={`/products/${product.id}`}>
+                <p className="product_name">{product.name}</p>
+              </Link>
+              <p>{`$${product.price}.00`}</p>
             </div>
           );
         })}
