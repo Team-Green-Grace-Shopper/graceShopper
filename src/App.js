@@ -20,7 +20,8 @@ import UserCheckout from "./pages/user/UserCheckout";
 import PostCheckout from "./pages/PostCheckout";
 
 const App = () => {
-  const api = "http://localhost:4000/api";
+  // const api = "http://localhost:4000/api";
+  const api = "https://nameless-chamber-67676.herokuapp.com/api";
 
   const [user, setUser] = useState(null);
   const [guestCart, setGuestCart] = useState([]);

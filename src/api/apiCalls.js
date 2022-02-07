@@ -1,4 +1,6 @@
-const APIURL = "http://localhost:4000/api";
+// const APIURL = "http://localhost:4000/api";
+
+const APIURL = "https://nameless-chamber-67676.herokuapp.com/api";
 
 // --------USER API CALLS------
 // export const registerUser = async (userData) => {
