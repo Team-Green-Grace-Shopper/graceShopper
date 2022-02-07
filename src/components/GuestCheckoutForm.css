@@ -1,0 +1,117 @@
+/* .gcheckout_form {
+  border: 1px solid magenta;
+} */
+
+.gcheckout_form h3 {
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-right: 2rem;
+  padding-bottom: 1rem;
+  padding-right: 1rem;
+  width: 100px;
+  border-right: 2px solid black;
+}
+
+.gcheckout_subform {
+  display: flex;
+  /* border: 1px solid blue; */
+  margin-bottom: 2rem;
+}
+
+.gcheckout_form_field {
+  display: flex;
+  flex-direction: column;
+}
+
+.gcheckout_form_field label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 400;
+  margin-bottom: 0.1rem;
+}
+
+.gcheckout_form_field input {
+  font-size: 1rem;
+  padding: 0.5rem;
+  width: 200px;
+  margin-bottom: 1rem;
+  font-weight: 400;
+  border: 1px solid black;
+}
+
+.gcheckout_feedback {
+  margin-top: 1rem;
+  color: red;
+}
+
+.gcheckout_subform_button {
+  color: white;
+  background-color: black;
+  width: 100%;
+  text-transform: uppercase;
+  padding: 0.7rem;
+}
+
+.gcheckout_subform_button:hover {
+  background-color: rgb(102, 102, 102);
+  transition: background-color 0.4s ease-in-out;
+}
+
+/* .collapsed_subform {
+  border: 1px solid green;
+} */
+
+.collapsed_subform p {
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+
+.collapsed_subform_button {
+  color: blue;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 1px solid blue;
+  border-left: 0;
+}
+
+.collapsed_subform_button:hover {
+  border-bottom: 1px solid red;
+  color: red;
+  transition: color 0.4s ease-in-out, border-bottom 0.4s ease-in-out;
+}
+
+/* USER INFO */
+/* .gcheckout_userinfo {
+  border: 1px solid orange;
+  margin-right: 1rem;
+} */
+
+/* SHIPPING */
+.gcheckout_shipping_options {
+  display: flex;
+  flex-direction: column;
+}
+
+.gcheckout_shipping_options p {
+  font-weight: 400;
+  text-transform: uppercase;
+  text-decoration: underline;
+  margin-bottom: 0.6rem;
+}
+
+.shipping_field {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.shipping_field label {
+  font-weight: 400;
+}
+
+.shipping_field input {
+  margin-right: 0.5rem;
+}

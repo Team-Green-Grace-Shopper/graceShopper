@@ -8,13 +8,20 @@ import {
 } from "../api/apiCalls";
 import { useParams } from "react-router-dom";
 
-const SingleProduct = ({ user, guestCart, setGuestCart }) => {
+const SingleProduct = ({
+  user,
+  guestCart,
+  setGuestCart,
+  totalItemNumber,
+  setTotalItemNumber,
+}) => {
   const { productId } = useParams();
 
   const [product, setProduct] = useState([]);
   const [size, setSize] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [cartId, setCartId] = useState(0);
+  const [buttonText, setButtonText] = useState("Add To Cart");
   const [feedback, setFeedback] = useState("");
 
   useEffect(() => {
@@ -45,10 +52,11 @@ const SingleProduct = ({ user, guestCart, setGuestCart }) => {
   const guestAddHandler = (event) => {
     event.preventDefault();
     if (!size) {
-      setFeedback("Please select a size");
+      setFeedback("Please select a size.");
     } else {
+      setTotalItemNumber(totalItemNumber + quantity);
       setGuestCart([...guestCart, guestItemObj]);
-      setFeedback("Added to cart!");
+      setButtonText("Added ✓");
     }
   };
 
@@ -66,13 +74,13 @@ const SingleProduct = ({ user, guestCart, setGuestCart }) => {
       setFeedback("Please select a size");
     } else {
       await createCartItem(userItemObj);
-      setFeedback("Added to cart!");
+      setButtonText("Added &#10003;");
     }
   };
 
   const imageOnLoadHandler = () => {
     let element = document.querySelector(".sp_img");
-    element.classList.add("fade-in");
+    element.classList.add("sp_fade_in");
   };
 
   return (
@@ -95,7 +103,7 @@ const SingleProduct = ({ user, guestCart, setGuestCart }) => {
         </div>
 
         <div className="sp_right">
-          <h3>{product.name}</h3>
+          <h3 className="sp_name">{product.name}</h3>
           <p>{product.description}</p>
           <p>{`$${product.price}.00`}</p>
 
@@ -115,9 +123,9 @@ const SingleProduct = ({ user, guestCart, setGuestCart }) => {
                   Select a size
                 </option>
                 <option>XS</option>
-                <option>SM</option>
-                <option>MD</option>
-                <option>LG</option>
+                <option>S</option>
+                <option>M</option>
+                <option>L</option>
                 <option>XL</option>
               </select>
             </div>
@@ -142,7 +150,7 @@ const SingleProduct = ({ user, guestCart, setGuestCart }) => {
                 type="submit"
                 onClick={userAddHandler}
               >
-                Add To Cart (u)
+                {buttonText}
               </button>
             ) : (
               <button
@@ -150,7 +158,7 @@ const SingleProduct = ({ user, guestCart, setGuestCart }) => {
                 type="submit"
                 onClick={guestAddHandler}
               >
-                Add To Cart (g)
+                {buttonText}
               </button>
             )}
 

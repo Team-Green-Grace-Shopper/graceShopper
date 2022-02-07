@@ -9,17 +9,22 @@
   display: grid;
   grid-gap: 0;
   grid-template-columns: repeat(4, 1fr);
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
 }
 
-.products_breadcrumbs {
+.products_fade_in {
+  opacity: 1;
+}
+
+.products_title {
   text-transform: uppercase;
-  display: flex;
 }
 
-.breadcrumb_link:hover {
+/* .breadcrumb_link:hover {
   color: grey;
   transition: color 0.4s ease-in-out;
-}
+} */
 
 /* MAPPED PRODUCT */
 .product {

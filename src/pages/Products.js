@@ -14,12 +14,17 @@ const Products = (props) => {
     loadProducts();
   }, []);
 
+  const mainOnLoadHandler = () => {
+    let element = document.querySelector(".products_main");
+    element.classList.add("products_fade_in");
+  };
+
   return (
     <div className="products">
-      <div className="products_breadcrumbs">
+      <div className="products_title">
         <p>All Products</p>
       </div>
-      <div className="products_main">
+      <div className="products_main" onLoad={mainOnLoadHandler}>
         {products.map((product) => {
           return (
             <div className="product" key={product.id}>
@@ -36,7 +41,7 @@ const Products = (props) => {
               <Link className="product_link" to={`/products/${product.id}`}>
                 <p className="product_name">{product.name}</p>
               </Link>
-              <p>{`$${product.price}`}</p>
+              <p>{`$${product.price}.00`}</p>
             </div>
           );
         })}

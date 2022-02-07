@@ -33,7 +33,7 @@ const App = () => {
   const [orderNum, setOrderNum] = useState(0);
 
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const retrieveUser = localStorage.getItem("user");
     if (retrieveUser) {
@@ -41,7 +41,7 @@ const App = () => {
       setUser(userObject);
     }
   }, []);
-  
+
   function setLocalStorageUser(user) {
     localStorage.setItem("user", JSON.stringify(user));
     setUser(user);
@@ -57,10 +57,13 @@ const App = () => {
     navigate("/");
   }
 
-
   return (
     <div className="App">
-      <Header userLogout={userLogout} user={user} />
+      <Header
+        userLogout={userLogout}
+        user={user}
+        totalItemNumber={totalItemNumber}
+      />
       <Routes>
         <Route path="/" element={<Navigate replace to="/products" />} />
         <Route path="products" element={<Products />} />
@@ -78,23 +81,22 @@ const App = () => {
               user={user}
               guestCart={guestCart}
               setGuestCart={setGuestCart}
+              totalItemNumber={totalItemNumber}
+              setTotalItemNumber={setTotalItemNumber}
             />
           }
         />
-        {(user && user.isAdmin) && (<Route 
-          path="users/all" 
-          user={user} 
-          element={<AdminUsers />} />
+        {user && user.isAdmin && (
+          <Route path="users/all" user={user} element={<AdminUsers />} />
         )}
-        {(user && user.isAdmin) && (<Route
-          path="/createproduct"
-          element={<CreateProduct api={api} user={user} />}
-        />
+        {user && user.isAdmin && (
+          <Route
+            path="/createproduct"
+            element={<CreateProduct api={api} user={user} />}
+          />
         )}
-        {(user && user.isAdmin) && (<Route
-          path="/adminproducts"
-          element={<AdminProducts api={api} />}
-        />
+        {user && user.isAdmin && (
+          <Route path="/adminproducts" element={<AdminProducts api={api} />} />
         )}
         <Route
           path="cart/user"
@@ -176,10 +178,11 @@ const App = () => {
             />
           }
         />
-        {(user && user.isAdmin) && (<Route
-          path="adminproducts/editproduct/:userId"
-          element={<EditProduct api={api} />}
-        />
+        {user && user.isAdmin && (
+          <Route
+            path="adminproducts/editproduct/:userId"
+            element={<EditProduct api={api} />}
+          />
         )}
       </Routes>
     </div>

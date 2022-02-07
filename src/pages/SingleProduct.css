@@ -47,7 +47,7 @@
   transition: opacity 0.5s ease-in-out;
 }
 
-.fade-in {
+.sp_fade_in {
   opacity: 1;
 }
 
@@ -60,6 +60,11 @@
 .sp_right h3,
 .sp_right p {
   margin-bottom: 1rem;
+}
+
+.sp_name {
+  text-transform: uppercase;
+  font-weight: 500;
 }
 
 .sp_form {
@@ -89,6 +94,14 @@
 
 .sp_submit_button {
   width: 200px;
+  text-transform: uppercase;
+  color: white;
+  background-color: black;
+}
+
+.sp_submit_button:hover {
+  background-color: rgb(102, 102, 102);
+  transition: background-color 0.4s ease-in-out;
 }
 
 .sp_feedback {

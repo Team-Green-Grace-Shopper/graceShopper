@@ -66,14 +66,21 @@ const GuestCheckout = ({
   };
 
   return (
-    <div className="guest_checkout">
-      <Link to="/cart/guest">
-        <button>Back to cart</button>
-      </Link>
-      <h1>User Checkout Page</h1>
+    <div className="gcheckout">
+      <div className="gcheckout_breadcrumbs">
+        <Link to="/products" className="gcheckout_breadcrumb_link">
+          <p>All Products</p>
+        </Link>
+        <p>&#187;</p>
+        <Link to="/cart/guest" className="gcheckout_breadcrumb_link">
+          <p>Cart</p>
+        </Link>
+        <p>&#187;</p>
+        <p>Checkout</p>
+      </div>
 
-      <div className="main">
-        <div className="left">
+      <div className="gcheckout_main">
+        <div className="gcheckout_left">
           <GuestCheckoutForm
             shipOption={shipOption}
             setShipOption={setShipOption}
@@ -82,16 +89,25 @@ const GuestCheckout = ({
           />
         </div>
 
-        <div className="right">
-          <div className="summaryLine">
+        <div className="gcheckout_right">
+          <div className="summary_line">
             <p>Items ({totalItemNumber})</p>
-            <p>$ {subtotal}</p>
+            <p>{`$${subtotal}.00`}</p>
           </div>
 
-          <p>shipping $ {shipCost}</p>
-          <p>-----</p>
-          <p>total $ {total}</p>
-          <button onClick={submitHandler}>Place Order</button>
+          <div className="summary_line">
+            <p>Shipping</p>
+            {shipCost === "-" ? <p>{shipCost}</p> : <p>{`$${shipCost}.00`}</p>}
+          </div>
+
+          <div className="total_line">
+            <p>Total</p>
+            <p>{`$${total}.00`}</p>
+          </div>
+
+          <button className="place_order_button" onClick={submitHandler}>
+            Place Order
+          </button>
         </div>
       </div>
 
@@ -127,10 +143,6 @@ const GuestCheckout = ({
               </div>
             );
           })}
-        <br></br>
-        <div className="subtotalLine">
-          <p>Subtotal: $ {subtotal}</p>
-        </div>
       </div>
     </div>
   );
